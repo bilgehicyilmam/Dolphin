@@ -10,9 +10,9 @@
   
   - ATTENDEES:
   
-    HASAN Gokce
-    Bilge Hicyilmam
-    Kerem Mert Aksoy
+       - HASAN Gokce
+       - Bilge Hicyilmam
+       - Kerem Mert Aksoy
   
   - MONTH DATE YEAR PLACE (of the next meeting)
   
