@@ -1,22 +1,22 @@
   # GROUP DOLPHIN
   
-  - Meeting Type: Daily Scrum Meeting
+  - **Meeting Type:** Daily Scrum Meeting
   
-  - MONTH DATE YEAR PLACE (ZOOM or HANGOUT):
+  - **MONTH DATE YEAR PLACE (ZOOM or HANGOUT):**
   
-  - Name of the person who is respobsible for reading previous minutes and minute-taker (round-robin):
+  - **Name of the person who is respobsible for reading previous minutes and minute-taker (round-robin):**
   
-  - All major meeting motions including the name of the motion-maker:
+  - **All major meeting motions including the name of the motion-maker:**
   
-  - ATTENDEES:
+  - **ATTENDEES:**
   
        - HASAN Gokce
        - Bilge Hicyilmam
        - Kerem Mert Aksoy
   
-  - MONTH DATE YEAR PLACE (of the next meeting)
+  - **MONTH DATE YEAR PLACE (of the next meeting):**
   
-  - Hints on writing Meeting Minutes:
+  - **Hints on writing Meeting Minutes:**
   
       - Use Full Names, not nicknames.
       - Ask the meeting officer to restate a motion if the motion is unclear.
@@ -25,7 +25,7 @@
       - Identify major items by underlining or bolding etc.
       - Include if any reports by the attendees declared
   
-  References: 
+  **References:**
   
-  https://www.youtube.com/watch?v=eO3PW4h73Ic
-  https://github.com/nteract/meeting-minutes/blob/main/MEETING-MINUTES-TEMPLATE.md
+       - (https://www.youtube.com/watch?v=eO3PW4h73Ic)
+       - (https://github.com/nteract/meeting-minutes/blob/main/MEETING-MINUTES-TEMPLATE.md)
