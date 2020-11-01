@@ -27,5 +27,5 @@
   
   **References:**
   
-       - (https://www.youtube.com/watch?v=eO3PW4h73Ic)
-       - (https://github.com/nteract/meeting-minutes/blob/main/MEETING-MINUTES-TEMPLATE.md)
+       - https://www.youtube.com/watch?v=eO3PW4h73Ic
+       - https://github.com/nteract/meeting-minutes/blob/main/MEETING-MINUTES-TEMPLATE.md
