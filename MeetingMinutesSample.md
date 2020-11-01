@@ -10,7 +10,7 @@
   
   - **ATTENDEES:**
   
-       - HASAN Gokce
+       - Hasan Gokce
        - Bilge Hicyilmam
        - Kerem Mert Aksoy
   
