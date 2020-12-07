@@ -30,6 +30,7 @@ from django.core.exceptions import (
 from django.core.paginator import Paginator
 from django.db import models, router, transaction
 from django.db.models.constants import LOOKUP_SEP
+from django.db.models.fields import BLANK_CHOICE_DASH
 from django.forms.formsets import DELETION_FIELD_NAME, all_valid
 from django.forms.models import (
     BaseInlineFormSet, inlineformset_factory, modelform_defines_fields,
@@ -249,25 +250,17 @@ class BaseModelAdmin(metaclass=forms.MediaDefiningClass):
             return None
         db = kwargs.get('using')
 
-        if 'widget' not in kwargs:
-            autocomplete_fields = self.get_autocomplete_fields(request)
-            if db_field.name in autocomplete_fields:
-                kwargs['widget'] = AutocompleteSelectMultiple(
-                    db_field.remote_field,
-                    self.admin_site,
-                    using=db,
-                )
-            elif db_field.name in self.raw_id_fields:
-                kwargs['widget'] = widgets.ManyToManyRawIdWidget(
-                    db_field.remote_field,
-                    self.admin_site,
-                    using=db,
-                )
-            elif db_field.name in [*self.filter_vertical, *self.filter_horizontal]:
-                kwargs['widget'] = widgets.FilteredSelectMultiple(
-                    db_field.verbose_name,
-                    db_field.name in self.filter_vertical
-                )
+        autocomplete_fields = self.get_autocomplete_fields(request)
+        if db_field.name in autocomplete_fields:
+            kwargs['widget'] = AutocompleteSelectMultiple(db_field.remote_field, self.admin_site, using=db)
+        elif db_field.name in self.raw_id_fields:
+            kwargs['widget'] = widgets.ManyToManyRawIdWidget(db_field.remote_field, self.admin_site, using=db)
+        elif db_field.name in [*self.filter_vertical, *self.filter_horizontal]:
+            kwargs['widget'] = widgets.FilteredSelectMultiple(
+                db_field.verbose_name,
+                db_field.name in self.filter_vertical
+            )
+
         if 'queryset' not in kwargs:
             queryset = self.get_field_queryset(db, db_field, request)
             if queryset is not None:
@@ -806,7 +799,7 @@ class ModelAdmin(BaseModelAdmin):
 
         The default implementation creates an admin LogEntry object.
         """
-        from django.contrib.admin.models import ADDITION, LogEntry
+        from django.contrib.admin.models import LogEntry, ADDITION
         return LogEntry.objects.log_action(
             user_id=request.user.pk,
             content_type_id=get_content_type_for_model(object).pk,
@@ -822,7 +815,7 @@ class ModelAdmin(BaseModelAdmin):
 
         The default implementation creates an admin LogEntry object.
         """
-        from django.contrib.admin.models import CHANGE, LogEntry
+        from django.contrib.admin.models import LogEntry, CHANGE
         return LogEntry.objects.log_action(
             user_id=request.user.pk,
             content_type_id=get_content_type_for_model(object).pk,
@@ -839,7 +832,7 @@ class ModelAdmin(BaseModelAdmin):
 
         The default implementation creates an admin LogEntry object.
         """
-        from django.contrib.admin.models import DELETION, LogEntry
+        from django.contrib.admin.models import LogEntry, DELETION
         return LogEntry.objects.log_action(
             user_id=request.user.pk,
             content_type_id=get_content_type_for_model(object).pk,
@@ -858,20 +851,15 @@ class ModelAdmin(BaseModelAdmin):
     def _get_base_actions(self):
         """Return the list of actions, prior to any request-based filtering."""
         actions = []
-        base_actions = (self.get_action(action) for action in self.actions or [])
-        # get_action might have returned None, so filter any of those out.
-        base_actions = [action for action in base_actions if action]
-        base_action_names = {name for _, name, _ in base_actions}
 
         # Gather actions from the admin site first
         for (name, func) in self.admin_site.actions:
-            if name in base_action_names:
-                continue
             description = getattr(func, 'short_description', name.replace('_', ' '))
             actions.append((func, name, description))
         # Add actions from this ModelAdmin.
-        actions.extend(base_actions)
-        return actions
+        actions.extend(self.get_action(action) for action in self.actions or [])
+        # get_action might have returned None, so filter any of those out.
+        return filter(None, actions)
 
     def _filter_actions_by_permissions(self, request, actions):
         """Filter out any actions that the user doesn't have access to."""
@@ -901,7 +889,7 @@ class ModelAdmin(BaseModelAdmin):
         actions = self._filter_actions_by_permissions(request, self._get_base_actions())
         return {name: (func, name, desc) for func, name, desc in actions}
 
-    def get_action_choices(self, request, default_choices=models.BLANK_CHOICE_DASH):
+    def get_action_choices(self, request, default_choices=BLANK_CHOICE_DASH):
         """
         Return a list of choices for use in a form object.  Each choice is a
         tuple (name, description).
@@ -1071,7 +1059,7 @@ class ModelAdmin(BaseModelAdmin):
                 level = getattr(messages.constants, level.upper())
             except AttributeError:
                 levels = messages.constants.DEFAULT_TAGS.values()
-                levels_repr = ', '.join('`%s`' % level for level in levels)
+                levels_repr = ', '.join('`%s`' % l for l in levels)
                 raise ValueError(
                     'Bad message level string: `%s`. Possible values are: %s'
                     % (level, levels_repr)
@@ -1564,10 +1552,7 @@ class ModelAdmin(BaseModelAdmin):
             if obj is None:
                 return self._get_obj_does_not_exist_redirect(request, opts, object_id)
 
-        fieldsets = self.get_fieldsets(request, obj)
-        ModelForm = self.get_form(
-            request, obj, change=not add, fields=flatten_fieldsets(fieldsets)
-        )
+        ModelForm = self.get_form(request, obj, change=not add)
         if request.method == 'POST':
             form = ModelForm(request.POST, request.FILES, instance=obj)
             form_validated = form.is_valid()
@@ -1598,12 +1583,12 @@ class ModelAdmin(BaseModelAdmin):
                 formsets, inline_instances = self._create_formsets(request, obj, change=True)
 
         if not add and not self.has_change_permission(request, obj):
-            readonly_fields = flatten_fieldsets(fieldsets)
+            readonly_fields = flatten_fieldsets(self.get_fieldsets(request, obj))
         else:
             readonly_fields = self.get_readonly_fields(request, obj)
         adminForm = helpers.AdminForm(
             form,
-            list(fieldsets),
+            list(self.get_fieldsets(request, obj)),
             # Clear prepopulated fields on a view-only form to avoid a crash.
             self.get_prepopulated_fields(request, obj) if add or self.has_change_permission(request, obj) else {},
             readonly_fields,
@@ -1906,7 +1891,6 @@ class ModelAdmin(BaseModelAdmin):
     def history_view(self, request, object_id, extra_context=None):
         "The 'history' admin view for this model."
         from django.contrib.admin.models import LogEntry
-
         # First check if the user can see this history.
         model = self.model
         obj = self.get_object(request, unquote(object_id))

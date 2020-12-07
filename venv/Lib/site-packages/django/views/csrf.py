@@ -105,7 +105,7 @@ def csrf_failure(request, reason="", template_name=CSRF_FAILURE_TEMPLATE_NAME):
     """
     Default view used when request fails CSRF protection
     """
-    from django.middleware.csrf import REASON_NO_CSRF_COOKIE, REASON_NO_REFERER
+    from django.middleware.csrf import REASON_NO_REFERER, REASON_NO_CSRF_COOKIE
     c = {
         'title': _("Forbidden"),
         'main': _("CSRF verification failed. Request aborted."),
