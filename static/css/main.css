@@ -1,7 +1,18 @@
 
 
 body{
-background-color: #812051;
+    background-color: #c9e9e3;
+
+
+}
+
+#myHeader {
+    left: 100px;
+    position: relative;
+    text-align: center;
+    top: 55%;
+    width: 100%;
+    font-weight: bold;
 }
 
 

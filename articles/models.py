@@ -4,7 +4,7 @@ from django.db import models
 
 class article(models.Model):
 
-    pubmed_id = models.CharField(max_length=1000, null=False, primary_key=True )
+    pubmed_id = models.CharField(max_length=1000, null=False)
     title = models.TextField(null=True)
     abstract = models.TextField(null=True)
     keywords = models.JSONField(default=list, null=True)
