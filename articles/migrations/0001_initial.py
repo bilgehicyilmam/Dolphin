@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=1000, null=True)),
                 ('abstract', models.CharField(max_length=1000, null=True)),
                 ('journal', models.CharField(max_length=1000, null=True)),
-                ('publication_date', models.CharField(max_length=1000, null=True)),
+
                 ('conclusions', models.CharField(max_length=1000, null=True)),
                 ('results', models.CharField(max_length=1000, null=True)),
                 ('copyrights', models.CharField(max_length=1000, null=True)),
