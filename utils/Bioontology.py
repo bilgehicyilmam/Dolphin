@@ -2,18 +2,14 @@ from external import *
 from ontologies.models import Ontology
 import xml.etree.ElementTree as ET
 
-
 new_person = Ontology(
     class_id="class",
     parent_id="parent",
     label='Britney',
     definition='test definition',
-    synonymous=["dummy", 3, 4],
-    is_a=[2, 3, 4],
-    has_a=[2, 3, 4])
+    synonymous=["dummy", 3, 4])
 
 # new_person.save()
-
 
 class Bioontology:
 
@@ -28,31 +24,29 @@ class Bioontology:
         namespaces = {'owl': 'http://www.w3.org/2002/07/owl#',
                       'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
                       }
-        counter = 1
         # iterate all classes inside rdf file
         for item in self.rdf.findall('owl:Class', namespaces):
-            counter = counter + 1
             class_id = self.get_class_id(item)
-            parent_id = self.get_parent_id(item)
-            parents = self.get_parents(item)
+            parent_ids = self.get_parent_ids(item)
             label = self.get_label(item)
             definition = self.get_definiton(item)
             synonymous = self.get_synonymous(item)
-            print("\n")
-
-            # prepare data
-            new_ontology = Ontology(
-                class_id = class_id,
-                parent_id = parent_id,
-                label = label,
-                definition = definition,
-                synonymous = synonymous,
-                is_a = [2, 3, 4],
-                has_a = [2, 3, 4]
-            )
-
             # save database
-            new_ontology.save()
+            self.db_save(class_id, parent_ids, label, definition, synonymous)
+
+    def db_save(self, class_id, parent_ids, label, definition, synonymous):
+        # prepare data
+        new_ontology = Ontology(
+            class_id=class_id,
+            parent_id=parent_ids,
+            label=label,
+            definition=definition,
+            synonymous=synonymous
+        )
+        print('|--->db_save start called for:')
+        print(new_ontology.label)
+        new_ontology.save()
+        print('|--->db_save end \n\n')
 
     def get_class_id(self, item):
         # gets first value from a key/value pair of a list
@@ -61,28 +55,45 @@ class Bioontology:
         return class_id
 
     def get_parent_id(self, item):
+
+        """Returns a single class_id link
+
+        This method is used inside the iteration.
+
+        Returns:
+            String: a single class id
+        """
         parent_id = item.find(
             '{http://www.w3.org/2000/01/rdf-schema#}subClassOf')
         parent_id = self.handle_first_value(parent_id)
         print("parent_id: ", parent_id)
         return parent_id
 
-    def get_parents(self, item):
+    def get_parent_ids(self, item):
+
+        """Returns a single sum value of all precipitation.
+
+        This method takes an xml element and extracts subClassOf area
+        of the class.
+
+        Returns:
+            List[String]: a list including class ids for subClassOf tag.
+        """
         # prepare an empty array
+
         parents = []
         elements = item.findall(
             '{http://www.w3.org/2000/01/rdf-schema#}subClassOf')
-
-        for el in elements:
-            parent = el.attrib.values()
-            parent = list(parent)
-            print("parent", parent)
-            if len(parent) >= 1:
-                parent = parent[0]
-                parents.append(parent)
-
-        print(parents)
-        return parent
+        if elements is not None:
+            for el in elements:
+                parent = el.attrib.values()
+                parent = list(parent)
+                print("parent", parent)
+                if len(parent) >= 1:
+                    parent = parent[0]
+                    parents.append(parent)
+            print(parents)
+        return parents
 
     def get_label(self, item):
         label = item.find('{http://www.w3.org/2000/01/rdf-schema#}label').text
