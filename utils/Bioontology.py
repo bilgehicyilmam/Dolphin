@@ -55,13 +55,10 @@ class Bioontology:
         return class_id
 
     def get_parent_id(self, item):
-
         """Returns a single class_id link
 
-        This method is used inside the iteration.
-
-        Returns:
-            String: a single class id
+        This method is used inside the iteration. Example element:
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/GO_0019048"/>
         """
         parent_id = item.find(
             '{http://www.w3.org/2000/01/rdf-schema#}subClassOf')
@@ -70,18 +67,15 @@ class Bioontology:
         return parent_id
 
     def get_parent_ids(self, item):
-
         """Returns a single sum value of all precipitation.
 
         This method takes an xml element and extracts subClassOf area
-        of the class.
-
-        Returns:
-            List[String]: a list including class ids for subClassOf tag.
+        of the class. The element from the xml file is like:
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/GO_0019048"/>
         """
         # prepare an empty array
-
         parents = []
+
         elements = item.findall(
             '{http://www.w3.org/2000/01/rdf-schema#}subClassOf')
         if elements is not None:
@@ -96,6 +90,12 @@ class Bioontology:
         return parents
 
     def get_label(self, item):
+        """Returns <rdfs:label> of the xml
+
+        This label will ve saved to database as label. And
+        it will be used for creating annotations. Example element:
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">suppression by virus of host translation</rdfs:label>
+        """
         label = item.find('{http://www.w3.org/2000/01/rdf-schema#}label').text
         print('label: ', label)
         return label
