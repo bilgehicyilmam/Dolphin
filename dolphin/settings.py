@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'articles',
     'django_filters',
+    'ontologies'
 ]
 
 MIDDLEWARE = [
