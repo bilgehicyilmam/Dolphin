@@ -35,19 +35,46 @@ class Annotator:
         return text
 
 
+    def update_abstract3(self, text, label):
+        # annotate all occurences of a label
+
+        i = 0
+        while( i <= len(text)):
+            print('start while')
+
+            # find index for label
+            index = sample.find(label, i)
+            print('start from: ', i)
+            print('found_index: ', index)
+            if index != -1:
+                # create wrapper 
+                wrapper = self.create_wrapper(label)
+                # new i
+                print('old i', i)
+                print ('index', index )
+                print('label: ', label)
+                print('wrapper len: ', len(wrapper))
+                text = text[:index] + wrapper + text[(len(label)+index):]
+                i = i + index + len(wrapper)
+                print('new i', i)
+                print(text)
+            else:
+                break
+        return text
+    
     def update_abstract(self, text, label):
         # annotate all occurences of a label
 
         i = 0
         while( i <= len(text)):
             print('start while')
-            index = sample.find(label, i)
+            index = text.find(label, i)
             if index != -1:
-                wrapper = self.create_wrapper(label)
+                # create new wrapper
+                wrapper= self.create_wrapper(label)
                 i = i + index + len(wrapper)
-                print('label: ', label, 'index', index, 'wrapper len: ', len(wrapper))
-                text = text[:index] + wrapper + text[(len(label)+index):]
-                print(text)
+                second_start = len(label) + index
+                text = text[:index] + wrapper+ text[second_start:]
             else:
                 break
         return text
@@ -55,10 +82,8 @@ class Annotator:
     def add_wrapper(self, index, text, label, wrapper):
         pass
 
-
     def search_keyword(self, keywords):
         # blank
-
         # Article.objects.filter(label__text_search='Paul Lennon')
         #  Entry.objects.filter(body_text__search='cheese')
         pass
@@ -78,12 +103,7 @@ class Annotator:
     def create_stamp(self):
         # returns a time stamp with prefix
 
-        # now = datetime.now() # 2020-12-28 10:31:41.593198
-        # timestamp = datetime.timestamp(now) # 1609140701.593198
-        # timestamp = str(timestamp)
-        # timestamp = timestamp.replace('.', '') # 1609140701593198
         prefix = 'covid19-'
-        # idstamp = prefix + timestamp # covid19_1609140701593198
         idstamp = prefix + str(uuid.uuid4())
         return idstamp
     
@@ -103,6 +123,63 @@ class Annotator:
         output = self.create_output()
         save = self.save_annotation()
         pass
+    
+    def create_output(self, idstamp, value,) {
+        
+        if has_body:
+            return {
+                 {
+                    "@context": "http://www.w3.org/ns/anno.jsonld",
+                    "id": "covid19-3f0156a4-1e5f-4ea4-9585-60ff4f531fc1",
+                    "type": "Annotation",
+                    "motivation": "describing",
+
+                    "target": {
+                        "source": "http://example.org/Emblem004.html",
+                        "selector": {
+                            "type": "CssSelector",
+                            "value": "div#covid19-3f0156a4-1e5f-4ea4-9585-60ff4f531fc1"
+                        }
+                    },
+
+                    "body": {
+                        "type": "TextualBody",
+                        "value": "Amygdala is the integrative center for emotions, emotional behavior, and motivation. If the brain is turned upside down the end of the structure continuous with the hippocampus is called the uncus. If you peel away uncus you will expose the amygdala which abuts the anterior of the hippocampus.",
+                        "format": "text/plain",
+                        "language": "la"
+                    },
+
+                    "created": "2017-01-26T17:30:04.639Z",
+                    "creator": {
+                        "type": "Person",
+                        "email": "mailto:mara@example.org",
+                        "name": "Mara"
+                    }
+                }
+            }
+        else:
+            {
+                    "@context": "http://www.w3.org/ns/anno.jsonld",
+                    "id": "anno-01",
+                    "type": "Annotation",
+                    "motivation": "describing",
+
+                    "target": {
+                        "source": "http://example.org/Emblem004.html",
+                        "selector": {
+                            "type": "CssSelector",
+                            "value": "div#leftAmigdala"
+                        }
+                    },
+                    "created": "2017-01-26T17:30:04.639Z",
+                    "creator": {
+                        "type": "Person",
+                        "email": "mailto:mara@example.org",
+                        "name": "Mara"
+                    }
+                }
+            }
+    }
 
     def save_annotation():
         pass
@@ -114,37 +191,31 @@ impact on the economy of the whole world. Like other countries, it also effected
 data, the first case of novel corona virus in Pakistan was reported on 27th
 February 2020. The aim of the present study is to describe the mathematical
 model and dynamics of COVID-19 in Pakistan. To investigate the spread of coronavirus in Pakistan, we develop the SEIR time fractional model with newly,
-developed fractional operator of Atangana-Baleanu. We present briefly the analysis of the given model and discuss its applications using world health organization (WHO) reported data for Pakistan. We consider the available infection cases from 19th March 2020, till 31st March 2020 and accordingly, various parameters are fitted or estimated. It is worth noting that we have calculated the basic reproduction number [Formula: see text] which shows that virus is spreading rapidly. Furthermore, stability analysis of the model at disease free equilibrium DFE and endemic equilibriums EE is performed to observe the dynamics and transmission of the model. Finally, the AB fractional model is solved numerically. To show the effect of the various embedded parameters like fractional parameter [Formula: see text] on the model, various graphs are plotted. It is worth noting that the base of our investigation, we have predicted basic reproduction number the spread of disease for next 200 days endemic.
+developed fractional operator of Atangana-Baleanu. We present briefly the analysis of the given model and discuss its applications using world health organization (WHO) reported data for Pakistan. We consider the available infection cases from 19th March 2020, till 31st March 2020 and accordingly, various parameters are fitted or estimated. It is worth noting that we have calculated the basic reproduction number [Formula: see text] which shows that virus is spreading rapidly. Furthermore, stability analysis of the model at disease free equilibrium DFE and endemic equilibriums EE is performed to observe the dynamics and transmission of the model. Finally, the AB fractional model is solved numerically. To show the effect of the various embedded parameters like fractional parameter [Formula: see text] on the model, various graphs are plotted. It is worth noting that the base of our investigation, we have predicted basic reproduction number the spread of disease for next 200 days a endemic.
     """
 
 annotator = Annotator()
 
-# annotator.abstract_miner(sample)
+print(annotator.abstract_miner(sample))
 
-annotator.update_abstract(sample, "endemic")
+# annotator.update_abstract(sample, "endemic")
 
-# i = len(sample)
-# while( i <= len(sample)):
-#     print('start while')
-#     index = sample.find(word, -i)
+word = 'endemic'
+new_word = '<div id="covid19-bec2cf0c-0312-46cc-bff1-307ac351b04b">endemic</div>'
 
-#     if index != -1:
-#         i = i - index -len(word)
-#         print(index)
-#     else:
-#         print('not found')
-#         break
+i = 0
+while( i <= len(sample)):
+    print('start while')
+    index = sample.find(word, i)
 
-# print(sample.find(word, -50))
-
-
+    if index != -1:
+        i = i + index + len(new_word)
+        second_start = len(word) + index
+        sample = sample[:index] + new_word + sample[second_start:]
+    else:
+        break
 
 
 
 
 # search_result = article.objects.filter(abstract__search='basic reproduction number')
-
-"""
-Geriden takip edersek önüne ne eklediğimizin önemi yok.
-    Böyle değilniş, aynısının simetrisiymiş.
-"""
