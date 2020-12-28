@@ -33,41 +33,12 @@ class Annotator:
             if ( found != -1):
                 text = annotator.update_abstract(text, label)
         return text
-
-
-    def update_abstract3(self, text, label):
-        # annotate all occurences of a label
-
-        i = 0
-        while( i <= len(text)):
-            print('start while')
-
-            # find index for label
-            index = sample.find(label, i)
-            print('start from: ', i)
-            print('found_index: ', index)
-            if index != -1:
-                # create wrapper 
-                wrapper = self.create_wrapper(label)
-                # new i
-                print('old i', i)
-                print ('index', index )
-                print('label: ', label)
-                print('wrapper len: ', len(wrapper))
-                text = text[:index] + wrapper + text[(len(label)+index):]
-                i = i + index + len(wrapper)
-                print('new i', i)
-                print(text)
-            else:
-                break
-        return text
     
     def update_abstract(self, text, label):
         # annotate all occurences of a label
 
         i = 0
         while( i <= len(text)):
-            print('start while')
             index = text.find(label, i)
             if index != -1:
                 # create new wrapper
@@ -86,6 +57,7 @@ class Annotator:
         # blank
         # Article.objects.filter(label__text_search='Paul Lennon')
         #  Entry.objects.filter(body_text__search='cheese')
+        # search_result = article.objects.filter(abstract__search='basic reproduction number')
         pass
 
     def find_abstracts(self, keyword):
@@ -199,23 +171,3 @@ annotator = Annotator()
 print(annotator.abstract_miner(sample))
 
 # annotator.update_abstract(sample, "endemic")
-
-word = 'endemic'
-new_word = '<div id="covid19-bec2cf0c-0312-46cc-bff1-307ac351b04b">endemic</div>'
-
-i = 0
-while( i <= len(sample)):
-    print('start while')
-    index = sample.find(word, i)
-
-    if index != -1:
-        i = i + index + len(new_word)
-        second_start = len(word) + index
-        sample = sample[:index] + new_word + sample[second_start:]
-    else:
-        break
-
-
-
-
-# search_result = article.objects.filter(abstract__search='basic reproduction number')
