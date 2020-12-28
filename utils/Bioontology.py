@@ -1,6 +1,7 @@
 from external import *
 from ontologies.models import Ontology
 import xml.etree.ElementTree as ET
+import uuid
 
 new_person = Ontology(
     class_id="class",
