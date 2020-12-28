@@ -30,39 +30,31 @@ class Annotator:
         for ontology in ontologies:
             label = ontology.label 
             found = text.find(label) # return an index number for label found
-
             if ( found != -1):
                 text = annotator.update_abstract(text, label)
-
-        print(text)
         return text
 
-    def update_abstract2(self, text, label):
+
+    def update_abstract(self, text, label):
         # annotate all occurences of a label
 
-        print('|--> update_abstract')
-
-        label_with_space = ' ' + label + ' '
-        if label != '':
-            # while(text.find(label_with_space) != -1):
-                wrapper = self.create_wrapper(label)
-                print(wrapper)
-                text = text.replace(label, wrapper)
-        
-        return text
-    def update_abstract(self, text, label):
         i = 0
-        while( i <= len(sample)):
+        while( i <= len(text)):
             print('start while')
-            index = sample.find(word, i)
+            index = sample.find(label, i)
             if index != -1:
-                i = i + index + len(word)
-                print(index)
+                wrapper = self.create_wrapper(label)
+                i = i + index + len(wrapper)
+                print('label: ', label, 'index', index, 'wrapper len: ', len(wrapper))
+                text = text[:index] + wrapper + text[(len(label)+index):]
+                print(text)
             else:
                 break
-    
-    def changer(self):
+        return text
+
+    def add_wrapper(self, index, text, label, wrapper):
         pass
+
 
     def search_keyword(self, keywords):
         # blank
@@ -117,7 +109,7 @@ class Annotator:
         
         
 
-sample = """Recently, novel coronavirus is a serious global issue and having a negative
+sample = """Recently, endemic novel coronavirus is an endemic global issue and having a negative
 impact on the economy of the whole world. Like other countries, it also effected the economy and people of Pakistan. According to the publicly reported
 data, the first case of novel corona virus in Pakistan was reported on 27th
 February 2020. The aim of the present study is to describe the mathematical
@@ -129,18 +121,8 @@ annotator = Annotator()
 
 # annotator.abstract_miner(sample)
 
-word = 'endemic'
-i = 0
-while( i <= len(sample)):
-    print('start while')
-    index = sample.find(word, i)
+annotator.update_abstract(sample, "endemic")
 
-    if index != -1:
-        i = i + index + len(word)
-        print(index)
-    else:
-        break
-        
 # i = len(sample)
 # while( i <= len(sample)):
 #     print('start while')
@@ -164,4 +146,5 @@ while( i <= len(sample)):
 
 """
 Geriden takip edersek önüne ne eklediğimizin önemi yok.
+    Böyle değilniş, aynısının simetrisiymiş.
 """
