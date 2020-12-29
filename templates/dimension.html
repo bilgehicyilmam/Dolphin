@@ -24,7 +24,7 @@
         </div>
     </div>
 
-
+    {% if context.queries_0 or context.queries_1 or context.queries_2 or context.queries_3 %}
 
     <div class="my_table">
         <table>
@@ -42,37 +42,43 @@
                 <td>{{ context.total_count_1 }}</td>
             </tr>
             {% endif %}
+
             {% if context.q_2 != context.q_0 and  context.q_2 != context.q_1 %}
             <tr>
                 <td>{{ context.q_2 }}</td>
                 <td>{{ context.total_count_2 }}</td>
             </tr>
             {% endif %}
+
             {% if context.q_3 != context.q_0 and context.q_3 != context.q_2 and context.q_3 != context.q_1 %}
             <tr>
                 <td>{{ context.q_3 }}</td>
                 <td>{{ context.total_count_3 }}</td>
             </tr>
             {% endif %}
+
             {% if context.q_4 != context.q_3 and context.q_4 != context.q_2 and context.q_4 != context.q_1 and context.q_4 != context.q_0 %}
             <tr>
                 <td>{{ context.q_4 }}</td>
                 <td>{{ context.total_count_4 }}</td>
             </tr>
             {% endif %}
+
             {% if context.q_5 != context.q_4 and context.q_5 != context.q_3 and context.q_5 != context.q_2 and context.q_5 != context.q_1 and context.q_5 != context.q_0 %}
             <tr>
                 <td>{{ context.q_5 }}</td>
                 <td>{{ context.total_count_5 }}</td>
             </tr>
             {% endif %}
+
             {% if context.q_6 != context.q_5 and context.q_6 != context.q_4 and context.q_6 != context.q_3 and context.q_6 != context.q_2 and context.q_6 != context.q_1 and context.q_6 != context.q_0 %}
             <tr>
                 <td>{{ context.q_6 }}</td>
                 <td>{{ context.total_count_6 }}</td>
             </tr>
             {% endif %}
-            {% if context.q_7 != context.q_6 and context.q_6 != context.q_5 and context.q_6 != context.q_4 and context.q_6 != context.q_3 and context.q_6 != context.q_2 and context.q_6 != context.q_1 and context.q_6 != context.q_0 %}
+
+            {% if context.q_7 != context.q_6 and context.q_7 != context.q_5 and context.q_7 != context.q_4 and context.q_7 != context.q_3 and context.q_7 != context.q_2 and context.q_7 != context.q_1 and context.q_7 != context.q_0 %}
             <tr>
                 <td>{{ context.q_7 }}</td>
                 <td>{{ context.total_count_7 }}</td>
@@ -83,7 +89,7 @@
                 <td>{{ context.q_8 }}</td>
                 <td>{{ context.total_count_8 }}</td>
             </tr>
-           {% endif %}
+          {% endif %}
             <tr>
                 <td>{{ context.q_9 }}</td>
                 <td>{{ context.total_count_9 }}</td>
@@ -105,7 +111,9 @@
 
     </div>
 
+    {% else %}
 
+    {% endif %}
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
