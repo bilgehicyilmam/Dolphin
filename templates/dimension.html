@@ -26,6 +26,75 @@
 
     {% if context.queries_0 or context.queries_1 or context.queries_2 or context.queries_3 %}
 
+         {% if context.queries_0 and not context.queries_1 and not context.queries_2 and not context.queries_3 %}
+              <div class="my_table">
+                 <table>
+                     <tr>
+                         <th>Queries</th>
+                     </tr>
+                        <td>{{ context.queries_0 }}</td>
+                 </table>
+              </div>
+         {% endif %}
+
+          {% if context.queries_0 and context.queries_1 and not context.queries_2 and not context.queries_3 %}
+              <div class="my_table">
+                 <table>
+                     <tr>
+                         <th>Queries</th>
+                     </tr>
+                      <tr>
+                          <td>{{ context.queries_0 }}</td>
+                      </tr>
+                      <tr>
+                          <td>{{ context.queries_1 }}</td>
+                      </tr>
+                 </table>
+              </div>
+         {% endif %}
+
+         {% if context.queries_0 and context.queries_1 and context.queries_2 and not context.queries_3 %}
+              <div class="my_table">
+                 <table>
+                     <tr>
+                         <th>Queries</th>
+                     </tr>
+                      <tr>
+                          <td>{{ context.queries_0 }}</td>
+                      </tr>
+                      <tr>
+                          <td>{{ context.queries_1 }}</td>
+                      </tr>
+                      <tr>
+                          <td>{{ context.queries_2 }}</td>
+                      </tr>
+                 </table>
+              </div>
+         {% endif %}
+
+          {% if context.queries_0 and context.queries_1 and context.queries_2 and context.queries_3 %}
+              <div class="my_table">
+                 <table>
+                     <tr>
+                         <th>Queries</th>
+                     </tr>
+                      <tr>
+                          <td>{{ context.queries_0 }}</td>
+                      </tr>
+                      <tr>
+                          <td>{{ context.queries_1 }}</td>
+                      </tr>
+                      <tr>
+                          <td>{{ context.queries_2 }}</td>
+                      </tr>
+                      <tr>
+                          <td>{{ context.queries_3 }}</td>
+                      </tr>
+                 </table>
+              </div>
+         {% endif %}
+
+
     <div class="my_table">
         <table>
             <tr>
