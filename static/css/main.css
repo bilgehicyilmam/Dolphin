@@ -15,5 +15,48 @@ body{
     font-weight: bold;
 }
 
+#form1{
+    margin-top: 10%;
+    margin-left: 40%;
+}
 
+
+.cls{
+    max-width: 275px;
+    width: 150%;
+}
+
+form{
+    width: 200%;
+}
+
+
+.buttons{
+    font-weight: bold;
+    font-size: large;
+    height:38px;
+    width:38px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.my_table{
+    display: block;
+    text-align: center;
+    margin-left: 33%;
+    margin-top: 5%;
+}
 
