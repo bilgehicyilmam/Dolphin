@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from .filters import ArticleFilter
+
 
 def home(request):
 
