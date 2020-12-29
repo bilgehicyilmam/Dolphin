@@ -1,0 +1,128 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-4" id="form1">
+
+            <form method="get" action="{% url "dimensional_search" %}">
+                <div id="firstField">
+                    <div class="inputs_dim">
+                        <div class="form-group cls">
+                            <input type="text" name="q_0" id="id_q" placeholder="Dimension 1" class="form-control" >
+                        </div>
+                    </div>
+                </div>
+
+                 <div id="moreField"></div>
+
+                <button type="button" class="btn btn-success buttons" onclick="addField();">+</button>
+                <button type="button" class="btn btn-danger buttons" onclick="removeField();">-</button>
+                <input type="submit" name="submit" value="Search" class="btn btn-primary">
+
+            </form>
+        </div>
+    </div>
+
+
+
+    <div class="my_table">
+        <table>
+            <tr>
+                <th>Queries</th>
+                <th>Number of Articles Found</th>
+            </tr>
+
+            <tr>
+                <td>{{ context.q_0 }}</td>
+                <td><a href="#" %}>{{ context.total_count_0 }}</a></td>
+            </tr>
+
+
+            <tr>
+                <td>{{ context.q_1 }}</td>
+                <td>{{ context.total_count_1 }}</td>
+            </tr>
+
+
+
+            <tr>
+                <td>{{ context.q_2 }}</td>
+                <td>{{ context.total_count_2 }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ context.q_3 }}</td>
+                <td>{{ context.total_count_3 }}</td>
+            </tr>
+
+
+
+            <tr>
+                <td>{{ context.q_4 }}</td>
+                <td>{{ context.total_count_4 }}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{ context.q_5 }}</td>
+                <td>{{ context.total_count_5 }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ context.q_6 }}</td>
+                <td>{{ context.total_count_6 }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ context.q_7 }}</td>
+                <td>{{ context.total_count_7 }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ context.q_8 }}</td>
+                <td>{{ context.total_count_8 }}</td>
+            </tr>
+            <tr>
+                <td>{{ context.q_9 }}</td>
+                <td>{{ context.total_count_9 }}</td>
+            </tr>
+            <tr>
+                <td>{{ context.q_10 }}</td>
+                <td>{{ context.total_count_10 }}</td>
+            </tr>
+            <tr>
+                <td>{{ context.q_11 }}</td>
+                <td>{{ context.total_count_11 }}</td>
+            </tr>
+            <tr>
+                <td>{{ context.q_12 }}</td>
+                <td>{{ total_count_12 }}</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+    function addField(){
+
+        let lastname_name = $('.inputs_dim input[type=text]').last().attr('name');
+        let lastname_name2 = $('.inputs_dim input[type=text]').last().attr('placeholder');
+        let split_name = lastname_name.split('_');
+        let split_name2 = lastname_name2.split(' ');
+        let index = Number(split_name[1]) + 1;
+        let index2 = Number(split_name2[1]) + 1;
+        $('#firstField .inputs_dim').clone().find("input").attr("name", "q_"  + index).attr("placeholder", "Dimension "  + index2).val("").end().appendTo("#moreField");
+    }
+
+    function removeField(){
+        $('#moreField .inputs_dim').last().remove();
+    }
+
+    </script>
+
+{% endblock  %}
