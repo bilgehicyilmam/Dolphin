@@ -60,7 +60,10 @@ def dimensional_search(request):
 
         queries_0, queries_1, queries_2, queries_3 = reqs(request)
 
-        context["queries_0"], context["queries_1"],  context["queries_2"], context["queries_3"] = queries_0, queries_1, queries_2, queries_3
+        context["queries_0"] = queries_0
+        context["queries_1"] = queries_1
+        context["queries_2"] = queries_2
+        context["queries_3"] = queries_3
 
         for (a, b, c, d) in itertools.zip_longest(queries_0, queries_1, queries_2, queries_3):
 
@@ -103,35 +106,18 @@ def dimensional_search(request):
             })
 
             context["total_count_"+str(index)] = total_count
-            if a != b and a != c and b != c and d != a and d != b and d != c:
+            if a != b and a != c and a != d:
                 context["q_" + str(index)] = [a, b, c, d]
 
             if a == b and a == c and a == d:
                 context["q_" + str(index)] = [a]
 
-            if a == b and a != c and a != d:
-                context["q_" + str(index)] = [a, c, d]
-
-            if a == c and a != b and a == d:
+            if a == c and a == d and a != b:
                 context["q_" + str(index)] = [a, b]
 
-            if a == b and a != c and a == d:
-                context["q_" + str(index)] = [a, c]
+            if a == d and a != c:
+                context["q_" + str(index)] = [a, b, c]
 
-            if a == c and a == b and a != d:
-                context["q_" + str(index)] = [a, d]
-
-            if a == b and b != c and b != d:
-                context["q_" + str(index)] = [b, c, d]
-
-            if a == b and b == c and b != d:
-                context["q_" + str(index)] = [b, d]
-
-            if a == b and b == d and b != c:
-                context["q_" + str(index)] = [b, c]
-
-            if a == c and c == b and c != d:
-                context["q_" + str(index)] = [c, d]
 
             for item in articles:
                 my_array.append(item)
@@ -185,35 +171,18 @@ def dimensional_search(request):
                 })
 
                 context["total_count_" + str(index)] = total_count
-                if a != b and a != c and b != c and d != a and d != b and d != c:
+                if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
 
-                if a == b and a != c and a != d:
-                    context["q_" + str(index)] = [a, c, d]
-
-                if a == c and a != b and a == d:
+                if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
 
-                if a == b and a != c and a == d:
-                    context["q_" + str(index)] = [a, c]
+                if a == d and a != c:
+                    context["q_" + str(index)] = [a, b, c]
 
-                if a == c and a == b and a != d:
-                    context["q_" + str(index)] = [a, d]
-
-                if a == b and b != c and b != d:
-                    context["q_" + str(index)] = [b, c, d]
-
-                if a == b and b == c and b != d:
-                    context["q_" + str(index)] = [b, d]
-
-                if a == b and b == d and b != c:
-                    context["q_" + str(index)] = [b, c]
-
-                if a == c and c == b and c != d:
-                    context["q_" + str(index)] = [c, d]
 
                 for item in articles:
                     my_array.append(item)
@@ -267,35 +236,18 @@ def dimensional_search(request):
                 })
 
                 context["total_count_" + str(index)] = total_count
-                if a != b and a != c and b != c and d != a and d != b and d != c:
+                if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
 
-                if a == b and a != c and a != d:
-                    context["q_" + str(index)] = [a, c, d]
-
-                if a == c and a != b and a == d:
+                if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
 
-                if a == b and a != c and a == d:
-                    context["q_" + str(index)] = [a, c]
+                if a == d and a != c:
+                    context["q_" + str(index)] = [a, b, c]
 
-                if a == c and a == b and a != d:
-                    context["q_" + str(index)] = [a, d]
-
-                if a == b and b != c and b != d:
-                    context["q_" + str(index)] = [b, c, d]
-
-                if a == b and b == c and b != d:
-                    context["q_" + str(index)] = [b, d]
-
-                if a == b and b == d and b != c:
-                    context["q_" + str(index)] = [b, c]
-
-                if a == c and c == b and c != d:
-                    context["q_" + str(index)] = [c, d]
 
                 for item in articles:
                     my_array.append(item)
@@ -349,35 +301,18 @@ def dimensional_search(request):
                 })
 
                 context["total_count_" + str(index)] = total_count
-                if a != b and a != c and b != c and d != a and d != b and d != c:
+                if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
 
-                if a == b and a != c and a != d:
-                    context["q_" + str(index)] = [a, c, d]
-
-                if a == c and a != b and a == d:
+                if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
 
-                if a == b and a != c and a == d:
-                    context["q_" + str(index)] = [a, c]
+                if a == d and a != c:
+                    context["q_" + str(index)] = [a, b, c]
 
-                if a == c and a == b and a != d:
-                    context["q_" + str(index)] = [a, d]
-
-                if a == b and b != c and b != d:
-                    context["q_" + str(index)] = [b, c, d]
-
-                if a == b and b == c and b != d:
-                    context["q_" + str(index)] = [b, d]
-
-                if a == b and b == d and b != c:
-                    context["q_" + str(index)] = [b, c]
-
-                if a == c and c == b and c != d:
-                    context["q_" + str(index)] = [c, d]
 
                 for item in articles:
                     my_array.append(item)
@@ -432,35 +367,18 @@ def dimensional_search(request):
                 })
 
                 context["total_count_" + str(index)] = total_count
-                if a != b and a != c and b != c and d != a and d != b and d != c:
+                if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
 
-                if a == b and a != c and a != d:
-                    context["q_" + str(index)] = [a, c, d]
-
-                if a == c and a != b and a == d:
+                if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
 
-                if a == b and a != c and a == d:
-                    context["q_" + str(index)] = [a, c]
+                if a == d and a != c:
+                    context["q_" + str(index)] = [a, b, c]
 
-                if a == c and a == b and a != d:
-                    context["q_" + str(index)] = [a, d]
-
-                if a == b and b != c and b != d:
-                    context["q_" + str(index)] = [b, c, d]
-
-                if a == b and b == c and b != d:
-                    context["q_" + str(index)] = [b, d]
-
-                if a == b and b == d and b != c:
-                    context["q_" + str(index)] = [b, c]
-
-                if a == c and c == b and c != d:
-                    context["q_" + str(index)] = [c, d]
 
                 for item in articles:
                     my_array.append(item)
@@ -514,35 +432,18 @@ def dimensional_search(request):
                 })
 
                 context["total_count_" + str(index)] = total_count
-                if a != b and a != c and b != c and d != a and d != b and d != c:
+                if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
 
-                if a == b and a != c and a != d:
-                    context["q_" + str(index)] = [a, c, d]
-
-                if a == c and a != b and a == d:
+                if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
 
-                if a == b and a != c and a == d:
-                    context["q_" + str(index)] = [a, c]
+                if a == d and a != c:
+                    context["q_" + str(index)] = [a, b, c]
 
-                if a == c and a == b and a != d:
-                    context["q_" + str(index)] = [a, d]
-
-                if a == b and b != c and b != d:
-                    context["q_" + str(index)] = [b, c, d]
-
-                if a == b and b == c and b != d:
-                    context["q_" + str(index)] = [b, d]
-
-                if a == b and b == d and b != c:
-                    context["q_" + str(index)] = [b, c]
-
-                if a == c and c == b and c != d:
-                    context["q_" + str(index)] = [c, d]
 
                 for item in articles:
                     my_array.append(item)
