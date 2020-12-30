@@ -17,8 +17,15 @@ def home(request):
     articles = article.objects.all()
     total_articles = articles.count()
     context = {"total_articles": total_articles}
-
     return render(request, "articles.html", context)
+
+def all_articles(request):
+
+    context = {}
+    for i in range(30):
+        context["articles_"+str(i)] = request.session.get("articles_"+str(i))
+    return render(request, "all_articles.html", context)
+
 
 def reqs(request):
 
