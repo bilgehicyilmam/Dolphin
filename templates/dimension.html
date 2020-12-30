@@ -103,7 +103,7 @@
             </tr>
             <tr>
                 <td>{{ context.q_0 }}</td>
-                <td><a href="#" %}>{{ context.total_count_0 }}</a></td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_0 }}</a></td>
             </tr>
             {% if context.q_1 != context.q_0 %}
             <tr>
