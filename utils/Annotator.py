@@ -6,12 +6,15 @@ import re
 import uuid
 
 class Annotator:
+    articled_id = 0
+    abstract = ''
+    ontologies =  []
 
     def __init__(self):
         pass
 
-    def blank_function(self):
-        pass
+    def set_ontologies(self):
+        self.ontologies = self.get_ontologies()
 
     def get_ontologies(self):
         # returns all ontologies from the database
@@ -19,7 +22,7 @@ class Annotator:
         all_entries = Ontology.objects.all()
         return all_entries
 
-    def abstract_miner(self, text):
+    def loop_on_ontologies(self, text):
         # starts a loop for ontologies collection
 
         # get ontologies from database
@@ -31,10 +34,10 @@ class Annotator:
             label = ontology.label 
             found = text.find(label) # return an index number for label found
             if ( found != -1):
-                text = annotator.update_abstract(text, label)
+                text = annotator.find_keyword(text, label)
         return text
     
-    def update_abstract(self, text, label):
+    def find_keyword(self, text, label):
         # annotate all occurences of a label
 
         i = 0
@@ -45,7 +48,7 @@ class Annotator:
                 wrapper= self.create_wrapper(label)
                 i = i + index + len(wrapper)
                 second_start = len(label) + index
-                text = text[:index] + wrapper+ text[second_start:]
+                text = text[:index] + wrapper + text[second_start:]
             else:
                 break
         return text
@@ -68,7 +71,7 @@ class Annotator:
         print(search_result[0].abstract)
         abstract = search_result[0].abstract
 
-    def update_abstract_1(self, text, keyword, wrapper):
+    def find_keyword_1(self, text, keyword, wrapper):
         abstract = text.replace(keyword, wrapper)
         return abstract
 
@@ -168,6 +171,6 @@ developed fractional operator of Atangana-Baleanu. We present briefly the analys
 
 annotator = Annotator()
 
-print(annotator.abstract_miner(sample))
+print(annotator.loop_on_ontologies(sample))
 
-# annotator.update_abstract(sample, "endemic")
+# annotator.find_keyword(sample, "endemic")
