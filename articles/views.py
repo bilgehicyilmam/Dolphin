@@ -19,6 +19,7 @@ def home(request):
     context = {"total_articles": total_articles}
     return render(request, "articles.html", context)
 
+
 def all_articles(request):
 
     context = {}
