@@ -6,9 +6,12 @@ import re
 import uuid
 
 class Annotator:
-    article_id = 0
+    article_id = "0"
+    site_name = 'https://www.covidsearch.com'
+    slug = 'articles'
     abstract = ''
     ontologies =  []
+
 
     def __init__(self):
         self.set_ontologies()
@@ -76,8 +79,8 @@ class Annotator:
             second_start = len(label) + start
             wrapper= self.create_wrapper(label)
             print(x.span())
-            text = text[:start] + wrapper + text[second_start:]
-            return self.create_output()
+            text = text[:start] + wrapper['wrapper'] + text[second_start:]
+            return self.create_output2(label, wrapper['idstamp'])
             print(text)
             print(x)
         
@@ -94,14 +97,25 @@ class Annotator:
         prefix = 'covid19-'
         idstamp = prefix + str(uuid.uuid4())
         return idstamp
-    
+
+    def get_source(self):
+        return '{}/{}/{}'.format(self.site_name, self.slug, self.article_id)
+
+    def get_creator(self):
+        return {'name': self.site_name}
+
+    def get_created(self):
+        now = datetime.now()
+        now = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+        return now
+
     def create_wrapper(self, keyword):
         """ returns a wrapper to replace"""
         # create timestamp
         idstamp = self.create_stamp()
         # returns a div element with idstamp and keyword
         wrapper = """<div id="{}">{}</div>""".format(idstamp, keyword)
-        return wrapper
+        return {'wrapper': wrapper, 'idstamp' : idstamp}
 
     def save_annotation(self, abstract_id, ontology_id):
         head = self.create_head()
@@ -111,61 +125,107 @@ class Annotator:
         save = self.save_annotation()
         pass
     
-    def create_output(self, label):
+    def create_output(self, label, idstamp):
+        annotation = dict()
+
+        header = self.create_annotation_header(idstamp)
+        annotation.update(header)
+        
+        target = self.create_annotation_target(idstamp)
+        annotation.update(target)
+        # if self.ontologies.label:
+        body = self.create_annotation_body(label)
+        annotation.update(body)
+
+        footer = self.create_annotation_footer()
+        annotation.update(footer)
+
+        return annotation
+    
+    def create_output_alt(self, label, idstamp):
         # print(self.abstract_id)
         # print(self.abstract)
         has_body = True
         if has_body:
             return {
                     "@context": "http://www.w3.org/ns/anno.jsonld",
-                    "id": "covid19-3f0156a4-1e5f-4ea4-9585-60ff4f531fc1",
+                    "id": idstamp,
                     "type": "Annotation",
                     "motivation": "describing",
                     "target": {
-                        "source": "http://example.org/Emblem004.html",
+                        "source": self.get_source(),
                         "selector": {
                             "type": "CssSelector",
-                            "value": "div#covid19-3f0156a4-1e5f-4ea4-9585-60ff4f531fc1"
+                            "value": "div#" + idstamp
                         }
                     },
                     "body": {
                         "type": "TextualBody",
                         "value": label,
                         "format": "text/plain",
-                        "language": "la"
+                        "language": "en"
                     },
-                    "created": "2017-01-26T17:30:04.639Z",
-                    "creator": {
-                        "type": "Person",
-                        "email": "mailto:mara@example.org",
-                        "name": "Mara"
-                    }
+                    'created': self.get_created(),
+                    'creator':  self.get_creator() 
                 }
             
         else:
            return {
                     "@context": "http://www.w3.org/ns/anno.jsonld",
-                    "id": "anno-01",
+                    "id": idstamp,
                     "type": "Annotation",
                     "motivation": "describing",
 
-                    "target": {
-                        "source": "http://example.org/Emblem004.html",
-                        "selector": {
-                            "type": "CssSelector",
-                            "value": "div#leftAmigdala"
+                    'target': {
+                        'source': self.get_source(),
+                        'selector': {
+                            'type': "CssSelector",
+                            'value': "div#" + idstamp
                         }
                     },
-                    "created": "2017-01-26T17:30:04.639Z",
-                    "creator": {
-                        "type": "Person",
-                        "email": "mailto:mara@example.org",
-                        "name": "Mara"
-                    }
+                    'created': self.get_created(),
+                    'creator':  self.get_creator() 
                 }
+       
+    def create_annotation_header(self, idstamp):
+            return {
+                "@context": "http://www.w3.org/ns/anno.jsonld",
+                "id": idstamp,
+                "type": "Annotation",
+                "motivation": "describing",
+            }
+    
+    def create_annotation_target(self, idstamp):
+            return {
+                "target": {
+                        "source": self.get_source(),
+                        "selector": {
+                            "type": "CssSelector",
+                            "value": "div#" + idstamp
+                        }
+                    }
+            }
+            pass
+    
+    def create_annotation_body(self, label):
+            return {
+                "body": {
+                        "type": "TextualBody",
+                        "value": label,
+                        "format": "text/plain",
+                        "language": "en"
+                    },
+            }
             
-                
-annotator = Annotator()
+    def create_annotation_footer(self):
+            return {
+                'created': self.get_created(),
+                'creator':  self.get_creator() 
+            }      
+    
+    annotator = Annotator()
+
+""" Example: Creating annotaion with sample data """
 
 abstract_id = "10203040"
 sample = """Endemic is an endemic solution. novel coronavirus is an endemdic. global issue and having a negative
