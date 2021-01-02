@@ -44,8 +44,7 @@ class Annotator:
         # get ontologies from database
         ontologies = self.ontologies
         print('Count elements: ', len(ontologies))
-        print(self.article_id)
-        print(self.abstract)
+        print(self.article_id, '\n')
         # start for loop for ontologies objects
         for ontology in ontologies:
             label = ontology.label
@@ -54,7 +53,7 @@ class Annotator:
             if ( found != -1):
                 abstract = annotator.find_keyword(abstract, label)
     
-    def find_keyword(self, text, label):
+    def find_keyword_alt(self, text, label):
         """ annotate all occurences of a label """
         i = 0
         while( i <= len(text)):
@@ -70,19 +69,26 @@ class Annotator:
         self.abstract = text
         print('find_keyword executed for', label)
 
-    def find_keyword2(self, text, label):
+    def find_keyword(self, text, label):
         """ annotate all occurences of a label """
-        print(label) 
-        x = re.search(rf"\b(?!>){label}\b(?!<)", text, re.IGNORECASE)
-        if x:
-            start = x.start()
-            second_start = len(label) + start
-            wrapper= self.create_wrapper(label)
-            print(x.span())
-            text = text[:start] + wrapper['wrapper'] + text[second_start:]
-            return self.create_output2(label, wrapper['idstamp'])
-            print(text)
-            print(x)
+        self.abstract = text
+
+        i = 1
+        while i == 1:
+            x = re.search(rf"\b(?!>){label}\b(?!<)", self.abstract, re.IGNORECASE)
+            if x:
+                start = x.start()
+                second_start = len(label) + start
+
+                wrapper= self.create_wrapper(label)
+                text = text[:start] + wrapper['wrapper'] + text[second_start:]
+
+                self.abstract = text
+                self.create_output(label, wrapper['idstamp'])
+                # i = 0
+            else:
+                i = 0
+        
         
     def find_abstracts(self, keyword):
         """  returns ids of abstracts found"""
@@ -139,6 +145,8 @@ class Annotator:
 
         footer = self.create_annotation_footer()
         annotation.update(footer)
+
+        print(annotation)
 
         return annotation
     
@@ -223,17 +231,17 @@ class Annotator:
                 'creator':  self.get_creator() 
             }      
     
-    annotator = Annotator()
+annotator = Annotator()
 
-""" Example: Creating annotaion with sample data """
+""" Example #" : Creating annotaion with sample data """
 
 abstract_id = "10203040"
-sample = """Endemic is an endemic solution. novel coronavirus is an endemdic. global issue and having a negative
-impact on the economy of the whole world. Like other countries, it also effected the economy and people of Pakistan. According to the publicly reported
+sample = """Endemic is an  solution. novel coronavirus is an endemdic. global issue and having a negative
+impact on the economy of the whole world. Like other countries, it also effected the economy and people of Pakistan. According to thn publicly reported
 data, the first case of novel corona virus in Pakistan was reported on 27th
 February 2020. The aim of the present study is to describe the mathematical
 model and dynamics of COVID-19 in Pakistan. To investigate the spread of coronavirus in Pakistan, we develop the SEIR time fractional model with newly,
-developed fractional operator of Atangana-Baleanu. We present briefly the analysis of the given model and discuss its applications using world health organization (WHO) reported data for Pakistan. We consider the available infection cases from 19th March 2020, till 31st March 2020 and accordingly, various parameters are fitted or estimated. It is worth noting that we have calculated the basic reproduction number [Formula: see text] which shows that virus is spreading rapidly. Furthermore, stability analysis of the model at disease free equilibrium DFE and endemic equilibriums EE is performed to observe the dynamics and transmission of the model. Finally, the AB fractional model is solved numerically. To show the effect of the various embedded parameters like fractional parameter [Formula: see text] on the model, various graphs are plotted. It is worth noting that the base of our investigation, we have predicted basic reproduction number the spread of disease for next 200 days a endemic.
+developed fractional operator of Atangana-Baleanu. We present briefly the analysis of the given model and discuss its applications using world health organization (WHO) reported data for Pakistan. We consider endemic the available infection cases from 19th March 2020, till 31st March 2020 and accordingly, various parameters are fitted or estimated. It is worth noting that we have calculated the basic reproduction number [Formula: see text] which shows that virus is spreading rapidly. Furthermore, stability analysis of the model at disease free equilibrium DFE andequilibriums EE is performed to observe the dynamics and transmission of the model. Finally, the AB fractional model is solved numerically. To show the effect of the various embedded parameters like fractional parameter [Formula: see text] on the model, various graphs are plotted. It is worth noting that the base of our investigation, we have predicted basic reproduction number the spread of disease for next 200 days a endemic.
 """
 
 """
@@ -245,45 +253,46 @@ print(annotator.create_annotation(abstract_id, sample))
 # annotator.find_keyword(sample, "endemic")
 
 
-"""
-all_articles = article.objects.all()[:100]
+""" Example #2 """
+all_articles = article.objects.all()[:5]
 for article in all_articles:
-    print(article.abstract)
+    # print(article.abstract)
     if article.abstract != None:
-        print(annotator.create_annotation(abstract_id, article.abstract))
-"""
+        annotator.create_annotation(abstract_id, article.abstract)
+        print(annotator.abstract)
+        
+
+# python ./utils/Annotator.py
+
+""" Example 3 """
+# my_object = annotator.find_keyword(sample, 'endemic')
+# print(my_object)
 
 
-my_object = annotator.find_keyword2(sample, 'endemic')
-
-print(my_object)
-print(my_object['id'])
 
 
-
-"""
+""" Example 4 """
 label = 'endemic'
 
-x = re.search(rf"\b(?!>){label}\b(?!<)", text, re.IGNORECASE)
-print(x)
-print(x.start())
-print(x.end())
+# x = re.search(rf"\b(?!>){label}\b(?!<)", text, re.IGNORECASE)
+# print(x)
+# print(x.start())
+# print(x.end())
 
-num_character = 20
+# num_character = 20
 
-start1 = x.start() - num_character
-start2 = x.start()
-start1 = max(0, start1) # no negative
+# start1 = x.start() - num_character
+# start2 = x.start()
+# start1 = max(0, start1) # no negative
 
-end1 = x.end()
-end2 = x.end() + num_character
+# end1 = x.end()
+# end2 = x.end() + num_character
 
-prefix = text[start1:start2]
-suffix = text[end1:end2]
+# prefix = text[start1:start2]
+# suffix = text[end1:end2]
 
-print('prefix: ', prefix)
+# print('prefix: ', prefix)
 
-print('exact: ', label)
+# print('exact: ', label)
 
-print('suffix: ', suffix)
-"""
+# print('suffix: ', suffix)
