@@ -65,7 +65,21 @@ class Annotator:
             else:
                 break
         self.abstract = text
-        print("find_keyword executed")
+        print('find_keyword executed for', label)
+
+    def find_keyword2(self, text, label):
+        """ annotate all occurences of a label """
+        print(label) 
+        x = re.search(rf"\b(?!>){label}\b(?!<)", text, re.IGNORECASE)
+        if x:
+            start = x.start()
+            second_start = len(label) + start
+            wrapper= self.create_wrapper(label)
+            print(x.span())
+            text = text[:start] + wrapper + text[second_start:]
+            return self.create_output()
+            print(text)
+            print(x)
         
     def find_abstracts(self, keyword):
         """  returns ids of abstracts found"""
@@ -97,16 +111,16 @@ class Annotator:
         save = self.save_annotation()
         pass
     
-    def create_output(self, idstamp, value):
-        
+    def create_output(self, label):
+        # print(self.abstract_id)
+        # print(self.abstract)
+        has_body = True
         if has_body:
             return {
-                 {
                     "@context": "http://www.w3.org/ns/anno.jsonld",
                     "id": "covid19-3f0156a4-1e5f-4ea4-9585-60ff4f531fc1",
                     "type": "Annotation",
                     "motivation": "describing",
-
                     "target": {
                         "source": "http://example.org/Emblem004.html",
                         "selector": {
@@ -114,14 +128,12 @@ class Annotator:
                             "value": "div#covid19-3f0156a4-1e5f-4ea4-9585-60ff4f531fc1"
                         }
                     },
-
                     "body": {
                         "type": "TextualBody",
-                        "value": "Amygdala is the integrative center for emotions, emotional behavior, and motivation. If the brain is turned upside down the end of the structure continuous with the hippocampus is called the uncus. If you peel away uncus you will expose the amygdala which abuts the anterior of the hippocampus.",
+                        "value": label,
                         "format": "text/plain",
                         "language": "la"
                     },
-
                     "created": "2017-01-26T17:30:04.639Z",
                     "creator": {
                         "type": "Person",
@@ -129,9 +141,9 @@ class Annotator:
                         "name": "Mara"
                     }
                 }
-            }
+            
         else:
-            {
+           return {
                     "@context": "http://www.w3.org/ns/anno.jsonld",
                     "id": "anno-01",
                     "type": "Annotation",
@@ -152,13 +164,11 @@ class Annotator:
                     }
                 }
             
-        
-        
+                
 annotator = Annotator()
 
 abstract_id = "10203040"
-sample = """
-Recently, endemic novel coronavirus is an endemic global issue and having a negative
+sample = """Endemic is an endemic solution. novel coronavirus is an endemdic. global issue and having a negative
 impact on the economy of the whole world. Like other countries, it also effected the economy and people of Pakistan. According to the publicly reported
 data, the first case of novel corona virus in Pakistan was reported on 27th
 February 2020. The aim of the present study is to describe the mathematical
@@ -166,16 +176,54 @@ model and dynamics of COVID-19 in Pakistan. To investigate the spread of coronav
 developed fractional operator of Atangana-Baleanu. We present briefly the analysis of the given model and discuss its applications using world health organization (WHO) reported data for Pakistan. We consider the available infection cases from 19th March 2020, till 31st March 2020 and accordingly, various parameters are fitted or estimated. It is worth noting that we have calculated the basic reproduction number [Formula: see text] which shows that virus is spreading rapidly. Furthermore, stability analysis of the model at disease free equilibrium DFE and endemic equilibriums EE is performed to observe the dynamics and transmission of the model. Finally, the AB fractional model is solved numerically. To show the effect of the various embedded parameters like fractional parameter [Formula: see text] on the model, various graphs are plotted. It is worth noting that the base of our investigation, we have predicted basic reproduction number the spread of disease for next 200 days a endemic.
 """
 
+"""
 print(annotator.create_annotation(abstract_id, sample))
+"""
 
 # print(annotator.abstract)
 
 # annotator.find_keyword(sample, "endemic")
 
 
-all_articles = article.objects.all()[:10]
-
+"""
+all_articles = article.objects.all()[:100]
 for article in all_articles:
     print(article.abstract)
     if article.abstract != None:
         print(annotator.create_annotation(abstract_id, article.abstract))
+"""
+
+
+my_object = annotator.find_keyword2(sample, 'endemic')
+
+print(my_object)
+print(my_object['id'])
+
+
+
+"""
+label = 'endemic'
+
+x = re.search(rf"\b(?!>){label}\b(?!<)", text, re.IGNORECASE)
+print(x)
+print(x.start())
+print(x.end())
+
+num_character = 20
+
+start1 = x.start() - num_character
+start2 = x.start()
+start1 = max(0, start1) # no negative
+
+end1 = x.end()
+end2 = x.end() + num_character
+
+prefix = text[start1:start2]
+suffix = text[end1:end2]
+
+print('prefix: ', prefix)
+
+print('exact: ', label)
+
+print('suffix: ', suffix)
+"""
