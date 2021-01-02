@@ -4,6 +4,9 @@ from ontologies.models import Ontology
 from datetime import datetime
 import re
 import uuid
+from db import Database
+
+
 
 class Annotator:
     article_id = "0"
@@ -11,6 +14,7 @@ class Annotator:
     slug = 'articles'
     abstract = ''
     ontologies =  []
+    ontology = None
 
 
     def __init__(self):
@@ -48,9 +52,11 @@ class Annotator:
         # start for loop for ontologies objects
         for ontology in ontologies:
             label = ontology.label
+            
             abstract = self.abstract 
             found = abstract.find(label) # return an index number for label found
             if ( found != -1):
+                self.ontology = ontology
                 abstract = annotator.find_keyword(abstract, label)
     
     def find_keyword_alt(self, text, label):
@@ -148,6 +154,8 @@ class Annotator:
 
         print(annotation)
 
+        Database.insert('annotations', annotation)
+
         return annotation
     
     def create_output_alt(self, label, idstamp):
@@ -216,13 +224,24 @@ class Annotator:
             pass
     
     def create_annotation_body(self, label):
+            body = []
+
+            rdfs_label = {'label': label }
+            body.append(rdfs_label)
+
+            class_id = {'rdfs:Class': self.ontology.class_id }
+            body.append(class_id)
+            
+            if len(self.ontology.parent_id) > 0:
+                parent = {'rdfs:subClassOf': self.ontology.parent_id}
+                body.append(parent)
+
+            if self.ontology.definition != None:
+                parent = {'obo:IAO_0000115': self.ontology.definition}
+                body.append(parent)
+
             return {
-                "body": {
-                        "type": "TextualBody",
-                        "value": label,
-                        "format": "text/plain",
-                        "language": "en"
-                    },
+                "body": body
             }
             
     def create_annotation_footer(self):
@@ -254,12 +273,12 @@ print(annotator.create_annotation(abstract_id, sample))
 
 
 """ Example #2 """
-all_articles = article.objects.all()[:5]
+all_articles = article.objects.all()[:10]
 for article in all_articles:
     # print(article.abstract)
     if article.abstract != None:
-        annotator.create_annotation(abstract_id, article.abstract)
-        print(annotator.abstract)
+        annotator.create_annotation(article.pubmed_id, article.abstract)
+        # print(annotator.abstract)
         
 
 # python ./utils/Annotator.py
