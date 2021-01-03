@@ -26,6 +26,13 @@ DATABASES = {
             "password": "dbpassworddolphin",
             "authMechanism": "SCRAM-SHA-1",
         }
+    },
+    'annotations': {
+        "name": "dolphin",
+            "host": "mongodb+srv://new_user_587:nXxoVnTlNcva3Mro@cluster0.hngug.mongodb.net/annotations?retryWrites=true&w=majority",
+            "username": "new_user_587",
+            "password": "nXxoVnTlNcva3Mro",
+            "authMechanism": "SCRAM-SHA-1",
     }
 }
 
