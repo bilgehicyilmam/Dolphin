@@ -8,7 +8,7 @@ from db import Database
 
 
 
-class Annotator:
+class Annotation:
     article_id = "0"
     site_name = 'https://www.covidsearch.com'
     slug = 'articles'
