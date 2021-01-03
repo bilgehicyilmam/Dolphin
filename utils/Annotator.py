@@ -261,7 +261,7 @@ print(annotator.create_annotation(abstract_id, sample))
 # annotator.find_keyword(sample, "endemic")
 
 """ Example #2 """
-all_articles = article.objects.all()[:100]
+all_articles = article.objects.all()[:10]
 for article in all_articles:
     # print(article.abstract)
     if article.abstract != None:
