@@ -25,6 +25,8 @@ def all_articles(request):
     context = {}
     for i in range(30):
         context["articles_"+str(i)] = request.session.get("articles_"+str(i))
+        context["q_"+str(i)] = request.session.get("q_"+str(i))
+        context["total_count_"+str(i)] = request.session.get("total_count_"+str(i))
     return render(request, "all_articles.html", context)
 
 
@@ -98,7 +100,7 @@ def dimensional_search(request):
                               {"title": {"$regex": c, "$options": 'i'}},
                               {"title": {"$regex": d, "$options": 'i'}}]}
                 ]
-            }).limit(10)
+            })
 
             total_count = collection.count_documents({
                 "$or": [
@@ -114,17 +116,22 @@ def dimensional_search(request):
             })
 
             context["total_count_"+str(index)] = total_count
+            request.session["total_count_"+str(index)] = total_count
             if a != b and a != c and a != d:
                 context["q_" + str(index)] = [a, b, c, d]
+                request.session["q_" + str(index)] = [a, b, c, d]
 
             if a == b and a == c and a == d:
                 context["q_" + str(index)] = [a]
+                request.session["q_" + str(index)] = [a]
 
             if a == c and a == d and a != b:
                 context["q_" + str(index)] = [a, b]
+                request.session["q_" + str(index)] = [a, b]
 
             if a == d and a != c:
                 context["q_" + str(index)] = [a, b, c]
+                request.session["q_" + str(index)] = [a, b, c]
 
 
             for item in articles:
@@ -132,6 +139,7 @@ def dimensional_search(request):
 
             context["articles_" + str(index)] = my_array
             request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+            my_array.clear()
             index += 1
 
         if len(queries_1) > 1:
@@ -163,7 +171,7 @@ def dimensional_search(request):
                                   {"title": {"$regex": c, "$options": 'i'}},
                                   {"title": {"$regex": d, "$options": 'i'}}]}
                     ]
-                }).limit(10)
+                })
 
                 total_count = collection.count_documents({
                     "$or": [
@@ -181,15 +189,19 @@ def dimensional_search(request):
                 context["total_count_" + str(index)] = total_count
                 if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
+                    request.session["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
+                    request.session["q_" + str(index)] = [a]
 
                 if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
+                    request.session["q_" + str(index)] = [a, b]
 
                 if a == d and a != c:
                     context["q_" + str(index)] = [a, b, c]
+                    request.session["q_" + str(index)] = [a, b, c]
 
 
                 for item in articles:
@@ -197,6 +209,7 @@ def dimensional_search(request):
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+                my_array.clear()
                 index += 1
 
         if len(queries_2) > 1:
@@ -228,7 +241,7 @@ def dimensional_search(request):
                                   {"title": {"$regex": c, "$options": 'i'}},
                                   {"title": {"$regex": d, "$options": 'i'}}]}
                     ]
-                }).limit(10)
+                })
 
                 total_count = collection.count_documents({
                     "$or": [
@@ -246,15 +259,19 @@ def dimensional_search(request):
                 context["total_count_" + str(index)] = total_count
                 if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
+                    request.session["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
+                    request.session["q_" + str(index)] = [a]
 
                 if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
+                    request.session["q_" + str(index)] = [a, b]
 
                 if a == d and a != c:
                     context["q_" + str(index)] = [a, b, c]
+                    request.session["q_" + str(index)] = [a, b, c]
 
 
                 for item in articles:
@@ -262,6 +279,7 @@ def dimensional_search(request):
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+                my_array.clear()
                 index += 1
 
         if len(queries_1) > 1:
@@ -293,7 +311,7 @@ def dimensional_search(request):
                                   {"title": {"$regex": c, "$options": 'i'}},
                                   {"title": {"$regex": d, "$options": 'i'}}]}
                     ]
-                }).limit(10)
+                })
 
                 total_count = collection.count_documents({
                     "$or": [
@@ -311,15 +329,19 @@ def dimensional_search(request):
                 context["total_count_" + str(index)] = total_count
                 if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
+                    request.session["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
+                    request.session["q_" + str(index)] = [a]
 
                 if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
+                    request.session["q_" + str(index)] = [a, b]
 
                 if a == d and a != c:
                     context["q_" + str(index)] = [a, b, c]
+                    request.session["q_" + str(index)] = [a, b, c]
 
 
                 for item in articles:
@@ -327,6 +349,7 @@ def dimensional_search(request):
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+                my_array.clear()
                 index += 1
 
 
@@ -359,7 +382,7 @@ def dimensional_search(request):
                                   {"title": {"$regex": c, "$options": 'i'}},
                                   {"title": {"$regex": d, "$options": 'i'}}]}
                     ]
-                }).limit(10)
+                })
 
                 total_count = collection.count_documents({
                     "$or": [
@@ -377,15 +400,19 @@ def dimensional_search(request):
                 context["total_count_" + str(index)] = total_count
                 if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
+                    request.session["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
+                    request.session["q_" + str(index)] = [a]
 
                 if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
+                    request.session["q_" + str(index)] = [a, b]
 
                 if a == d and a != c:
                     context["q_" + str(index)] = [a, b, c]
+                    request.session["q_" + str(index)] = [a, b, c]
 
 
                 for item in articles:
@@ -393,6 +420,7 @@ def dimensional_search(request):
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+                my_array.clear()
                 index += 1
 
         if len(queries_1) > 1:
@@ -424,7 +452,7 @@ def dimensional_search(request):
                                   {"title": {"$regex": c, "$options": 'i'}},
                                   {"title": {"$regex": d, "$options": 'i'}}]}
                     ]
-                }).limit(10)
+                })
 
                 total_count = collection.count_documents({
                     "$or": [
@@ -442,24 +470,27 @@ def dimensional_search(request):
                 context["total_count_" + str(index)] = total_count
                 if a != b and a != c and a != d:
                     context["q_" + str(index)] = [a, b, c, d]
+                    request.session["q_" + str(index)] = [a, b, c, d]
 
                 if a == b and a == c and a == d:
                     context["q_" + str(index)] = [a]
+                    request.session["q_" + str(index)] = [a]
 
                 if a == c and a == d and a != b:
                     context["q_" + str(index)] = [a, b]
+                    request.session["q_" + str(index)] = [a, b]
 
                 if a == d and a != c:
                     context["q_" + str(index)] = [a, b, c]
-
+                    request.session["q_" + str(index)] = [a, b, c]
 
                 for item in articles:
                     my_array.append(item)
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+                my_array.clear()
                 index += 1
-
 
     return render(request, "dimension.html", {'context': context})
 

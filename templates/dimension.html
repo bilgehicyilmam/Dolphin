@@ -1,4 +1,6 @@
 {% extends 'main.html' %}
+{%  load static %}
+
 
 {% block content %}
 
@@ -102,7 +104,9 @@
                 <th>Number of Articles Found</th>
             </tr>
 
-            <tr id="q0"></tr>
+            {% if context.q_0 %}
+                 <tr id="q0"></tr>
+            {% endif %}
 
             {% if context.q_1 != context.q_0 %}
             <tr id="q1"></tr>
@@ -179,59 +183,93 @@
         $('#moreField .inputs_dim').last().remove();
     }
 
+
+
     const q0 = document.getElementById("q0");
-    q0.innerHTML = `<td>{{ context.q_0 }}</td>
-         <td id="q_0"><a href={% url "all_articles" %}>{{ context.total_count_0 }}</a></td>`
+    if(q0 !== null){
+         q0.innerHTML = `<td>{{ context.q_0 }}</td>
+         <td id="q0_"><a href={% url "all_articles" %}?dim=0>{{ context.total_count_0 }}</a></td>`
+    }
 
     const q1 = document.getElementById("q1");
+    if(q1 !== null){
     q1.innerHTML = `<td>{{ context.q_1 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_1 }}</a></td>`
+                <td id="q1_"><a href={% url "all_articles" %}?dim=1>{{ context.total_count_1 }}</a></td>`
+     }
 
     const q2 = document.getElementById("q2");
+    if(q2 !== null){
     q2.innerHTML = `<td>{{ context.q_2 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_2 }}</a></td>`
+                <td id="q2_"><a href={% url "all_articles" %}?dim=2>{{ context.total_count_2 }}</a></td>`
+    }
 
     const q3 = document.getElementById("q3");
+    if(q3 !== null){
     q3.innerHTML = `<td>{{ context.q_3 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_3 }}</a></td>`
+                <td id="q3_"><a href={% url "all_articles" %}?dim=3>{{ context.total_count_3 }}</a></td>`
+    }
 
     const q4 = document.getElementById("q4");
+    if(q4 !== null){
     q4.innerHTML = `<td>{{ context.q_4 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_4 }}</a></td>`
+                <td id="q4_"><a href={% url "all_articles" %}?dim=4>{{ context.total_count_4 }}</a></td>`
+    }
 
     const q5 = document.getElementById("q5");
+    if(q5 !== null){
     q5.innerHTML = `<td>{{ context.q_5 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_5 }}</a></td>`
+                <td id="q5_"><a href={% url "all_articles" %}?dim=5>{{ context.total_count_5 }}</a></td>`
+    }
 
     const q6 = document.getElementById("q6");
+    if(q6 !== null){
     q6.innerHTML = `<td>{{ context.q_6 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_6 }}</a></td>`
+                <td id="q6_"><a href={% url "all_articles" %}?dim=6>{{ context.total_count_6 }}</a></td>`
+    }
 
     const q7 = document.getElementById("q7");
+    if(q7 !== null){
     q7.innerHTML = `<td>{{ context.q_7 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_7 }}</a></td>`
+                <td id="q7_"><a href={% url "all_articles" %}?dim=7>{{ context.total_count_7 }}</a></td>`
+    }
 
     const q8 = document.getElementById("q8");
+    if(q8 !== null){
     q8.innerHTML = `<td>{{ context.q_8 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_8 }}</a></td>`
+                <td id="q8_"><a href={% url "all_articles" %}?dim=8>{{ context.total_count_8 }}</a></td>`
+    }
 
     const q9 = document.getElementById("q9");
+    if(q9 !== null){
     q9.innerHTML = `<td>{{ context.q_9 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_9 }}</a></td>`
+                <td id="q9_"><a href={% url "all_articles" %}?dim=9>{{ context.total_count_9 }}</a></td>`
+    }
 
     const q10 = document.getElementById("q10");
+    if(q10 !== null){
     q10.innerHTML = `<td>{{ context.q_10 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_10 }}</a></td>`
+                <td id="q10_"><a href={% url "all_articles" %}?dim=10>{{ context.total_count_10 }}</a></td>`
+    }
 
     const q11 = document.getElementById("q11");
+    if(q11 !== null){
     q11.innerHTML = `<td>{{ context.q_11 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_11 }}</a></td>`
+                <td id="q11_"><a href={% url "all_articles" %}?dim=11>{{ context.total_count_11 }}</a></td>`
+    }
 
     const q12 = document.getElementById("q12");
+    if(q12 !== null){
     q12.innerHTML = `<td>{{ context.q_12 }}</td>
-                <td><a href={% url "all_articles" %}>{{ total_count_12 }}</a></td>`
-
+                <td id="q12_"><a href={% url "all_articles" %}?dim=12>{{ total_count_12 }}</a></td>`
+    }
 
     </script>
+    <script src="{% static '/js/app.js' %}"></script>
+
+
+
+
+
+
 
 {% endblock  %}
