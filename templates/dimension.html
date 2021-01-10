@@ -101,80 +101,56 @@
                 <th>Queries</th>
                 <th>Number of Articles Found</th>
             </tr>
-            <tr>
-                <td>{{ context.q_0 }}</td>
-                <td><a href={% url "all_articles" %}>{{ context.total_count_0 }}</a></td>
-            </tr>
+
+            <tr id="q0"></tr>
+
             {% if context.q_1 != context.q_0 %}
-            <tr>
-                <td>{{ context.q_1 }}</td>
-                <td>{{ context.total_count_1 }}</td>
-            </tr>
+            <tr id="q1"></tr>
             {% endif %}
 
             {% if context.q_2 != context.q_0 and  context.q_2 != context.q_1 %}
-            <tr>
-                <td>{{ context.q_2 }}</td>
-                <td>{{ context.total_count_2 }}</td>
-            </tr>
+            <tr id="q2"></tr>
             {% endif %}
 
             {% if context.q_3 != context.q_0 and context.q_3 != context.q_2 and context.q_3 != context.q_1 %}
-            <tr>
-                <td>{{ context.q_3 }}</td>
-                <td>{{ context.total_count_3 }}</td>
-            </tr>
+            <tr id="q3"></tr>
             {% endif %}
 
             {% if context.q_4 != context.q_3 and context.q_4 != context.q_2 and context.q_4 != context.q_1 and context.q_4 != context.q_0 %}
-            <tr>
-                <td>{{ context.q_4 }}</td>
-                <td>{{ context.total_count_4 }}</td>
-            </tr>
+            <tr id="q4"></tr>
             {% endif %}
 
             {% if context.q_5 != context.q_4 and context.q_5 != context.q_3 and context.q_5 != context.q_2 and context.q_5 != context.q_1 and context.q_5 != context.q_0 %}
-            <tr>
-                <td>{{ context.q_5 }}</td>
-                <td>{{ context.total_count_5 }}</td>
-            </tr>
+            <tr id="q5"></tr>
             {% endif %}
 
             {% if context.q_6 != context.q_5 and context.q_6 != context.q_4 and context.q_6 != context.q_3 and context.q_6 != context.q_2 and context.q_6 != context.q_1 and context.q_6 != context.q_0 %}
-            <tr>
-                <td>{{ context.q_6 }}</td>
-                <td>{{ context.total_count_6 }}</td>
-            </tr>
+            <tr id="q6"></tr>
             {% endif %}
 
             {% if context.q_7 != context.q_6 and context.q_7 != context.q_5 and context.q_7 != context.q_4 and context.q_7 != context.q_3 and context.q_7 != context.q_2 and context.q_7 != context.q_1 and context.q_7 != context.q_0 %}
-            <tr>
-                <td>{{ context.q_7 }}</td>
-                <td>{{ context.total_count_7 }}</td>
-            </tr>
+            <tr id="q7"></tr>
             {% endif%}
-           {% if context.q_8 != context.q_7 and context.q_8 != context.q_6 and context.q_8 != context.q_5 and context.q_8 != context.q_4 and context.q_8 != context.q_3 and context.q_8 != context.q_2 and context.q_8 != context.q_1 and context.q_8 != context.q_0 %}
-            <tr>
-                <td>{{ context.q_8 }}</td>
-                <td>{{ context.total_count_8 }}</td>
-            </tr>
-          {% endif %}
-            <tr>
-                <td>{{ context.q_9 }}</td>
-                <td>{{ context.total_count_9 }}</td>
-            </tr>
-            <tr>
-                <td>{{ context.q_10 }}</td>
-                <td>{{ context.total_count_10 }}</td>
-            </tr>
-            <tr>
-                <td>{{ context.q_11 }}</td>
-                <td>{{ context.total_count_11 }}</td>
-            </tr>
-            <tr>
-                <td>{{ context.q_12 }}</td>
-                <td>{{ total_count_12 }}</td>
-            </tr>
+
+            {% if context.q_8 != context.q_7 and context.q_8 != context.q_6 and context.q_8 != context.q_5 and context.q_8 != context.q_4 and context.q_8 != context.q_3 and context.q_8 != context.q_2 and context.q_8 != context.q_1 and context.q_8 != context.q_0 %}
+            <tr id="q8"></tr>
+            {% endif %}
+
+            {% if context.q_9 != context.q_8 and context.q_9 != context.q_7 and context.q_9 != context.q_6 and context.q_9 != context.q_5 and context.q_9 != context.q_4 and context.q_9 != context.q_3 and context.q_9 != context.q_2 and context.q_9 != context.q_1 and context.q_9 != context.q_0 %}
+            <tr id="q9"></tr>
+            {% endif %}
+
+            {% if context.q_10 != context.q_9 and context.q_10 != context.q_8 and context.q_10 != context.q_7 and context.q_10 != context.q_6 and context.q_10 != context.q_5 and context.q_10 != context.q_4 and context.q_10 != context.q_3 and context.q_10 != context.q_2 and context.q_10 != context.q_1 and context.q_10 != context.q_0 %}
+            <tr id="q10"></tr>
+            {% endif %}
+
+            {% if context.q_11 != context.q_10 and context.q_11 != context.q_9 and context.q_11 != context.q_8 and context.q_11 != context.q_7 and context.q_11 != context.q_6 and context.q_11 != context.q_5 and context.q_11 != context.q_4 and context.q_11 != context.q_3 and context.q_11 != context.q_2 and context.q_11 != context.q_1 and context.q_11 != context.q_0 %}
+            <tr id="q11"></tr>
+            {% endif %}
+
+            {% if context.q_12 != context.q_11 and context.q_12 != context.q_10 and context.q_12 != context.q_9 and context.q_12 != context.q_8 and context.q_12 != context.q_7 and context.q_12 != context.q_6 and context.q_12 != context.q_5 and context.q_12 != context.q_4 and context.q_12 != context.q_3 and context.q_12 != context.q_2 and context.q_12 != context.q_1 and context.q_12 != context.q_0 %}
+            <tr id="q12"></tr>
+            {% endif %}
 
         </table>
 
@@ -202,6 +178,59 @@
     function removeField(){
         $('#moreField .inputs_dim').last().remove();
     }
+
+    const q0 = document.getElementById("q0");
+    q0.innerHTML = `<td>{{ context.q_0 }}</td>
+         <td id="q_0"><a href={% url "all_articles" %}>{{ context.total_count_0 }}</a></td>`
+
+    const q1 = document.getElementById("q1");
+    q1.innerHTML = `<td>{{ context.q_1 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_1 }}</a></td>`
+
+    const q2 = document.getElementById("q2");
+    q2.innerHTML = `<td>{{ context.q_2 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_2 }}</a></td>`
+
+    const q3 = document.getElementById("q3");
+    q3.innerHTML = `<td>{{ context.q_3 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_3 }}</a></td>`
+
+    const q4 = document.getElementById("q4");
+    q4.innerHTML = `<td>{{ context.q_4 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_4 }}</a></td>`
+
+    const q5 = document.getElementById("q5");
+    q5.innerHTML = `<td>{{ context.q_5 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_5 }}</a></td>`
+
+    const q6 = document.getElementById("q6");
+    q6.innerHTML = `<td>{{ context.q_6 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_6 }}</a></td>`
+
+    const q7 = document.getElementById("q7");
+    q7.innerHTML = `<td>{{ context.q_7 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_7 }}</a></td>`
+
+    const q8 = document.getElementById("q8");
+    q8.innerHTML = `<td>{{ context.q_8 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_8 }}</a></td>`
+
+    const q9 = document.getElementById("q9");
+    q9.innerHTML = `<td>{{ context.q_9 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_9 }}</a></td>`
+
+    const q10 = document.getElementById("q10");
+    q10.innerHTML = `<td>{{ context.q_10 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_10 }}</a></td>`
+
+    const q11 = document.getElementById("q11");
+    q11.innerHTML = `<td>{{ context.q_11 }}</td>
+                <td><a href={% url "all_articles" %}>{{ context.total_count_11 }}</a></td>`
+
+    const q12 = document.getElementById("q12");
+    q12.innerHTML = `<td>{{ context.q_12 }}</td>
+                <td><a href={% url "all_articles" %}>{{ total_count_12 }}</a></td>`
+
 
     </script>
 
