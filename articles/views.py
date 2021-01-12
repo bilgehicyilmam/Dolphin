@@ -90,28 +90,28 @@ def dimensional_search(request):
 
             articles = collection.find({
                 "$or": [
-                    {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                              {"abstract": {"$regex": b, "$options": 'i'}},
-                              {"abstract": {"$regex": c, "$options": 'i'}},
-                              {"abstract": {"$regex": d, "$options": 'i'}}]},
+                    {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                              {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                              {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                              {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
 
-                    {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                              {"title": {"$regex": b, "$options": 'i'}},
-                              {"title": {"$regex": c, "$options": 'i'}},
-                              {"title": {"$regex": d, "$options": 'i'}}]}
+                    {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                              {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                              {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                              {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                 ]
             })
 
             total_count = collection.count_documents({
                 "$or": [
-                    {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                              {"abstract": {"$regex": b, "$options": 'i'}},
-                              {"abstract": {"$regex": c, "$options": 'i'}},
-                              {"abstract": {"$regex": d, "$options": 'i'}}]},
-                    {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                              {"title": {"$regex": b, "$options": 'i'}},
-                              {"title": {"$regex": c, "$options": 'i'}},
-                              {"title": {"$regex": d, "$options": 'i'}}]}
+                    {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                              {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                              {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                              {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                    {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                              {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                              {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                              {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                 ]
             })
 
@@ -161,28 +161,28 @@ def dimensional_search(request):
 
                 articles = collection.find({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
 
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
                 total_count = collection.count_documents({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
@@ -231,28 +231,28 @@ def dimensional_search(request):
 
                 articles = collection.find({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
 
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
                 total_count = collection.count_documents({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
@@ -301,28 +301,28 @@ def dimensional_search(request):
 
                 articles = collection.find({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
 
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
                 total_count = collection.count_documents({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
@@ -372,28 +372,28 @@ def dimensional_search(request):
 
                 articles = collection.find({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
 
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
                 total_count = collection.count_documents({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
@@ -442,28 +442,28 @@ def dimensional_search(request):
 
                 articles = collection.find({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
 
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
                 total_count = collection.count_documents({
                     "$or": [
-                        {"$and": [{"abstract": {"$regex": a, "$options": 'i'}},
-                                  {"abstract": {"$regex": b, "$options": 'i'}},
-                                  {"abstract": {"$regex": c, "$options": 'i'}},
-                                  {"abstract": {"$regex": d, "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": a, "$options": 'i'}},
-                                  {"title": {"$regex": b, "$options": 'i'}},
-                                  {"title": {"$regex": c, "$options": 'i'}},
-                                  {"title": {"$regex": d, "$options": 'i'}}]}
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
                     ]
                 })
 
