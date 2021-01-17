@@ -19,6 +19,7 @@ def home(request):
     context = {"total_articles": total_articles}
     return render(request, "articles.html", context)
 
+import datetime
 
 def all_articles(request):
 
@@ -27,6 +28,32 @@ def all_articles(request):
         context["articles_"+str(i)] = request.session.get("articles_"+str(i))
         context["q_"+str(i)] = request.session.get("q_"+str(i))
         context["total_count_"+str(i)] = request.session.get("total_count_"+str(i))
+
+
+
+    for i in range(30):
+        dates = []
+        articles = {}
+        thearticles = context["articles_" + str(i)]
+        if thearticles is not None:
+            for item in thearticles:
+                date = item["publication_date"]
+                date = list(date.values())[0]
+                s = str(date)
+                date = int(s[:10])
+                date = datetime.datetime.fromtimestamp(date).strftime("%Y, %B")
+                dates.append(date)
+                if date in articles.keys():
+                    articles[date].append(item)
+                else:
+                    articles[date] = []
+                    articles[date].append(item)
+
+            context["articles" + str(i)] = articles
+            label = {i: dates.count(i) for i in dates}
+            context["labels_" + str(i)] = list(label.keys())
+            context["counts_" + str(i)] = list(label.values())
+
     return render(request, "all_articles.html", context)
 
 
@@ -498,8 +525,36 @@ def dimensional_search(request):
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
+import datetime
 
 
+def chart(request):
+
+    context = {}
+    for i in range(30):
+        context["articles_"+str(i)] = request.session.get("articles_"+str(i))
+
+    data = []
+    labels = []
+
+
+    for i in range(2):
+
+        dates = []
+        context["thearticles_" + str(i)] = context["articles_" + str(i)]
+        for item in context["articles_" + str(i)]:
+            date = item["publication_date"]
+            year = date.year
+            month = date.month
+            the_date = str(year) + ", " + str(month)
+            dates.append(the_date)
+
+        my_dict = {i: dates.count(i) for i in dates}
+        context.labels = labels
+
+        context["all_" + str(i)] = my_dict
+
+    return render(request, "chart.html", context)
 
 
 
