@@ -4,62 +4,246 @@
 
 {% block content %}
 
-    <div id="q_0" style="display:none">
-        {% for article in articles_0 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+    <div style="margin-left: 2%; margin-top: 5%; position:relative;">
 
-    <div id="q_1" style="display:none">
-        {% for article in articles_1 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+        <div style="margin-right: 3%">
+           <div id="container" style="width: 30%; height: 30%;">
+                <canvas id="chart"></canvas>
+           </div>
+        </div>
 
-    <div id="q_2" style="display:none">
-        {% for article in articles_2 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+        <div style=" margin-top: 1%; position:relative;">
 
-    <div id="q_3" style="display:none">
-        {% for article in articles_3 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_0" style="display:none">
+                {% for article in articles_0 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
 
-    <div id="q_4" style="display:none">
-        {% for article in articles_4 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_1" style="display:none">
+                {% for article in articles_1 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
 
-    <div id="q_5" style="display:none">
-        {% for article in articles_5 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_2" style="display:none">
+                {% for article in articles_2 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
 
-    <div id="q_6" style="display:none">
-        {% for article in articles_6 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_3" style="display:none">
+                {% for article in articles_3 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
 
-    <div id="q_7" style="display:none">
-        {% for article in articles_7 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_4" style="display:none">
+                {% for article in articles_4 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
 
-    <div id="q_8" style="display:none">
-        {% for article in articles_8 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_5" style="display:none">
+                {% for article in articles_5 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
 
-    <div id="q_9" style="display:none">
-        {% for article in articles_9 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_6" style="display:none">
+                {% for article in articles_6 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
 
-    <div id="q_10" style="display:none">
-        {% for article in articles_10 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_7" style="display:none">
+                {% for article in articles_7 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
 
-    <div id="q_11" style="display:none">
-        {% for article in articles_11 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_8" style="display:none">
+                {% for article in articles_8 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
 
-    <div id="q_12" style="display:none">
-        {% for article in articles_12 %} {{ article.pubmed_id }} {% endfor %}
-    </div>
+            <div id="q_9" style="display:none">
+                {% for article in articles_9 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
+
+            <div id="q_10" style="display:none">
+                {% for article in articles_10 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
+
+            <div id="q_11" style="display:none">
+                {% for article in articles_11 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
+
+            <div id="q_12" style="display:none">
+                {% for article in articles_12 %} {{ article.pubmed_id }} {% endfor %}
+            </div>
+        </div>
+
+</div>
+
 
 
 
 <script  src="{% static '/js/app.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<script>
+
+
+
+
+        var data1 = {
+            "labels": {{ labels_0|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_0|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+        var data2 = {
+            "labels": {{ labels_1|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_1|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+        var data3 = {
+            "labels": {{ labels_2|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_2|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+        var data4 = {
+            "labels": {{ labels_3|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_3|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+        var data5 = {
+            "labels": {{ labels_4|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_4|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+        var data6 = {
+            "labels": {{ labels_5|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_5|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+        var data7 = {
+            "labels": {{ labels_6|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_6|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+        var data8 = {
+            "labels": {{ labels_7|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_7|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+        var data9 = {
+            "labels": {{ labels_8|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_8|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+        var data10 = {
+            "labels": {{ labels_9|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ counts_9|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var canvas = document.getElementById('chart')
+        var ctx = canvas.getContext('2d');
+        var config = {
+            type: 'bar',
+            data: data1,
+            options: {
+                responsive: true,
+            }
+        };
+        var myPie = new Chart(ctx, config);
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const dim = urlParams.get('dim')
+
+        if (dim == 0) {
+            config.data = data1
+        }
+
+        if (dim == 1) {
+            config.data = data2
+        }
+
+        if (dim == 2) {
+            config.data = data3
+        }
+
+        if (dim == 3) {
+            config.data = data4
+        }
+
+        if (dim == 4) {
+            config.data = data5
+        }
+
+        if (dim == 5) {
+            config.data = data6
+        }
+
+        if (dim == 6) {
+            config.data = data7
+        }
+
+        if (dim == 7) {
+            config.data = data8
+        }
+
+        if (dim == 8) {
+            config.data = data9
+        }
+
+        if (dim == 9) {
+            config.data = data10
+        }
+
+
+
+
+
+
+</script>
 
 {% endblock %}
 

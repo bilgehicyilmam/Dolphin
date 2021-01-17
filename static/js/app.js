@@ -1,4 +1,6 @@
 
+
+
 window.onload = function (){
 
     const queryString = window.location.search;
@@ -11,6 +13,7 @@ window.onload = function (){
     const q_ = document.getElementById(element); // results
     q_.style.display = "block";
     console.log(dim);
+
 
     //
     // if(dim == 1){
