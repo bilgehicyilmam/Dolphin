@@ -28,6 +28,7 @@ def home(request):
     return render(request, "articles.html", context)
 
 import datetime
+import pycountry
 
 def all_articles(request):
 
@@ -37,10 +38,9 @@ def all_articles(request):
         context["q_"+str(i)] = request.session.get("q_"+str(i))
         context["total_count_"+str(i)] = request.session.get("total_count_"+str(i))
 
-
-
     for i in range(30):
         dates = []
+        theCountries = []
         articles = {}
         thearticles = context["articles_" + str(i)]
         if thearticles is not None:
@@ -51,19 +51,28 @@ def all_articles(request):
                 date = int(s[:10])
                 date = datetime.datetime.fromtimestamp(date).strftime("%Y, %B")
                 dates.append(date)
-                if date in articles.keys():
-                    articles[date].append(item)
-                else:
-                    articles[date] = []
-                    articles[date].append(item)
 
+                # if date in articles.keys():
+                #     articles[date].append(item)
+                # else:
+                #     articles[date] = []
+                #     articles[date].append(item)
+
+                authors = item["authors"]
+                for country in list(pycountry.countries):
+                    if country.name in authors:
+                        theCountries.append(country.name)
+
+            country_labels = {i: theCountries.count(i) for i in theCountries}
+            context["country_labels_" + str(i)] = list(country_labels.keys())
+            context["country_counts_" + str(i)] = list(country_labels.values())
             context["articles" + str(i)] = articles
+
             label = {i: dates.count(i) for i in dates}
             context["labels_" + str(i)] = list(label.keys())
             context["counts_" + str(i)] = list(label.values())
 
     return render(request, "all_articles.html", context)
-
 
 def reqs(request):
 
