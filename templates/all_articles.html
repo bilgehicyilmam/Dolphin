@@ -12,6 +12,12 @@
            </div>
         </div>
 
+        <div style="margin-right: 5%">
+           <div id="container" style="width: 30%; height: 30%;">
+                <canvas id="countrychart"></canvas>
+           </div>
+        </div>
+
         <div style=" margin-top: 1%; position:relative;">
 
             <div id="q_0" style="display:none">
@@ -198,8 +204,133 @@
         const urlParams = new URLSearchParams(queryString);
         const dim = urlParams.get('dim')
 
+        var country_data1 = {
+            "labels": {{ country_labels_0|safe }},
+            "datasets": [{
+                "label": "Number of Articles by Authors' Countries",
+                "data": {{ country_counts_0|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var country_data2 = {
+            "labels": {{ country_labels_1|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ country_counts_1|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var country_data3 = {
+            "labels": {{ country_labels_2|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ country_counts_2|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var country_data4 = {
+            "labels": {{ country_labels_3|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ country_counts_3|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var country_data5 = {
+            "labels": {{ country_labels_4|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ country_counts_4|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var country_data6 = {
+            "labels": {{ country_labels_5|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ country_counts_5|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var country_data7 = {
+            "labels": {{ country_labels_6|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ country_counts_6|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var country_data8 = {
+            "labels": {{ country_labels_7|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ country_counts_7|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var country_data9 = {
+            "labels": {{ country_labels_8|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ country_counts_8|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+        var country_data10 = {
+            "labels": {{ country_labels_9|safe }},
+            "datasets": [{
+                "label": "Number of Articles Found by Year",
+                "data": {{ country_counts_9|safe }},
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor": "rgba(255,99,132,1)",
+                "borderWidth": 1
+            }]
+        };
+
+
+        var canvas2 = document.getElementById('countrychart')
+        var ctx2 = canvas2.getContext('2d');
+        var config2 = {
+            type: 'pie',
+            data: country_data1,
+            options: {
+                responsive: true,
+            }
+        };
+        var myPie2 = new Chart(ctx2, config2);
+
+
+
         if (dim == 0) {
             config.data = data1
+            config2.data = country_data1
         }
 
         if (dim == 1) {
@@ -237,9 +368,6 @@
         if (dim == 9) {
             config.data = data10
         }
-
-
-
 
 
 
