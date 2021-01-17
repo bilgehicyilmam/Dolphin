@@ -5,7 +5,15 @@ from bson import json_util
 from django.shortcuts import render
 from .models import *
 from pymongo import MongoClient
-
+import json
+from django.shortcuts import render, redirect
+from .models import article
+from .forms import ArticleSearch
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from pymongo import MongoClient
+import re
+from pprint import pprint
+from django.shortcuts import get_object_or_404
 
 cluster = MongoClient("mongodb+srv://dbuserdolphin:dbpassworddolphin@cluster0.h6bhx.mongodb.net/dolphin?retryWrites=true&w=majority")
 db = cluster["dolphin"]
@@ -20,7 +28,6 @@ def home(request):
     return render(request, "articles.html", context)
 
 import datetime
-import pycountry
 
 def all_articles(request):
 
@@ -30,9 +37,10 @@ def all_articles(request):
         context["q_"+str(i)] = request.session.get("q_"+str(i))
         context["total_count_"+str(i)] = request.session.get("total_count_"+str(i))
 
+
+
     for i in range(30):
         dates = []
-        theCountries = []
         articles = {}
         thearticles = context["articles_" + str(i)]
         if thearticles is not None:
@@ -43,23 +51,13 @@ def all_articles(request):
                 date = int(s[:10])
                 date = datetime.datetime.fromtimestamp(date).strftime("%Y, %B")
                 dates.append(date)
+                if date in articles.keys():
+                    articles[date].append(item)
+                else:
+                    articles[date] = []
+                    articles[date].append(item)
 
-                # if date in articles.keys():
-                #     articles[date].append(item)
-                # else:
-                #     articles[date] = []
-                #     articles[date].append(item)
-
-                authors = item["authors"]
-                for country in list(pycountry.countries):
-                    if country.name in authors:
-                        theCountries.append(country.name)
-
-            country_labels = {i: theCountries.count(i) for i in theCountries}
-            context["country_labels_" + str(i)] = list(country_labels.keys())
-            context["country_counts_" + str(i)] = list(country_labels.values())
             context["articles" + str(i)] = articles
-
             label = {i: dates.count(i) for i in dates}
             context["labels_" + str(i)] = list(label.keys())
             context["counts_" + str(i)] = list(label.values())
@@ -565,6 +563,155 @@ def chart(request):
         context["all_" + str(i)] = my_dict
 
     return render(request, "chart.html", context)
+
+def split_line(query):
+    # split the text
+    result = query.split(" ")
+    words = []
+    # for each word in the line:
+    for word in result:
+        # append the word
+        words.append(word)
+    return words
+
+
+def home(request):
+    all_articles = article.objects.all()
+    form = ArticleSearch()
+    total_articles = all_articles.count()
+    context = {
+        "total_articles": total_articles,
+        "form": form,
+    }
+    query = request.GET.get('abstract', '')
+    print(query)
+    date = request.GET.get('publication_date', '')
+    date2 = request.GET.get('publication_date', '')
+    print(date)
+    if request.method == 'POST':
+
+        pattern = r'(?i)\b' + query + r'\b'
+        regex = re.compile(pattern)
+        articles = []
+        articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
+        for item in articl:
+            articles.append(item)
+
+        searched_total_articles = articl.count()
+        paginated_articles = Paginator(articles, 10)
+        page_number = request.GET.get('page', None)
+        article_page_ob = paginated_articles.get_page(page_number)
+        context = {
+            "total_articles": total_articles,
+            "searched_articles": searched_total_articles,
+            "articles": articles,
+            "form": form,
+            "article_page_ob": article_page_ob,
+            "query": query
+        }
+    elif request.method == 'GET':
+
+        if query:
+            queris = split_line(query)
+            articles = []
+            for q in queris:
+                pattern = r'(?i)\b' + q + r'\b'
+                regex = re.compile(pattern)
+                articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
+                #articl = collection.find({"$and": [{"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]}, {"publication_date": {date}}]})
+                if len(articles) == 0:
+                    for item in articl:
+                        articles.append(item)
+                else:
+                    temp_arc=[]
+                    for a in articl:
+                        if a in articles:
+                            temp_arc.append(a)
+                    articles = temp_arc
+
+
+            searched_total_articles = len(articles)
+
+            paginated_articles = Paginator(articles, 10)
+            page_number = request.GET.get('page', None)
+            article_page_ob = paginated_articles.get_page(page_number)
+            for item in paginated_articles.object_list:
+                authors = item['authors']
+                keywords = item['keywords']
+                b = json.loads(authors)
+                c = json.loads(keywords)
+                item['authors'] = b
+                item['keywords'] = c
+            #pprint (vars(paginated_articles))
+            context = {
+                "total_articles": total_articles,
+                "searched_articles": searched_total_articles,
+                "articles": articles,
+                "form": form,
+                "article_page_ob": article_page_ob,
+                "query": query,
+                "queris": queris
+            }
+
+    return render(request, "articles.html", context)
+
+
+def article_detail(request):
+    all_articles = article.objects.all()
+    form = ArticleSearch(request.POST or None)
+    total_articles = all_articles.count()
+    context = {
+        "total_articles": total_articles,
+        "form": form,
+    }
+    query = request.GET.get('abstract', '')
+    if request.method == 'POST':
+
+        pattern = r'(?i)\b' + query + r'\b'
+        regex = re.compile(pattern)
+        articles = []
+        articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
+        for item in articl:
+            articles.append(item)
+
+        searched_total_articles = articl.count()
+        paginated_articles = Paginator(articles, 10)
+        page_number = request.GET.get('page', None)
+        article_page_ob = paginated_articles.get_page(page_number)
+        context = {
+            "total_articles": total_articles,
+            "searched_articles": searched_total_articles,
+            "articles": articles,
+            "form": form,
+            "article_page_ob": article_page_ob,
+            "query": query
+        }
+    elif request.method == 'GET':
+
+        if query:
+            pattern = r'(?i)\b' + query + r'\b'
+            regex = re.compile(pattern)
+            articles = []
+            articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
+            for item in articl:
+                articles.append(item)
+
+            searched_total_articles = articl.count()
+
+            paginated_articles = Paginator(articles, 10)
+            page_number = request.GET.get('page', None)
+            article_page_ob = paginated_articles.get_page(page_number)
+
+            context = {
+                "total_articles": total_articles,
+                "searched_articles": searched_total_articles,
+                "articles": articles,
+                "form": form,
+                "article_page_ob": article_page_ob,
+                "query": query
+            }
+
+    return render(request, "articles_detail.html", )
 
 
 
