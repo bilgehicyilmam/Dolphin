@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {%  load static %}
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
 {% block content %}
 
@@ -20,10 +20,14 @@
 
                 <button type="button" class="btn btn-success buttons" onclick="addField();">+</button>
                 <button type="button" class="btn btn-danger buttons" onclick="removeField();">-</button>
-                <input type="submit" name="submit" value="Search" class="btn btn-primary">
+                <input id="getData" type="submit" name="submit" value="Search" class="btn btn-primary">
 
             </form>
         </div>
+    </div>
+
+    <div id="spinner" class="spinner-wrapper" style="display: none">
+        <img src="/static/images/ajax-loader.gif">
     </div>
 
     {% if context.queries_0 or context.queries_1 or context.queries_2 or context.queries_3 %}
@@ -166,6 +170,7 @@
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="text/javascript">
 
     function addField(){
@@ -183,6 +188,10 @@
         $('#moreField .inputs_dim').last().remove();
     }
 
+    const search = document.getElementById("getData");
+    search.onclick = function() {
+        document.getElementById("spinner").style.display = "block"
+   };
 
 
     const q0 = document.getElementById("q0");
