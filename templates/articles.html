@@ -50,11 +50,10 @@
         {% for instance in article_page_ob %}
             <div>
                 <div><strong><small>
-                    <a href="http://127.0.0.1:8000/articles_detail/{{ instance.pubmed_id }}">{{ instance.pubmed_id }}</a></small></strong>
+                    <a href="http://127.0.0.1:8000/articles_detail/{{ instance.pubmed_id }}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
                 </div>
                 <div><h3>{{ instance.title }}</h3></div>
-                <div><h3>{{ instance.publication_date }}</h3></div>
-                <div><strong><small>
+                <div><strong><small><h6>Authors:</h6>
                 {% for data in instance.authors %}
                         <span>
                         {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
@@ -64,7 +63,7 @@
                 <p>
                 <p>
                     <div>
-                <p>{{ instance.abstract|truncatechars:500 }}</p></div>
+                <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
             <div><strong><small>
                 {% for data in instance.keywords %}
                         <span>
