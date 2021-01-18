@@ -7,19 +7,19 @@ import uuid
 from db import Database
 
 
-
 class Annotation:
     article_id = "0"
-    site_name = 'https://www.covidsearch.com'
+    site_name = 'http://localhost:3000'
     slug = 'articles'
+    annotations_slug = 'http://localhost:4001/annotations'
     abstract = ''
-    ontologies =  []
+    ontologies = []
     ontology = None
-
+    last_id = 1
 
     def __init__(self):
         self.set_ontologies()
-   
+
     def create_annotation(self, article_id, abstract, article):
 
         self.article_id = article_id
@@ -27,9 +27,11 @@ class Annotation:
         if article_id != 0 and len(self.ontologies) > 0:
             self.start_iteration()
         else:
-            raise Exception('article_id should be different than 0 and abstract should not be empty.')
+            raise Exception(
+                'article_id should be different than 0 and abstract should not be empty.')
         if len(abstract) > len(self.abstract):
-            raise Exception("Annotated article's length must be equal or greater than abstract")
+            raise Exception(
+                "Annotated article's length must be equal or greater than abstract")
         else:
             return self.abstract
 
@@ -53,10 +55,11 @@ class Annotation:
         # start for loop for ontologies objects
         for ontology in ontologies:
             label = ontology.label
-            
-            abstract = self.abstract 
-            found = abstract.find(label) # return an index number for label found
-            if ( found != -1):
+
+            abstract = self.abstract
+            # return an index number for label found
+            found = abstract.find(label)
+            if (found != -1):
                 self.ontology = ontology
                 abstract = annotator.find_keyword(abstract, label)
 
@@ -68,18 +71,18 @@ class Annotation:
 
         for match in re.finditer(pattern, text, re.IGNORECASE):
             # number of character to cut from left of the match
-            num_character = 20
+            num_character = 100
 
             # match start and end position
             s = match.start()
             e = match.end()
-            print ('String match "%s" at %d:%d' % (text[s:e], s, e))
-            
+            print('String match "%s" at %d:%d' % (text[s:e], s, e))
+
             # get left side of the match
             start1 = s - num_character
-            start1 = max(0, start1) # no negative
+            start1 = max(0, start1)  # no negative
             start2 = s
-            
+
             # get right side of the match
             end1 = e
             end2 = e + num_character
@@ -97,11 +100,13 @@ class Annotation:
             print(self.create_output(label, prefix, suffix))
 
     def create_stamp(self):
-        # returns a time stamp with prefix
+        # returns an id with prefix
 
-        prefix = 'covid19-'
-        idstamp = prefix + str(uuid.uuid4())
-        return idstamp
+        # prefix = 'covid19-'
+        # idstamp = str(uuid.uuid4())
+        idstamp = self.last_id
+        self.last_id += 1
+        return '{}/{}'.format(self.annotations_slug, idstamp)
 
     def get_source(self):
         return '{}/{}/{}'.format(self.site_name, self.slug, self.article_id)
@@ -112,7 +117,7 @@ class Annotation:
             "type": "Software",
             "name": "Dolphin 0.1",
             "homepage": "https://github.com/HBilge/Dolphin"
-            }
+        }
 
     def get_created(self):
         now = datetime.now()
@@ -121,14 +126,14 @@ class Annotation:
 
     def save_annotation(self, abstract_id, ontology_id):
         pass
-    
+
     def create_output(self, label, prefix, suffix):
         annotation = dict()
         idstamp = self.create_stamp()
 
         header = self.create_annotation_header(idstamp)
         annotation.update(header)
-        
+
         target = self.create_annotation_target(label, prefix, suffix)
         annotation.update(target)
         # if self.ontologies.label:
@@ -143,56 +148,56 @@ class Annotation:
         Database.insert('annotations', annotation)
 
         return annotation
-    
+
     def create_annotation_header(self, idstamp):
-            return {
-                "@context": "http://www.w3.org/ns/anno.jsonld",
-                "id": idstamp,
-                "type": "Annotation",
-                "motivation": "describing",
-            }
-    
+        return {
+            "@context": "http://www.w3.org/ns/anno.jsonld",
+            "id": idstamp,
+            "type": "Annotation",
+            "motivation": "describing",
+        }
+
     def create_annotation_target(self, label, prefix, suffix):
-            return {
-                "target": {
-                        "source": self.get_source(),
-                        "selector": {
-                            "type": "TextQuoteSelector",
-                            "exact": label,
-                            "prefix": prefix,
-                            "suffix": suffix
-                        }
+        return {
+            "target": {
+                "source": self.get_source(),
+                "selector": {
+                    "type": "TextQuoteSelector",
+                    "exact": label,
+                    "prefix": prefix,
+                    "suffix": suffix
                 }
             }
-        
-    
+        }
+
     def create_annotation_body(self, label):
-            body = []
+        body = []
 
-            rdfs_label = {'label': label }
-            body.append(rdfs_label)
+        rdfs_label = {'label': label}
+        body.append(rdfs_label)
 
-            class_id = {'rdfs:Class': self.ontology.class_id }
-            body.append(class_id)
-            
-            if len(self.ontology.parent_id) > 0:
-                parent = {'rdfs:subClassOf': self.ontology.parent_id}
-                body.append(parent)
+        class_id = {'rdfs:Class': self.ontology.class_id}
+        body.append(class_id)
 
-            if self.ontology.definition != None:
-                parent = {'obo:IAO_0000115': self.ontology.definition}
-                body.append(parent)
+        if len(self.ontology.parent_id) > 0:
+            parent = {'rdfs:subClassOf': self.ontology.parent_id}
+            body.append(parent)
 
-            return {
-                "body": body
-            }
-            
+        if self.ontology.definition != None:
+            parent = {'obo:IAO_0000115': self.ontology.definition}
+            body.append(parent)
+
+        return {
+            "body": body
+        }
+
     def create_annotation_footer(self):
-            return {
-                'created': self.get_created(),
-                'creator':  self.get_creator() 
-            }      
-    
+        return {
+            'created': self.get_created(),
+            'creator':  self.get_creator()
+        }
+
+
 annotator = Annotation()
 
 
@@ -205,6 +210,6 @@ all_articles = article.objects.all()[:1000]
 for article in all_articles:
     # print(article.abstract)
     if article.abstract != None:
-        annotator.create_annotation(article.pubmed_id, article.abstract, article)
+        annotator.create_annotation(
+            article.pubmed_id, article.abstract, article)
         # print(annotator.abstract)
-        
