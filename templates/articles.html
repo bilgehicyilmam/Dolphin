@@ -25,9 +25,21 @@
             {{ form|crispy }}
             <p></p>
             <p></p>
-            <input class="btn btn-primary" type="submit" value="Search">
+            <input id="getData" class="btn btn-primary" type="submit" value="Search">
         </form>
+        <p>
+        </p>
+        <p>
+        </p>
+        <div>
+            <a href="http://127.0.0.1:8000/dimsearch"><h2>Dimensional Search?</h2></a>
+        </div>
 
+        <div id="spinner" class="spinner-wrapper" style="display: none">
+        <img src="/static/images/ajax-loader.gif">
+        </div>
+
+        {% if article_page_ob %}
         <h2 class="myHeader">Number of articles found based on your search</h2>
 
         <h3 class="myHeader">{{ searched_articles }}</h3>
@@ -38,7 +50,7 @@
         {% for instance in article_page_ob %}
             <div>
                 <div><strong><small>
-                    <a href="http://127.0.0.1:8000/articles_detail/">{{ instance.pubmed_id }}</a></small></strong>
+                    <a href="http://127.0.0.1:8000/articles_detail/{{ instance.pubmed_id }}">{{ instance.pubmed_id }}</a></small></strong>
                 </div>
                 <div><h3>{{ instance.title }}</h3></div>
                 <div><h3>{{ instance.publication_date }}</h3></div>
@@ -82,10 +94,14 @@
         </div>
 
       </div>
+    {% endif %}
 </div>
 
-
-
-
+<script type="text/javascript">
+const search = document.getElementById("getData");
+    search.onclick = function() {
+        document.getElementById("spinner").style.display = "block"
+   };
+</script>
 {% endblock %}
 

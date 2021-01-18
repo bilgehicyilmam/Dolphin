@@ -5,6 +5,7 @@ from bson import json_util
 from django.shortcuts import render
 from .models import *
 from pymongo import MongoClient
+import pickle
 import json
 from django.shortcuts import render, redirect
 from .models import article
@@ -665,13 +666,55 @@ def home(request):
     return render(request, "articles.html", context)
 
 
-def article_detail(request):
+
+def article_detail(request, pubmed_id):
     all_articles = article.objects.all()
     form = ArticleSearch(request.POST or None)
     total_articles = all_articles.count()
+    #pubmed_id = str(pubmed_id)
+    # f= str(pubmed_id)
+    # e= len(f)
+    # pid= pubmed_id.to_bytes(e, "little")
+    # pickle.dumps(pid)
+    # d=pickle.loads(pid)
+    # pubmed_id=d
+    #pidd= str(pubmed_id)
+    detail_article = article.objects.get(pubmed_id = pubmed_id)
+    print(detail_article)
+    #detail_article = collection.find_one({"pubmed_id": {pubmed_id}})
+    # for item in detail_article.object_list:
+    #     pid = item['pubmed_id']
+    #     d = pickle.loads(pid)
+    #     item['pubmed_id'] = d
+    #import pprint
+    #pprint.pprint(vars(detail_article))
+    idd = detail_article.id
+    tit = detail_article.title
+    abst = detail_article.abstract
+    #pid= detail_article['pubmed_id']
+    keyw = detail_article.keywords
+    jour = detail_article.journal
+    pub_date = detail_article.publication_date
+    auth = detail_article.authors
+    conc= detail_article.conclusions
+    res= detail_article.results
+    copy = detail_article.copyrights
+    dooi = detail_article.doi
     context = {
-        "total_articles": total_articles,
-        "form": form,
+        # "total_articles": total_articles,
+         "form": form,
+         "idd" : idd,
+         "tit" : tit,
+         "abst" : abst,
+         "keyw" : keyw,
+         "jour" : jour,
+         "pub_date" : pub_date,
+         "auth" : auth,
+         "conc" : conc,
+         "res" : res,
+         "copy" : copy,
+         "dooi" : dooi,
+         "pubmed_id" : pubmed_id
     }
     query = request.GET.get('abstract', '')
     if request.method == 'POST':
@@ -720,7 +763,7 @@ def article_detail(request):
                 "query": query
             }
 
-    return render(request, "articles_detail.html", )
+    return render(request, "articles_detail.html", context)
 
 
 
