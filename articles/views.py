@@ -5,7 +5,6 @@ from bson import json_util
 from django.shortcuts import render
 from .models import *
 from pymongo import MongoClient
-import pickle
 import json
 from django.shortcuts import render, redirect
 from .models import article
@@ -53,11 +52,11 @@ def all_articles(request):
                 date = datetime.datetime.fromtimestamp(date).strftime("%Y, %B")
                 dates.append(date)
 
-                # if date in articles.keys():
-                #     articles[date].append(item)
-                # else:
-                #     articles[date] = []
-                #     articles[date].append(item)
+                if date in articles.keys():
+                    articles[date].append(item)
+                else:
+                    articles[date] = []
+                    articles[date].append(item)
 
                 authors = item["authors"]
                 for country in list(pycountry.countries):
@@ -666,7 +665,6 @@ def home(request):
     return render(request, "articles.html", context)
 
 
-
 def article_detail(request, pubmed_id):
     all_articles = article.objects.all()
     form = ArticleSearch(request.POST or None)
@@ -764,10 +762,3 @@ def article_detail(request, pubmed_id):
             }
 
     return render(request, "articles_detail.html", context)
-
-
-
-
-
-
-
