@@ -634,7 +634,10 @@ def home(request):
             queris = split_line(query)
             print(queris)
             articles = []
+            counter = 0
             for que in queris:
+                counter+= 1
+                print(counter)
                 pat = r'(?i)\b(?:(?!\band\b|\bor\b|\bbut\b)\w)+\b'
                 #reg = re.compile(pat)
                 que = re.findall(pat, que)
@@ -649,7 +652,7 @@ def home(request):
                 regex = re.compile(pp)
                 articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
                 #articl = collection.find({"$and": [{"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]}, {"publication_date": {date}}]})
-                if len(articles) == 0:
+                if len(articles) == 0 and counter == 1:
                     for item in articl:
                         articles.append(item)
                 else:
