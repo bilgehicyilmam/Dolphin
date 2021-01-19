@@ -575,13 +575,23 @@ def chart(request):
 
 def split_line(query):
     # split the text
-    result = query.split(" ")
+    result = query.split(",")
     words = []
     # for each word in the line:
     for word in result:
         # append the word
         words.append(word)
     return words
+
+# def split_space(queris):
+#     # split the text
+#     result = queris.split(" ")
+#     words = []
+#     # for each word in the term:
+#     for word in result:
+#         # append the word
+#         words.append(word)
+#     return words
 
 
 def home(request):
@@ -622,10 +632,21 @@ def home(request):
 
         if query:
             queris = split_line(query)
+            print(queris)
             articles = []
-            for q in queris:
-                pattern = r'(?i)\b' + q + r'\b'
-                regex = re.compile(pattern)
+            for que in queris:
+                pat = r'(?i)\b(?:(?!\band\b|\bor\b|\bbut\b)\w)+\b'
+                #reg = re.compile(pat)
+                que = re.findall(pat, que)
+                print(que)
+                pp = r'(?i)'
+                for qu in que:
+                    pt = r'\b' + qu + r'\b\W+(?:\w+\W+){0,4}?'
+                    tmp= pp + pt
+                    pp= tmp
+                    #pt = str(pattern)
+                print(pp)
+                regex = re.compile(pp)
                 articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
                 #articl = collection.find({"$and": [{"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]}, {"publication_date": {date}}]})
                 if len(articles) == 0:
@@ -637,7 +658,6 @@ def home(request):
                         if a in articles:
                             temp_arc.append(a)
                     articles = temp_arc
-
 
             searched_total_articles = len(articles)
 
