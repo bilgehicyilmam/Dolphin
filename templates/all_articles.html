@@ -4,240 +4,801 @@
 
 {% block content %}
 
-    <div style="margin-left: 2%; margin-top: 5%; position:relative;">
-
-        <div style="margin-right: 3%">
-           <div id="container" style="width: 28%; height: 28%;">
-                <canvas id="chart"></canvas>
-           </div>
-        </div>
-
-
-        <div style=" margin-top: 1%; position:relative;">
+      <div style=" margin-top: 1%; position:relative;">
 
             <div id="q_0" style="display:none">
-                {% for article in articles_0 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_0 %}
+                    {% for instance in article_page_ob_0 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_0.has_previous %}
+                                    <a href="?dim=0&page=1">&laquo;First</a>
+                                    <a href="?dim=0&page={{ article_page_ob_0.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_0.number }} of {{ article_page_ob_0.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_0.has_next %}
+                                    <a href="?dim=0&page={{ article_page_ob_0.next_page_number }}">Next</a>
+                                    <a href="?dim=0&page={{ article_page_ob_0.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
+
             </div>
 
+
             <div id="q_1" style="display:none">
-                {% for article in articles_1 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_1 %}
+                    {% for instance in article_page_ob_1 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_1.has_previous %}
+                                    <a href="?dim=1&page=1">&laquo;First</a>
+                                    <a href="?dim=1&page={{ article_page_ob_1.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_1.number }} of {{ article_page_ob_1.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_1.has_next %}
+                                    <a href="?dim=1&page={{ article_page_ob_1.next_page_number }}">Next</a>
+                                    <a href="?dim=1&page={{ article_page_ob_1.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_2" style="display:none">
-                {% for article in articles_2 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_2 %}
+                    {% for instance in article_page_ob_2 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_2.has_previous %}
+                                    <a href="?dim=2&page=1">&laquo;First</a>
+                                    <a href="?dim=2&page={{ article_page_ob_2.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_2.number }} of {{ article_page_ob_2.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_2.has_next %}
+                                    <a href="?dim=2&page={{ article_page_ob_2.next_page_number }}">Next</a>
+                                    <a href="?dim=2&page={{ article_page_ob_2.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_3" style="display:none">
-                {% for article in articles_3 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_3 %}
+                    {% for instance in article_page_ob_3 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_3.has_previous %}
+                                    <a href="?dim=3&page=1">&laquo;First</a>
+                                    <a href="?dim=3&page={{ article_page_ob_3.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_3.number }} of {{ article_page_ob_3.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_3.has_next %}
+                                    <a href="?dim=3&page={{ article_page_ob_3.next_page_number }}">Next</a>
+                                    <a href="?dim=3&page={{ article_page_ob_3.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+
+                  </div>
+                {% endif %}
             </div>
 
+
             <div id="q_4" style="display:none">
-                {% for article in articles_4 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_4 %}
+                    {% for instance in article_page_ob_4 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_4.has_previous %}
+                                    <a href="?dim=4&page=1">&laquo;First</a>
+                                    <a href="?dim=4&page={{ article_page_ob_4.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_4.number }} of {{ article_page_ob_4.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_4.has_next %}
+                                    <a href="?dim=4&page={{ article_page_ob_4.next_page_number }}">Next</a>
+                                    <a href="?dim=4&page={{ article_page_ob_4.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_5" style="display:none">
-                {% for article in articles_5 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_5 %}
+                    {% for instance in article_page_ob_5 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_5.has_previous %}
+                                    <a href="?dim=5&page=1">&laquo;First</a>
+                                    <a href="?dim=5&page={{ article_page_ob_5.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_5.number }} of {{ article_page_ob_5.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_5.has_next %}
+                                    <a href="?dim=5&page={{ article_page_ob_5.next_page_number }}">Next</a>
+                                    <a href="?dim=5&page={{ article_page_ob_5.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_6" style="display:none">
-                {% for article in articles_6 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_6 %}
+                    {% for instance in article_page_ob_6 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_6.has_previous %}
+                                    <a href="?dim=6&page=1">&laquo;First</a>
+                                    <a href="?dim=6&page={{ article_page_ob_6.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_6.number }} of {{ article_page_ob_6.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_6.has_next %}
+                                    <a href="?dim=6&page={{ article_page_ob_6.next_page_number }}">Next</a>
+                                    <a href="?dim=6&page={{ article_page_ob_6.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_7" style="display:none">
-                {% for article in articles_7 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_7 %}
+                    {% for instance in article_page_ob_7 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_7.has_previous %}
+                                    <a href="?dim=7&page=1">&laquo;First</a>
+                                    <a href="?dim=7&page={{ article_page_ob_7.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_7.number }} of {{ article_page_ob_7.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_7.has_next %}
+                                    <a href="?dim=7&page={{ article_page_ob_7.next_page_number }}">Next</a>
+                                    <a href="?dim=7&page={{ article_page_ob_7.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_8" style="display:none">
-                {% for article in articles_8 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_8 %}
+                    {% for instance in article_page_ob_8 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_8.has_previous %}
+                                    <a href="?dim=8&page=1">&laquo;First</a>
+                                    <a href="?dim=8&page={{ article_page_ob_8.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_8.number }} of {{ article_page_ob_8.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_8.has_next %}
+                                    <a href="?dim=8&page={{ article_page_ob_8.next_page_number }}">Next</a>
+                                    <a href="?dim=8&page={{ article_page_ob_8.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_9" style="display:none">
-                {% for article in articles_9 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_9 %}
+                    {% for instance in article_page_ob_9 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_9.has_previous %}
+                                    <a href="?dim=9&page=1">&laquo;First</a>
+                                    <a href="?dim=9&page={{ article_page_ob_9.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_9.number }} of {{ article_page_ob_9.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_9.has_next %}
+                                    <a href="?dim=9&page={{ article_page_ob_9.next_page_number }}">Next</a>
+                                    <a href="?dim=9&page={{ article_page_ob_9.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_10" style="display:none">
-                {% for article in articles_10 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_10 %}
+                    {% for instance in article_page_ob_10 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_10.has_previous %}
+                                    <a href="?dim=10&page=1">&laquo;First</a>
+                                    <a href="?dim=10&page={{ article_page_ob_10.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_10.number }} of {{ article_page_ob_10.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_10.has_next %}
+                                    <a href="?dim=10&page={{ article_page_ob_10.next_page_number }}">Next</a>
+                                    <a href="?dim=10&page={{ article_page_ob_10.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_11" style="display:none">
-                {% for article in articles_11 %} {{ article.pubmed_id }} {% endfor %}
+
+                  {% if article_page_ob_11 %}
+                    {% for instance in article_page_ob_11 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_11.has_previous %}
+                                    <a href="?dim=11&page=1">&laquo;First</a>
+                                    <a href="?dim=11&page={{ article_page_ob_11.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_11.number }} of {{ article_page_ob_11.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_11.has_next %}
+                                    <a href="?dim=11&page={{ article_page_ob_11.next_page_number }}">Next</a>
+                                    <a href="?dim=11&page={{ article_page_ob_11.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
             </div>
 
             <div id="q_12" style="display:none">
-                {% for article in articles_12 %} {{ article.pubmed_id }} {% endfor %}
-            </div>
-        </div>
 
-</div>
+                  {% if article_page_ob_12 %}
+                    {% for instance in article_page_ob_12 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_12.has_previous %}
+                                    <a href="?dim=12&page=1">&laquo;First</a>
+                                    <a href="?dim=12&page={{ article_page_ob_12.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_12.number }} of {{ article_page_ob_12.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_12.has_next %}
+                                    <a href="?dim=12&page={{ article_page_ob_12.next_page_number }}">Next</a>
+                                    <a href="?dim=12&page={{ article_page_ob_12.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
+            </div>
+
+            <div id="q_13" style="display:none">
+
+                  {% if article_page_ob_13 %}
+                    {% for instance in article_page_ob_13 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_13.has_previous %}
+                                    <a href="?dim=13&page=1">&laquo;First</a>
+                                    <a href="?dim=13&page={{ article_page_ob_13.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_13.number }} of {{ article_page_ob_13.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_13.has_next %}
+                                    <a href="?dim=13&page={{ article_page_ob_13.next_page_number }}">Next</a>
+                                    <a href="?dim=13&page={{ article_page_ob_13.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
+            </div>
+
+            <div id="q_14" style="display:none">
+
+                  {% if article_page_ob_14 %}
+                    {% for instance in article_page_ob_14 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_14.has_previous %}
+                                    <a href="?dim=14&page=1">&laquo;First</a>
+                                    <a href="?dim=14&page={{ article_page_ob_14.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_14.number }} of {{ article_page_ob_14.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_14.has_next %}
+                                    <a href="?dim=14&page={{ article_page_ob_14.next_page_number }}">Next</a>
+                                    <a href="?dim=14&page={{ article_page_ob_14.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
 
 
 <script  src="{% static '/js/app.js' %}"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
-<script>
-
-        const data1 = {
-            "labels": {{ labels_0|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_0|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-        const data2 = {
-            "labels": {{ labels_1|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_1|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-        const data3 = {
-            "labels": {{ labels_2|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_2|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-        const data4 = {
-            "labels": {{ labels_3|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_3|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-        const data5 = {
-            "labels": {{ labels_4|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_4|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-        const data6 = {
-            "labels": {{ labels_5|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_5|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-        const data7 = {
-            "labels": {{ labels_6|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_6|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-        const data8 = {
-            "labels": {{ labels_7|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_7|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-        const data9 = {
-            "labels": {{ labels_8|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_8|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-        const data10 = {
-            "labels": {{ labels_9|safe }},
-            "datasets": [{
-                "label": "Number of Articles by Year",
-                "data": {{ counts_9|safe }},
-                "backgroundColor": ["#ff9999", "#99e6ff", "#ff9999", "#FF7F50", "#bbff99", "#ffcc99", "#ffff99", "#99ebff", "#b3ffb3", "#ff99cc", "#99ffdd", "#99b3ff", "#FF7F50", "#ffdd99", "#ff99ff", "#c299ff", "#99ff99", "#cc99ff"],
-                "borderWidth": 1
-            }]
-        };
-
-
-        var canvas = document.getElementById('chart')
-        var ctx = canvas.getContext('2d');
-        var config = {
-            type: 'bar',
-            data: data1,
-            options: {
-                responsive: true,
-            }
-        };
-
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const dim = urlParams.get('dim')
-
-        if (dim == 0) {
-            config.data = data1
-        }
-
-        if (dim == 1) {
-            config.data = data2
-        }
-
-        if (dim == 2) {
-            config.data = data3
-        }
-
-        if (dim == 3) {
-            config.data = data4
-        }
-
-        if (dim == 4) {
-            config.data = data5
-        }
-
-        if (dim == 5) {
-            config.data = data6
-        }
-
-        if (dim == 6) {
-            config.data = data7
-        }
-
-        if (dim == 7) {
-            config.data = data8
-        }
-
-        if (dim == 8) {
-            config.data = data9
-        }
-
-        if (dim == 9) {
-            config.data = data10
-        }
-
-
-        window.myPie = new Chart(ctx, config);
-
-
-
-</script>
 
 {% endblock %}
 
