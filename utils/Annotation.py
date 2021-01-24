@@ -66,7 +66,7 @@ class Annotation:
     def find_keyword(self, text, label):
         """ annotate all occurences of a label """
         self.abstract = text
-        print(text)
+        # print(text)
         pattern = rf'\b(?!>){label}\b(?!<)'
 
         for match in re.finditer(pattern, text, re.IGNORECASE):
@@ -76,7 +76,7 @@ class Annotation:
             # match start and end position
             s = match.start()
             e = match.end()
-            print('String match "%s" at %d:%d' % (text[s:e], s, e))
+            # print('String match "%s" at %d:%d' % (text[s:e], s, e))
 
             # get left side of the match
             start1 = s - num_character
@@ -92,12 +92,13 @@ class Annotation:
             suffix = text[end1:end2]
 
             # debug
-            print('prefix: ', prefix)
-            print('exact: ', label)
-            print('suffix: ', suffix)
+            # print('prefix: ', prefix)
+            # print('exact: ', label)
+            # print('suffix: ', suffix)
 
             # call annoation save
-            print(self.create_output(label, prefix, suffix))
+            # print(self.create_output(label, prefix, suffix))
+            self.create_output(label, prefix, suffix)
 
     def create_stamp(self):
         # returns an id with prefix
@@ -143,7 +144,7 @@ class Annotation:
         footer = self.create_annotation_footer()
         annotation.update(footer)
 
-        print(annotation)
+        # print(annotation)
 
         Database.insert('annotations', annotation)
 
@@ -206,7 +207,7 @@ print(annotator.create_annotation(abstract_id, sample))
 """
 
 """ Example #2 """
-all_articles = article.objects.all()[:1000]
+all_articles = article.objects.all()[:90000]
 for article in all_articles:
     # print(article.abstract)
     if article.abstract != None:
