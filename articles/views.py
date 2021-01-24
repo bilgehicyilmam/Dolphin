@@ -18,59 +18,33 @@ from django.shortcuts import get_object_or_404
 cluster = MongoClient("mongodb+srv://dbuserdolphin:dbpassworddolphin@cluster0.h6bhx.mongodb.net/dolphin?retryWrites=true&w=majority")
 db = cluster["dolphin"]
 collection = db["articles_article"]
-
-
-def home(request):
-
-    articles = article.objects.all()
-    total_articles = articles.count()
-    context = {"total_articles": total_articles}
-    return render(request, "articles.html", context)
+sys_collection = db["ontologies_ontology"]
 
 import datetime
 import pycountry
 
+
 def all_articles(request):
 
     context = {}
-    for i in range(30):
+    for i in range(50):
         context["articles_"+str(i)] = request.session.get("articles_"+str(i))
-        context["q_"+str(i)] = request.session.get("q_"+str(i))
-        context["total_count_"+str(i)] = request.session.get("total_count_"+str(i))
 
-    for i in range(30):
-        dates = []
-        theCountries = []
-        articles = {}
-        thearticles = context["articles_" + str(i)]
-        if thearticles is not None:
-            for item in thearticles:
-                date = item["publication_date"]
-                date = list(date.values())[0]
-                s = str(date)
-                date = int(s[:10])
-                date = datetime.datetime.fromtimestamp(date).strftime("%Y, %B")
-                dates.append(date)
+        dimensional_articles = context["articles_" + str(i)]
+        paginated_articles = Paginator(dimensional_articles, 10)
+        page_number = request.GET.get('page', None)
+        article_page_ob = paginated_articles.get_page(page_number)
 
-                if date in articles.keys():
-                    articles[date].append(item)
-                else:
-                    articles[date] = []
-                    articles[date].append(item)
+        for item in paginated_articles.object_list:
+            authors = item['authors']
+            keywords = item['keywords']
+            b = json.loads(authors)
+            c = json.loads(keywords)
+            item['authors'] = b
+            item['keywords'] = c
 
-                authors = item["authors"]
-                for country in list(pycountry.countries):
-                    if country.name in authors:
-                        theCountries.append(country.name)
-
-            country_labels = {i: theCountries.count(i) for i in theCountries}
-            context["country_labels_" + str(i)] = list(country_labels.keys())
-            context["country_counts_" + str(i)] = list(country_labels.values())
-            context["articles" + str(i)] = articles
-
-            label = {i: dates.count(i) for i in dates}
-            context["labels_" + str(i)] = list(label.keys())
-            context["counts_" + str(i)] = list(label.values())
+        context["article_page_ob_" + str(i)] = article_page_ob
+        dimensional_articles.clear()
 
     return render(request, "all_articles.html", context)
 
@@ -79,7 +53,7 @@ def reqs(request):
     queries_0 = []
     queries_1 = []
     queries_2 = []
-    queries_3 = []
+
 
     if 'q_0' in request.GET:
         query = request.GET["q_0"]
@@ -96,13 +70,19 @@ def reqs(request):
         queriess = query.split(" ")
         queries_2 = queries_2 + queriess
 
-    if 'q_3' in request.GET:
-        query = request.GET["q_3"]
-        queriess = query.split(" ")
-        queries_3 = queries_3 + queriess
+    return queries_0, queries_1, queries_2
 
-    return queries_0, queries_1, queries_2, queries_3
+def synonymous(query):
 
+    synonymous_words = []
+
+    for q in query:
+        synonymous = sys_collection.find({"label": {"$regex": r'\b' + q + r'\b', "$options": 'i'}})
+        for s in synonymous:
+            for i in s["synonymous"]:
+                synonymous_words.append(i)
+
+    return synonymous_words
 
 def dimensional_search(request):
 
@@ -112,14 +92,87 @@ def dimensional_search(request):
 
     if request.GET:
 
-        queries_0, queries_1, queries_2, queries_3 = reqs(request)
+        queries_0, queries_1, queries_2 = reqs(request)
+
+        queries_0_sys = synonymous(queries_0)
+        queries_1_sys = synonymous(queries_1)
+        queries_2_sys = synonymous(queries_2)
+
+        print(queries_0_sys)
+        print(queries_0)
 
         context["queries_0"] = queries_0
         context["queries_1"] = queries_1
         context["queries_2"] = queries_2
-        context["queries_3"] = queries_3
 
-        for (a, b, c, d) in itertools.zip_longest(queries_0, queries_1, queries_2, queries_3):
+
+        if len(queries_0_sys) >= 1:
+
+            for a in queries_0_sys:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [a]
+                index += 1
+                my_array.clear()
+
+        if len(queries_1_sys) >= 1:
+
+            for b in queries_1_sys:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [b]
+                index += 1
+                my_array.clear()
+
+        if len(queries_2_sys) >= 1:
+
+            for c in queries_2_sys:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + c + r'\b' + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [c]
+                index += 1
+                my_array.clear()
+
+        for (a, b, c) in itertools.zip_longest(queries_0, queries_1, queries_2):
 
             if a is None and b is not None:
                 a = b
@@ -129,68 +182,49 @@ def dimensional_search(request):
                 b = a
             if c is None and a is not None:
                 c = a
-            if d is None and a is not None:
-                d = a
+
 
             articles = collection.find({
                 "$or": [
                     {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
                               {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
                               {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                              {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                            ]},
 
                     {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
                               {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
                               {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                              {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
+                            ]}
                 ]
             })
 
-            total_count = collection.count_documents({
-                "$or": [
-                    {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                              {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                              {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                              {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
-                    {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                              {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                              {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                              {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
-                ]
-            })
-
-            context["total_count_"+str(index)] = total_count
-            request.session["total_count_"+str(index)] = total_count
-            if a != b and a != c and a != d:
-                context["q_" + str(index)] = [a, b, c, d]
-                request.session["q_" + str(index)] = [a, b, c, d]
-
-            if a == b and a == c and a == d:
-                context["q_" + str(index)] = [a]
-                request.session["q_" + str(index)] = [a]
-
-            if a == c and a == d and a != b:
-                context["q_" + str(index)] = [a, b]
-                request.session["q_" + str(index)] = [a, b]
-
-            if a == d and a != c:
+            if a != b and a != c:
                 context["q_" + str(index)] = [a, b, c]
                 request.session["q_" + str(index)] = [a, b, c]
 
+            if a == b and a == c:
+                context["q_" + str(index)] = [a]
+                request.session["q_" + str(index)] = [a]
+
+            if a == c and a != b:
+                context["q_" + str(index)] = [a, b]
+                request.session["q_" + str(index)] = [a, b]
 
             for item in articles:
                 my_array.append(item)
 
             context["articles_" + str(index)] = my_array
             request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
-            my_array.clear()
+
+            context["total_count_" + str(index)] = len(my_array)
             index += 1
+            my_array.clear()
 
         if len(queries_1) > 1:
 
             queries_1.reverse()
 
-            for (a, b, c, d) in itertools.zip_longest(queries_0, queries_1, queries_2, queries_3):
+            for (a, b, c) in itertools.zip_longest(queries_0, queries_1, queries_2):
 
                 if a is None and b is not None:
                     a = b
@@ -200,67 +234,48 @@ def dimensional_search(request):
                     b = a
                 if c is None and a is not None:
                     c = a
-                if d is None and a is not None:
-                    d = a
 
                 articles = collection.find({
                     "$or": [
                         {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
                                   {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
                                   {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                              ]},
 
                         {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
                                   {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
                                   {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
+                                 ]}
                     ]
                 })
 
-                total_count = collection.count_documents({
-                    "$or": [
-                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
-                    ]
-                })
-
-                context["total_count_" + str(index)] = total_count
-                if a != b and a != c and a != d:
-                    context["q_" + str(index)] = [a, b, c, d]
-                    request.session["q_" + str(index)] = [a, b, c, d]
-
-                if a == b and a == c and a == d:
-                    context["q_" + str(index)] = [a]
-                    request.session["q_" + str(index)] = [a]
-
-                if a == c and a == d and a != b:
-                    context["q_" + str(index)] = [a, b]
-                    request.session["q_" + str(index)] = [a, b]
-
-                if a == d and a != c:
+                if a != b and a != c:
                     context["q_" + str(index)] = [a, b, c]
                     request.session["q_" + str(index)] = [a, b, c]
 
+                if a == b and a == c:
+                    context["q_" + str(index)] = [a]
+                    request.session["q_" + str(index)] = [a]
+
+                if a == c and a != b:
+                    context["q_" + str(index)] = [a, b]
+                    request.session["q_" + str(index)] = [a, b]
 
                 for item in articles:
                     my_array.append(item)
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
-                my_array.clear()
+
+                context["total_count_" + str(index)] = len(my_array)
                 index += 1
+                my_array.clear()
 
         if len(queries_2) > 1:
 
             queries_2.reverse()
 
-            for (a, b, c, d) in itertools.zip_longest(queries_0, queries_1, queries_2, queries_3):
+            for (a, b, c) in itertools.zip_longest(queries_0, queries_1, queries_2):
 
                 if a is None and b is not None:
                     a = b
@@ -270,67 +285,48 @@ def dimensional_search(request):
                     b = a
                 if c is None and a is not None:
                     c = a
-                if d is None and a is not None:
-                    d = a
 
                 articles = collection.find({
                     "$or": [
                         {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
                                   {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
                                   {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                                ]},
 
                         {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
                                   {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
                                   {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
+                               ]}
                     ]
                 })
 
-                total_count = collection.count_documents({
-                    "$or": [
-                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
-                    ]
-                })
-
-                context["total_count_" + str(index)] = total_count
-                if a != b and a != c and a != d:
-                    context["q_" + str(index)] = [a, b, c, d]
-                    request.session["q_" + str(index)] = [a, b, c, d]
-
-                if a == b and a == c and a == d:
-                    context["q_" + str(index)] = [a]
-                    request.session["q_" + str(index)] = [a]
-
-                if a == c and a == d and a != b:
-                    context["q_" + str(index)] = [a, b]
-                    request.session["q_" + str(index)] = [a, b]
-
-                if a == d and a != c:
+                if a != b and a != c:
                     context["q_" + str(index)] = [a, b, c]
                     request.session["q_" + str(index)] = [a, b, c]
 
+                if a == b and a == c:
+                    context["q_" + str(index)] = [a]
+                    request.session["q_" + str(index)] = [a]
+
+                if a == c and a != b:
+                    context["q_" + str(index)] = [a, b]
+                    request.session["q_" + str(index)] = [a, b]
 
                 for item in articles:
                     my_array.append(item)
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
-                my_array.clear()
+
+                context["total_count_" + str(index)] = len(my_array)
                 index += 1
+                my_array.clear()
 
         if len(queries_1) > 1:
 
             queries_1.reverse()
 
-            for (a, b, c, d) in itertools.zip_longest(queries_0, queries_1, queries_2, queries_3):
+            for (a, b, c) in itertools.zip_longest(queries_0, queries_1, queries_2):
 
                 if a is None and b is not None:
                     a = b
@@ -340,201 +336,268 @@ def dimensional_search(request):
                     b = a
                 if c is None and a is not None:
                     c = a
-                if d is None and a is not None:
-                    d = a
 
                 articles = collection.find({
                     "$or": [
                         {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
                                   {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
                                   {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
+                              ]},
 
                         {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
                                   {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
                                   {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
+                                ]}
                     ]
                 })
 
-                total_count = collection.count_documents({
-                    "$or": [
-                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
-                    ]
-                })
-
-                context["total_count_" + str(index)] = total_count
-                if a != b and a != c and a != d:
-                    context["q_" + str(index)] = [a, b, c, d]
-                    request.session["q_" + str(index)] = [a, b, c, d]
-
-                if a == b and a == c and a == d:
-                    context["q_" + str(index)] = [a]
-                    request.session["q_" + str(index)] = [a]
-
-                if a == c and a == d and a != b:
-                    context["q_" + str(index)] = [a, b]
-                    request.session["q_" + str(index)] = [a, b]
-
-                if a == d and a != c:
+                if a != b and a != c:
                     context["q_" + str(index)] = [a, b, c]
                     request.session["q_" + str(index)] = [a, b, c]
 
+                if a == b and a == c:
+                    context["q_" + str(index)] = [a]
+                    request.session["q_" + str(index)] = [a]
+
+                if a == c and a != b:
+                    context["q_" + str(index)] = [a, b]
+                    request.session["q_" + str(index)] = [a, b]
 
                 for item in articles:
                     my_array.append(item)
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
-                my_array.clear()
+
+                context["total_count_" + str(index)] = len(my_array)
                 index += 1
+                my_array.clear()
 
+        for (a, b, c) in itertools.zip_longest(queries_0, queries_1, queries_2):
 
-        if len(queries_3) > 1:
+            if a is not None:
 
-            queries_3.reverse()
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}}]}
+                    ]
+                })
 
-            for (a, b, c, d) in itertools.zip_longest(queries_0, queries_1, queries_2, queries_3):
+                for item in articles:
+                    my_array.append(item)
 
-                if a is None and b is not None:
-                    a = b
-                if a is None and c is not None:
-                    a = c
-                if b is None and a is not None:
-                    b = a
-                if c is None and a is not None:
-                    c = a
-                if d is None and a is not None:
-                    d = a
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [a]
+                index += 1
+                my_array.clear()
+
+            if b is not None:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [b]
+                index += 1
+                my_array.clear()
+
+            if c is not None:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [c]
+                index += 1
+                my_array.clear()
+
+            if a is not None and b is not None:
 
                 articles = collection.find({
                     "$or": [
                         {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
-
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}}]},
                         {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}}]}
                     ]
                 })
-
-                total_count = collection.count_documents({
-                    "$or": [
-                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
-                    ]
-                })
-
-                context["total_count_" + str(index)] = total_count
-                if a != b and a != c and a != d:
-                    context["q_" + str(index)] = [a, b, c, d]
-                    request.session["q_" + str(index)] = [a, b, c, d]
-
-                if a == b and a == c and a == d:
-                    context["q_" + str(index)] = [a]
-                    request.session["q_" + str(index)] = [a]
-
-                if a == c and a == d and a != b:
-                    context["q_" + str(index)] = [a, b]
-                    request.session["q_" + str(index)] = [a, b]
-
-                if a == d and a != c:
-                    context["q_" + str(index)] = [a, b, c]
-                    request.session["q_" + str(index)] = [a, b, c]
-
 
                 for item in articles:
                     my_array.append(item)
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
-                my_array.clear()
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [a, b]
                 index += 1
+                my_array.clear()
 
-        if len(queries_1) > 1:
-
-            queries_1.reverse()
-
-            for (a, b, c, d) in itertools.zip_longest(queries_0, queries_1, queries_2, queries_3):
-
-                if a is None and b is not None:
-                    a = b
-                if a is None and c is not None:
-                    a = c
-                if b is None and a is not None:
-                    b = a
-                if c is None and a is not None:
-                    c = a
-                if d is None and a is not None:
-                    d = a
+            if a is not None and c is not None:
 
                 articles = collection.find({
                     "$or": [
                         {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
-
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]},
                         {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]}
                     ]
                 })
-
-                total_count = collection.count_documents({
-                    "$or": [
-                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"abstract": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]},
-                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}},
-                                  {"title": {"$regex": r'\b' + d + r'\b', "$options": 'i'}}]}
-                    ]
-                })
-
-                context["total_count_" + str(index)] = total_count
-                if a != b and a != c and a != d:
-                    context["q_" + str(index)] = [a, b, c, d]
-                    request.session["q_" + str(index)] = [a, b, c, d]
-
-                if a == b and a == c and a == d:
-                    context["q_" + str(index)] = [a]
-                    request.session["q_" + str(index)] = [a]
-
-                if a == c and a == d and a != b:
-                    context["q_" + str(index)] = [a, b]
-                    request.session["q_" + str(index)] = [a, b]
-
-                if a == d and a != c:
-                    context["q_" + str(index)] = [a, b, c]
-                    request.session["q_" + str(index)] = [a, b, c]
 
                 for item in articles:
                     my_array.append(item)
 
                 context["articles_" + str(index)] = my_array
                 request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
-                my_array.clear()
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [a, c]
                 index += 1
+                my_array.clear()
+
+            if b is not None and c is not None:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [b, c]
+                index += 1
+                my_array.clear()
+
+        queries_1.reverse()
+        queries_2.reverse()
+
+        for (a, b, c) in itertools.zip_longest(queries_0, queries_1, queries_2):
+
+            if a is not None and b is not None:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [a, b]
+                index += 1
+                my_array.clear()
+
+            if a is not None and c is not None:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + a + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [a, c]
+                index += 1
+                my_array.clear()
+
+            if b is not None and c is not None:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [b, c]
+                index += 1
+                my_array.clear()
+
+        queries_1.reverse()
+
+        for (b, c) in itertools.zip_longest(queries_1, queries_2):
+
+            if b is not None and c is not None:
+
+                articles = collection.find({
+                    "$or": [
+                        {"$and": [{"abstract": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"abstract": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]},
+                        {"$and": [{"title": {"$regex": r'\b' + b + r'\b', "$options": 'i'}},
+                                  {"title": {"$regex": r'\b' + c + r'\b', "$options": 'i'}}]}
+                    ]
+                })
+
+                for item in articles:
+                    my_array.append(item)
+
+                context["articles_" + str(index)] = my_array
+                request.session["articles_" + str(index)] = parse_json(context["articles_" + str(index)])
+
+                context["total_count_" + str(index)] = len(my_array)
+                context["q_" + str(index)] = [b, c]
+                index += 1
+                my_array.clear()
+
 
     return render(request, "dimension.html", {'context': context})
 
@@ -542,36 +605,6 @@ def dimensional_search(request):
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
-import datetime
-
-
-def chart(request):
-
-    context = {}
-    for i in range(30):
-        context["articles_"+str(i)] = request.session.get("articles_"+str(i))
-
-    data = []
-    labels = []
-
-
-    for i in range(2):
-
-        dates = []
-        context["thearticles_" + str(i)] = context["articles_" + str(i)]
-        for item in context["articles_" + str(i)]:
-            date = item["publication_date"]
-            year = date.year
-            month = date.month
-            the_date = str(year) + ", " + str(month)
-            dates.append(the_date)
-
-        my_dict = {i: dates.count(i) for i in dates}
-        context.labels = labels
-
-        context["all_" + str(i)] = my_dict
-
-    return render(request, "chart.html", context)
 
 def split_line(query):
     # split the text

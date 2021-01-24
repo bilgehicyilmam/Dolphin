@@ -9,5 +9,5 @@ urlpatterns = [
    #path('', views.search, name='search'),
    path('dimsearch/', views.dimensional_search, name='dimensional_search'),
    path('all_articles/', views.all_articles, name='all_articles'),
-   path('chart/', views.chart, name='chart'),
+
 ]
