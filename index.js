@@ -4,7 +4,7 @@ const app = express();
 // Serves Express Yourself website
 app.use(express.static('public'));
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 4001; 
 
 const expressions = [{ "name": "hasan" }];
 // seedElements(expressions, 'expressions');
