@@ -9,6 +9,11 @@ const port = process.env.PORT || 4001;
 const expressions = [{ "name": "hasan" }];
 // seedElements(expressions, 'expressions');
 
+
+app.get('/', function(req, res){
+    res.redirect('/annotations');
+ });
+
 // Get all expressions
 app.get('/annotations', (req, res, next) => {
 
