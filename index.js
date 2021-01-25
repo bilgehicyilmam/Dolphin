@@ -58,7 +58,12 @@ app.get('/annotations/:id', (req, res, next) => {
 
     collection.findOne({ id: { $regex: '/' + req.params.id } }, function (err, result) {
         if (err) throw err
-        res.send(result)
+        if (result) {
+            res.send(result)
+        }
+        else {
+            res.send({ 'message': 'Not Found' }).status(204)
+        }
     })
 
 
