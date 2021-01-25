@@ -1,6 +1,6 @@
 import itertools
 import json
-
+#import string
 from bson import json_util
 from django.shortcuts import render
 from .models import *
@@ -668,10 +668,17 @@ def home(request):
             print(queris)
             articles = []
             counter = 0
+            my_list=[]
+            #invalidcharacters = set(string.punctuation)
             for que in queris:
+                quer = ""
+                tmp_quer = quer + que
+                quer = tmp_quer
+                syn_reg = r'(?i)\b' + quer + r'\b'
+                syn_regex = re.compile(syn_reg)
                 counter+= 1
                 print(counter)
-                pat = r'(?i)\b(?:(?!\band\b|\bor\b|\bbut\b)\w)+\b'
+                pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b)\w)+\b'
                 #reg = re.compile(pat)
                 que = re.findall(pat, que)
                 print(que)
@@ -683,16 +690,37 @@ def home(request):
                     #pt = str(pattern)
                 print(pp)
                 regex = re.compile(pp)
+                print(regex)
                 articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
+                sys_words = []
+                synonymous = sys_collection.find({"label": {"$regex": syn_regex }})
+                for s in synonymous:
+                    for i in s["synonymous"]:
+                        sys_words.append(i)
+                my_list = my_list+sys_words
+
+                tmp_syn = []
+                for syn in sys_words:
+                    # if any(char in invalidcharacters for char in syn):
+                    #     continue
+                    # else:
+                    articl2 = collection.find({"$or": [{"abstract": {"$regex": syn}}, {"title": {"$regex": syn}}]})
+                    for i in articl2:
+                        tmp_syn.append(i)
                 #articl = collection.find({"$and": [{"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]}, {"publication_date": {date}}]})
                 if len(articles) == 0 and counter == 1:
                     for item in articl:
                         articles.append(item)
+                    for it in tmp_syn:
+                        articles.append(it)
                 else:
                     temp_arc=[]
                     for a in articl:
                         if a in articles:
                             temp_arc.append(a)
+                    for ite in tmp_syn:
+                        if ite in articles:
+                            temp_arc.append(ite)
                     articles = temp_arc
 
             searched_total_articles = len(articles)
@@ -715,7 +743,8 @@ def home(request):
                 "form": form,
                 "article_page_ob": article_page_ob,
                 "query": query,
-                "queris": queris
+                "queris": queris,
+                "my_list": my_list
             }
 
     return render(request, "articles.html", context)

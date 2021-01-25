@@ -43,7 +43,7 @@
         <h2 class="myHeader">Number of articles found based on your search</h2>
 
             <h3 class="myHeader"><p style="color:red">({{ query }}):</p></h3>
-
+            <h3 class="myHeader"><p style="color:red">({{ my_list }}):</p></h3>
         <h3 class="myHeader">{{ searched_articles }}</h3>
 
         <h2 class="myHeader">Search Results</h2>
@@ -61,6 +61,7 @@
                         {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
                         </span>
                     {% endfor %}
+
                 </small></strong></div>
                 <p>
                 <p>
@@ -69,7 +70,7 @@
             <div><strong><small>
                 {% for data in instance.keywords %}
                         <span>
-                        {{ data}},
+                        {{ data }},
                         </span>
                     {% endfor %}</small></strong></div>
             </div>
