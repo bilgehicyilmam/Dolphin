@@ -8,50 +8,51 @@
 {% extends 'main.html' %}
 {% block content %}
 
-    <div class="container text-center">
+    <div class="container" style="margin-top: 5%">
                 <p></p>
                 <p></p>
+                <p></p>
+                <p></p>
+                <div><h5>{{ tit|default_if_none:"" }}</h5></div>
+                <p></p>
+
                 <p></p>
                 <div>
-                    <h6>ID:</h6> {{ idd  }}
+                    <p>Pubmed ID: <b>{{ pubmed_id|default_if_none:"" }}</b></p>
                 </div>
+
+                <div><p>Publication Date: <b>{{ pub_date|default_if_none:"" }}</b></p> </div>
                 <p></p>
-                <div>
-                    <h6>Pubmed ID:</h6> {{ pubmed_id  }}
-                </div>
+                <div><p>DOI Link: <a href="https://doi.org/{{ dooi|default_if_none:"" }}"> {{ dooi|default_if_none:"" }}</p> </a> </div>
                 <p></p>
-                <div><h6>Title:</h6> {{ tit }}</div>
-                <p></p>
-                <div><h6>Publication Date:</h6> {{ pub_date }}</div>
-                <p></p>
-                <div><h6>DOI Link:</h6><a href="https://doi.org/{{ dooi }}"><h6>{{ dooi }}</h6></a> </div>
-                <p></p>
-                <div><strong><small><h6>Authors:</h6>
+                <div style="font-size: 17px; color: #808080"><strong><small>
                 {% for data in auth %}
                         <span>
-                        {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                        {{ data.firstname|default_if_none:"" }} {{ data.lastname|default_if_none:"" }} {{ data.initials|default_if_none:"" }} {{ data.affiliation|default_if_none:"" }},
                         </span>
                     {% endfor %}
                 </small></strong></div>
-                <p>
-                <p>
-                <div><p><h6>Abstract:</h6> {{ abst }}</p></div>
                 <p></p>
-                <div><strong><small><h6>Keywords:</h6>
+                <div><strong><small><p><b>Keywords:</b>
                 {% for data in keyw %}
                         <span>
-                         {{ data}},
+                         {{ data|default_if_none:""}},
                         </span>
                     {% endfor %}</small></strong></div>
+                <p>
+                <p>
+                <div><p><h6>Abstract</h6> {{ abst|default_if_none:"" }} </p> </div>
+                <p></p>
 
+                </p>
                 <p></p>
-                <div><h6>Conclusions:</h6> {{ conc }}</div>
+                <div><p><b>Conclusions </b>{{ conc|default_if_none:"" }}</p></div>
                 <p></p>
-                <div><h6>Results:</h6> {{ res }}</div>
+                <div><p><b>Results </b> {{ res|default_if_none:"" }}</p></div>
                 <p></p>
-                <div><h6>Journals:</h6> {{ jour }}</div>
+                <div><p><b>Journals </b>{{ jour|default_if_none:"" }}</p></div>
                 <p></p>
-                <div><h6>CopyRights::</h6> {{ copy }}</div>
+                <div><p><b>CopyRights </b>{{ copy|default_if_none:"" }}</p></div>
                 <p></p>
     </div>
 
