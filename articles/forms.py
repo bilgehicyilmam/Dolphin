@@ -12,12 +12,13 @@ class ArticleSearch(forms.ModelForm):
     class Meta:
         model = article
         labels = {
-            "abstract": "Enter Search Term",
+            "abstract": " ",
             "publication_date": "Faceted Search"
         }
-        fields = ['abstract', 'publication_date']
+
+        fields = ['abstract']
         widgets = {
-            'abstract': TextInput(attrs={'size':'70', 'placeholder':"Enter Search Term"})
+            'abstract': TextInput(attrs={'size':'70','placeholder':"Surf on Covid-19 Articles", "class":"form-control", "style":"font-family:Times New Roman"})
             #'publication_date': datetime(attrs={'input_formats': ["%Y-%m-%d %H:%M:%S"]}),
             #'publication_date' : forms.DateTimeField(required=False,input_formats=['%Y-%m-%d %H:%M:%S'])
 

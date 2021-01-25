@@ -59,7 +59,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'articles',
     'ontologies',
-    'crispy_forms'
+    'crispy_forms',
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [

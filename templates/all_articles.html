@@ -4,6 +4,9 @@
 
 {% block content %}
 
+    <div class="col-lg-6 container" style="margin-top: 4%">
+
+
       <div style=" margin-top: 1%; position:relative;">
 
             <div id="q_0" style="display:none">
@@ -12,9 +15,9 @@
                     {% for instance in article_page_ob_0 %}
                         <div>
                             <div><strong><small>
-                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h6>{{ instance.pubmed_id }}</h6></a></small></strong>
                             </div>
-                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><h6>{{ instance.title }}</h6></div>
                             <div><strong><small><h6>Authors:</h6>
                             {% for data in instance.authors %}
                                     <span>
@@ -222,9 +225,9 @@
                     {% for instance in article_page_ob_4 %}
                         <div>
                             <div><strong><small>
-                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h6>{{ instance.pubmed_id }}</h6></a></small></strong>
                             </div>
-                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><h6>{{ instance.title }}</h6></div>
                             <div><strong><small><h6>Authors:</h6>
                             {% for data in instance.authors %}
                                     <span>
@@ -273,31 +276,24 @@
                     {% for instance in article_page_ob_5 %}
                         <div>
                             <div><strong><small>
-                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h5>{{ instance.pubmed_id }}</h5></a></small></strong>
                             </div>
-                            <div><h3>{{ instance.title }}</h3></div>
-                            <div><strong><small><h6>Authors:</h6>
-                            {% for data in instance.authors %}
-                                    <span>
-                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
-                                    </span>
-                                {% endfor %}
-                            </small></strong></div>
+                            <div><h5>{{ instance.title|default_if_none:"" }}</h5></div>
                             <p>
                             <p>
                                 <div>
-                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                            <p></p>{{ instance.abstract|default_if_none:""|truncatechars:330 }}</div>
                         <div><strong><small>
                             {% for data in instance.keywords %}
                                     <span>
-                                    {{ data}},
+                                    {{ data|default_if_none:""}},
                                     </span>
                                 {% endfor %}</small></strong></div>
                         </div>
                         <hr/>
                     {% endfor %}
 
-                  <div class="pagination">
+                  <div class="pagination" style="margin-bottom: 5%">
                     <div class="container text-center">
                             <span class="step-links">
                                 {% if article_page_ob_5.has_previous %}
@@ -777,6 +773,56 @@
                 {% endif %}
             </div>
 
+            <div id="q_15" style="display:none">
+
+                  {% if article_page_ob_15 %}
+                    {% for instance in article_page_ob_15 %}
+                        <div>
+                            <div><strong><small>
+                                <a href="{% url "articles_detail" pubmed_id=instance.pubmed_id %}"><h3>{{ instance.pubmed_id }}</h3></a></small></strong>
+                            </div>
+                            <div><h3>{{ instance.title }}</h3></div>
+                            <div><strong><small><h6>Authors:</h6>
+                            {% for data in instance.authors %}
+                                    <span>
+                                    {{ data.firstname }} {{ data.lastname }} {{ data.initials }} {{ data.affiliation }},
+                                    </span>
+                                {% endfor %}
+                            </small></strong></div>
+                            <p>
+                            <p>
+                                <div>
+                            <p></p><h6>Abstract:</h6>{{ instance.abstract|truncatechars:500 }}</div>
+                        <div><strong><small>
+                            {% for data in instance.keywords %}
+                                    <span>
+                                    {{ data}},
+                                    </span>
+                                {% endfor %}</small></strong></div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+
+                  <div class="pagination">
+                    <div class="container text-center">
+                            <span class="step-links">
+                                {% if article_page_ob_15.has_previous %}
+                                    <a href="?dim=15&page=1">&laquo;First</a>
+                                    <a href="?dim=15&page={{ article_page_ob_15.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current" >
+                                    Page {{ article_page_ob_15.number }} of {{ article_page_ob_15.paginator.num_pages }}.
+                                </span>
+
+                                {% if article_page_ob_15.has_next %}
+                                    <a href="?dim=15&page={{ article_page_ob_15.next_page_number }}">Next</a>
+                                    <a href="?dim=15&page={{ article_page_ob_15.paginator.num_pages }}">&raquo; Last</a>
+                                {% endif %}
+                            </span>
+                    </div>
+                  </div>
+                {% endif %}
+            </div>
 
 
 
@@ -793,8 +839,9 @@
 
 
 
+    </div>
 
-        </div>
+</div>
 
 
 <script  src="{% static '/js/app.js' %}"></script>
