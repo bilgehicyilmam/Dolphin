@@ -49,10 +49,11 @@ app.get('/annotations/search/:keyword', (req, res, next) => {
 });
 
 
-/*
-
-:param id: an article id  
-*/
+/**
+ * Return an annotation object
+ * @param {number} id
+ * @returns {Object}
+ */ 
 app.get('/annotations/:id', (req, res, next) => {
 
     collection.findOne({ id: { $regex: '/' + req.params.id } }, function (err, result) {
@@ -63,7 +64,11 @@ app.get('/annotations/:id', (req, res, next) => {
 
 });
 
-// Get all annotations of an article
+/**
+ * Given article id, returns all annotations of the article
+ * @param {number} id
+ * @returns {Object}
+ */ 
 app.get('/annotations/pmid/:id', (req, res, next) => {
 
     collection.find({ 'target.source': { $regex: '/' + req.params.id } }).toArray(function (err, result) {
@@ -74,7 +79,11 @@ app.get('/annotations/pmid/:id', (req, res, next) => {
 
 });
 
-// Get all annotations of an article
+/**
+ * Given an article returns only labels
+ * @param {number} id
+ * @returns {Array}
+ */
 app.get('/annotations/pmid/:id/label', (req, res, next) => {
 
     collection.find(
@@ -87,8 +96,11 @@ app.get('/annotations/pmid/:id/label', (req, res, next) => {
 });
 
 
-// Get all annotations of an article
-// return: annotations of an article
+/**
+ * Given an article returns only targets
+ * @param {number} id
+ * @returns {Array}
+ */
 app.get('/annotations/pmid/:id/target', (req, res, next) => {
     collection.find(
         { 'target.source': { $regex: '/' + req.params.id } },
@@ -99,11 +111,16 @@ app.get('/annotations/pmid/:id/target', (req, res, next) => {
         })
 });
 
-// db initialization
-// pooling
+/**
+ * Connect database and keep the connection
+ * @param {string} db
+ * @param {string} collection 
+ * @param {string} mongo_uri
+ * @returns {Object} a connection object
+ */
+var MongoClient = require('mongodb').MongoClient
 let db;
 let collection;
-var MongoClient = require('mongodb').MongoClient
 const mongo_uri = "mongodb+srv://new_user_587:nXxoVnTlNcva3Mro@cluster0.hngug.mongodb.net"
 
 MongoClient
@@ -115,6 +132,5 @@ MongoClient
         app.listen(port, () => {
             console.log(`listening on port ${port}`)
         })
-
     })
     .catch(error => console.error(error));
