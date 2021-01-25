@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <style>
+        .article {
+            width: 960px;
+            margin: 0 auto;
+        }
+    </style>
+    
+    <div class="article">
+        <h1>Phase I clinical trials have established</h1>
+        Phase I clinical trials have established low-dose, whole-lung radiotherapy (LD-RT) as safe for patients with
+        COVID-19-related pneumonia. By focally dampening cytokine hyperactivation, LD-RT may improve disease outcomes
+        through immunomodulation.
+        Patients with COVID-19-related pneumonia were treated with 1.5 Gy whole-lung LD-RT, followed for 28 days or
+        until hospital discharge, and compared to age- and comorbidity-matched controls meeting identical disease
+        severity criteria. Eligible patients were hospitalized, SARS-CoV-2 positive, had radiographic consolidations,
+        and required supplemental oxygen but had not rapidly declined on admission or prior to drug therapy or LD-RT.
+        Efficacy endpoints were time to clinical recovery (TTCR), radiographic improvement, and biomarker response.
+        Ten patients received whole-lung LD-RT between April 24 and May 24, 2020 and were compared to ten control
+        patients blindly matched by age and comorbidity. Six controls received COVID-19 drug therapies. Median TTCR was
+        12 days in the control cohort compared to 3 days in the LD-RT cohort (HR 2.9, p=0.05). Median time to hospital
+        discharge (20 versus 12 days, p=0.19) and intubation rates (40% versus 10%, p=0.12) in the control and LD-RT
+        cohorts were compared. Median time from admission to recovery was 10 versus 13 days (p=0.13). Hospital duration
+        average was 19 versus 22.6 days (p=0.53). Average hospital days on supplemental oxygen of any duration was 13.1
+        versus 14.7 days (p=0.69). Average days with a documented fever was 1 versus 4.3 days (p=0.12). 28-day overall
+        survival was 90% for both cohorts. The LD-RT cohort trended towards superior rates of improved radiographs
+        (p=0.12) and delirium (p&lt;0.01). Statistically-significant reductions were observed in numerous hematologic,
+        cardiac, hepatic, and inflammatory markers.
+        A prospective cohort of predominantly elderly hospitalized patients with COVID-19-related pneumonia were
+        recovered to room air quicker than age- and comorbidity-matched controls, with trending or significant
+        improvements in delirium, radiographs, and biomarkers, and no significant acute toxicity. Low dose whole-lung
+        radiation for patients with COVID-19-related pneumonia appears safe and may be an effective immunomodulatory
+        treatment. Larger prospective randomized trials are needed to define the efficacy of LD-RT for COVID-19.
+    </div>
+
+
+    <script>
+        const Http = new XMLHttpRequest();
+        const url = 'http://anntt.herokuapp.com/annotations/pmid/33340603';
+        Http.open("GET", url);
+        Http.send();
+
+        Http.onreadystatechange = (e) => {
+            console.log(Http.responseText)
+        }
+    </script>
+</body>
+
+</html>

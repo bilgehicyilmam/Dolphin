@@ -6,11 +6,14 @@ app.use(express.static('public'));
 
 const port = process.env.PORT || 4001;
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+  });
+
 app.get('/', function(req, res){
     res.redirect('/annotations');
  });
-
-
 
 /**
  * Returns random 10 annotations
