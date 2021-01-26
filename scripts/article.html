@@ -104,7 +104,8 @@
                             let exact = data[i].target.selector.exact
                             let prefix = data[i].target.selector.prefix
                             let suffix = data[i].target.selector.suffix
-                            let allText = prefix + exact + suffix
+                            let allText = exact
+                            // let allText = prefix + exact + suffix
                             const newText = `<div class="tooltip popup">${exact}
                                             <span class="tooltiptext">${data[i].body[1]['rdfs:Class']}<br />
                                             ${data[i].body[3]['obo:IAO_0000115']}</span>
@@ -114,6 +115,11 @@
                         // let exact = data[0].target.selector.exact
                     }
                 })
+        }
+
+        function replaceText(text, newText) {
+            console.log("called replaceText")
+            document.body.innerHTML = document.body.innerHTML.replace(text, newText);
         }
 
         function changeSingle(annotation) {
@@ -128,23 +134,19 @@
 
             console.log(allText, '\n\n', newText)
             changeRaw(allText, newText)
-
         }
 
         function changeRaw(allText) {
             console.log('called changeRow')
             console.log(allText)
             let article = document.getElementById('article').innerHTML
-
             article = article.replace(allText, "LOREM")
-
             console.log(article)
         }
 
-        function replaceText(text, newText) {
-            console.log("called replaceText")
-            document.body.innerHTML = document.body.innerHTML.replace(text, newText);
-        }
+      
+
+        changeAll()
 
         function getAnnotations() {
             // Practical example
@@ -162,64 +164,37 @@
 
 
         }
-
-      
-
-        // changeRaw()
         getAnnotations()
-
-
-
-        // const Http = new XMLHttpRequest();
-        // const url = 'http://anntt.herokuapp.com/annotations/pmid/33340603';
-        // Http.open("GET", url);
-        // Http.send();
-
-        // Http.onreadystatechange = (e) => {
-        //     // console.table(Http.responseText)
-        //     // console.log( JSON.stringify(Http.responseText, null, 2)) // spacing level = 2) )
-        //     const raw_response = JSON.parse(Http.responseText)
-
-        //     console.log(raw_response)
-
-        //     // popups(response)
-        // }
-
-        // function popups(response) {
-        //     // console.log(response[1])
-        //     // for (const element of response ){
-        //     //     console.log(response.id)
-        //     // }
-        // }
+  
     </script>
 
     <!--
 
     Main query: Lung cancer
-Dimension 1: Left amygdala, right amygdala
-Dimension 2: man, woman
+    Dimension 1: Left amygdala, right amygdala
+    Dimension 2: man, woman
 
-Results:
+    Results:
 
-lung cancer
-lung cancer, left amygdala
-lung cancer, right amygdala
-lung cancer, man
-lung cancer, woman
-lung cancer, left amygdala, man
-lung cancer, left amygdala, woman
-lung cancer, right amygdala, man
-lung cancer, right amygdala, woman
+    lung cancer
+    lung cancer, left amygdala
+    lung cancer, right amygdala
+    lung cancer, man
+    lung cancer, woman
+    lung cancer, left amygdala, man
+    lung cancer, left amygdala, woman
+    lung cancer, right amygdala, man
+    lung cancer, right amygdala, woman
 
-* Sonuçlara baktığımda erkekler kadındalar arasındaki incelemenin yoğunluğunu görebilirim.
-* Prostat kanseri deseydik tabiki sonuçlar açık bir şekilde
-* Bunları yaparken synonmymous lara da bakıyorum. 
+    * Sonuçlara baktığımda erkekler kadındalar arasındaki incelemenin yoğunluğunu görebilirim.
+    * Prostat kanseri deseydik tabiki sonuçlar açık bir şekilde
+    * Bunları yaparken synonmymous lara da bakıyorum. 
 
-YANLIŞLAR
-* 600 tane woman vardı, single olarak orada.
+    YANLIŞLAR
+    * 600 tane woman vardı, single olarak orada.
 
-PAKETLEME ZAMANI GELDİ, BU DA ZAMAN ALAN BİŞEY.
-    - Sormak istediğiniz bir şey varsa sorun.
+    PAKETLEME ZAMANI GELDİ, BU DA ZAMAN ALAN BİŞEY.
+        - Sormak istediğiniz bir şey varsa sorun.
     */
 -->
 
