@@ -57,7 +57,7 @@
         }
     </style>
 
-    <div class="article">
+    <div class="article" id="article">
         <h1>Phase I clinical trials have established</h1>
         Phase I clinical trials have established low-dose, whole-lung radiotherapy (LD-RT) as safe for patients with
         COVID-19-related pneumonia. By focally dampening cytokine hyperactivation, LD-RT may improve disease outcomes
@@ -91,35 +91,84 @@
     </style>
 
     <script>
-        // Practical example
-        fetch('http://anntt.herokuapp.com/annotations/pmid/33340603')
-            .then(response => response.json())
-            .then(data => {
-                if (typeof data === 'object') {
-                    console.log(typeof data)
-                   
-                    for (i = 0; i < data.length; i++) {
-                        let annotation = JSON.stringify(data[i])
-                        console.log(data)
-                        console.log(typeof annotation)
-                        console.log(annotation)
-                        let exact = annotation.target.selector.exact
-                        let prefix = annotation.target.selector.prefix
-                        let suffix = annotation.target.selector.suffix
-                        console.log(exact)
-                        const newText = `<div class="tooltip popup">${exact}
-                                            <span class="tooltiptext">${element.body[1]['rdfs:Class']}<br />
-                                            ${element.body[3]['obo:IAO_0000115']}</span>
-                                         </div>`
-                        replaceText(exact, newText)
-                    }
-                    // let exact = data[0].target.selector.exact
-                }
-            })
+        function changeAll() {
+            // Practical example
+            fetch('http://anntt.herokuapp.com/annotations/pmid/33340603')
+                .then(response => response.json())
+                .then(data => {
+                    if (typeof data === 'object') {
+                        console.log(typeof data)
 
-        function replaceText(exact, newText) {
-            document.body.innerHTML = document.body.innerHTML.replace(exact, newText);
-        } 1
+                        for (i = 0; i < data.length; i++) {
+                            console.log(typeof annotation)
+                            let exact = data[i].target.selector.exact
+                            let prefix = data[i].target.selector.prefix
+                            let suffix = data[i].target.selector.suffix
+                            let allText = prefix + exact + suffix
+                            const newText = `<div class="tooltip popup">${exact}
+                                            <span class="tooltiptext">${data[i].body[1]['rdfs:Class']}<br />
+                                            ${data[i].body[3]['obo:IAO_0000115']}</span>
+                                         </div>`
+                            replaceText(allText, newText)
+                        }
+                        // let exact = data[0].target.selector.exact
+                    }
+                })
+        }
+
+        function changeSingle(annotation) {
+            console.log(typeof annotation)
+            let exact = annotation.target.selector.exact
+            let prefix = annotation.target.selector.prefix
+            let suffix = annotation.target.selector.suffix
+            let allText = prefix + exact + suffix
+            const newText = `${prefix}<div class="tooltip popup">${exact}
+                                <span class="tooltiptext">${annotation.body[1]['rdfs:Class']}<br />${annotation.body[3]['obo:IAO_0000115']}</span>
+                            </div>${suffix}`
+
+            console.log(allText, '\n\n', newText)
+            changeRaw(allText, newText)
+
+        }
+
+        function changeRaw(allText) {
+            console.log('called changeRow')
+            console.log(allText)
+            let article = document.getElementById('article').innerHTML
+
+            article = article.replace(allText, "LOREM")
+
+            console.log(article)
+        }
+
+        function replaceText(text, newText) {
+            console.log("called replaceText")
+            document.body.innerHTML = document.body.innerHTML.replace(text, newText);
+        }
+
+        function getAnnotations() {
+            // Practical example
+            let result = {}
+            fetch('http://anntt.herokuapp.com/annotations/pmid/33340603')
+                .then(response => response.json())
+                .then(data => {
+                    if (typeof data === 'object') {
+
+                        console.log('data returned from fetch', data)
+                        console.log(typeof data)
+                        changeSingle(data[0])
+                    }
+                })
+
+
+        }
+
+      
+
+        // changeRaw()
+        getAnnotations()
+
+
 
         // const Http = new XMLHttpRequest();
         // const url = 'http://anntt.herokuapp.com/annotations/pmid/33340603';
@@ -143,6 +192,37 @@
         //     // }
         // }
     </script>
+
+    <!--
+
+    Main query: Lung cancer
+Dimension 1: Left amygdala, right amygdala
+Dimension 2: man, woman
+
+Results:
+
+lung cancer
+lung cancer, left amygdala
+lung cancer, right amygdala
+lung cancer, man
+lung cancer, woman
+lung cancer, left amygdala, man
+lung cancer, left amygdala, woman
+lung cancer, right amygdala, man
+lung cancer, right amygdala, woman
+
+* Sonuçlara baktığımda erkekler kadındalar arasındaki incelemenin yoğunluğunu görebilirim.
+* Prostat kanseri deseydik tabiki sonuçlar açık bir şekilde
+* Bunları yaparken synonmymous lara da bakıyorum. 
+
+YANLIŞLAR
+* 600 tane woman vardı, single olarak orada.
+
+PAKETLEME ZAMANI GELDİ, BU DA ZAMAN ALAN BİŞEY.
+    - Sormak istediğiniz bir şey varsa sorun.
+    */
+-->
+
 </body>
 
 </html>
