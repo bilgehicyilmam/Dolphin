@@ -1,65 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>WELCOME</title>
 </head>
+
 <body>
-{% extends 'main.html' %}
-{% block content %}
+    {% extends 'main.html' %}
+    {% block content %}
 
     <div class="container" style="margin-top: 5%">
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <div><h5>{{ tit|default_if_none:"" }}</h5></div>
-                <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <div>
+            <h5>{{ tit|default_if_none:"" }}</h5>
+        </div>
+        <p></p>
 
-                <p></p>
-                <div>
-                    <p>Pubmed ID: <b>{{ pubmed_id|default_if_none:"" }}</b></p>
-                </div>
+        <p></p>
+        <div>
+            <p>Pubmed ID: <b>{{ pubmed_id|default_if_none:"" }}</b></p>
+        </div>
 
-                <div><p>Publication Date: <b>{{ pub_date|default_if_none:"" }}</b></p> </div>
-                <p></p>
-                <div><p>DOI Link: <a href="https://doi.org/{{ dooi|default_if_none:"" }}"> {{ dooi|default_if_none:"" }}</p> </a> </div>
-                <p></p>
-                <div style="font-size: 17px; color: #808080"><strong><small>
-                {% for data in auth %}
-                        <span>
-                        {{ data.firstname|default_if_none:"" }} {{ data.lastname|default_if_none:"" }} {{ data.initials|default_if_none:"" }} {{ data.affiliation|default_if_none:"" }},
-                        </span>
+        <div>
+            <p>Publication Date: <b>{{ pub_date|default_if_none:"" }}</b></p>
+        </div>
+        <p></p>
+        <div>
+            <p>DOI Link: <a href="https://doi.org/{{ dooi|default_if_none:"" }}"> {{ dooi|default_if_none:"" }}</p> </a>
+        </div>
+        <p></p>
+        <div style="font-size: 17px; color: #808080"><strong><small>
+                    {% for data in auth %}
+                    <span>
+                        {{ data.firstname|default_if_none:"" }} {{ data.lastname|default_if_none:"" }} {{
+                        data.initials|default_if_none:"" }} {{ data.affiliation|default_if_none:"" }},
+                    </span>
                     {% endfor %}
                 </small></strong></div>
-                <p></p>
-                <div><strong><small><p><b>Keywords:</b>
-                {% for data in keyw %}
+        <p></p>
+        <div><strong><small>
+                    <p><b>Keywords:</b>
+                        {% for data in keyw %}
                         <span>
-                         {{ data|default_if_none:""}},
+                            {{ data|default_if_none:""}},
                         </span>
-                    {% endfor %}</small></strong></div>
-                <p>
-                <p>
-                <div><p><h6>Abstract</h6> {{ abst|default_if_none:"" }} </p> </div>
-                <p></p>
+                        {% endfor %}
+                </small></strong></div>
+        <p>
+        <p>
+        <div id="article">
+            <p>
+            <h6>Abstract</h6> {{ abst|default_if_none:"" }} </p>
+        </div>
+        <p></p>
 
-                </p>
-                <p></p>
-                <div><p><b>Conclusions </b>{{ conc|default_if_none:"" }}</p></div>
-                <p></p>
-                <div><p><b>Results </b> {{ res|default_if_none:"" }}</p></div>
-                <p></p>
-                <div><p><b>Journals </b>{{ jour|default_if_none:"" }}</p></div>
-                <p></p>
-                <div><p><b>CopyRights </b>{{ copy|default_if_none:"" }}</p></div>
-                <p></p>
+        </p>
+        <p></p>
+        <div>
+            <p><b>Conclusions </b>{{ conc|default_if_none:"" }}</p>
+        </div>
+        <p></p>
+        <div>
+            <p><b>Results </b> {{ res|default_if_none:"" }}</p>
+        </div>
+        <p></p>
+        <div>
+            <p><b>Journals </b>{{ jour|default_if_none:"" }}</p>
+        </div>
+        <p></p>
+        <div>
+            <p><b>CopyRights </b>{{ copy|default_if_none:"" }}</p>
+        </div>
+        <p></p>
     </div>
 
+    <style>
+         .tooltip2 {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+            font-weight: 700;
+        }
 
-{% endblock %}
+        .tooltip2 .tooltiptext {
+            font-family: Helvetica;
+            visibility: hidden;
+            background-color: #555;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 11px;
+            font-weight: 300;
+        }
+
+        .tooltip2 .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip2:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .popup {
+            color: red;
+        }
+    </style>
+    <script>
+        function changeAll() {
+            // Practical example
+            const url = window.location.pathname;
+            const pubmedID = url.substring(url.lastIndexOf('/')+1);
+
+            if(pubmedID == undefined) {
+                return
+            }
+            const new_url = 'http://anntt.herokuapp.com/annotations/pmid/' + pubmedID
+            
+            fetch(new_url)
+                .then(response => response.json())
+                .then(data => {
+                    if (typeof data === 'object') {
+                        console.log(typeof data)
+                        console.log(data)
+                        for (i = 0; i < data.length; i++) {
+                            console.log(typeof annotation)
+                            let exact = data[i].target.selector.exact
+                            let prefix = data[i].target.selector.prefix
+                            let suffix = data[i].target.selector.suffix
+                            let allText = exact
+                            console.log(exact)
+                            // let allText = prefix + exact + suffix
+                           
+                            try {
+                                const newText = `<div class="tooltip2">${exact}<span class="tooltiptext">${data[i].body[1]['rdfs:Class']}<br />${data[i].body[3]['obo:IAO_0000115']}</span>
+                                     </div>`
+                                replaceText(allText, newText)
+                                
+                            } catch (error) {
+                                
+                            }
+                                
+                        // if (typeof data[i].body[3]['obo:IAO_0000115'] != "undefined")    {
+                                
+                        //     }
+
+
+                        }
+                        // let exact = data[0].target.selector.exact
+                    }
+                })
+        }
+
+        function replaceText(text, newText) {
+            console.log("called replaceText")
+            document.body.innerHTML = document.body.innerHTML.replace(text, newText);
+        }
+
+        changeAll()
+    </script>
+    {% endblock %}
 </body>
+
 </html>
-
-
-
