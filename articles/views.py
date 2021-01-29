@@ -20,7 +20,14 @@ db = cluster["dolphin"]
 collection = db["articles_article"]
 sys_collection = db["ontologies_ontology"]
 
+cluster2 = MongoClient("mongodb+srv://new_user_587:nXxoVnTlNcva3Mro@cluster0.hngug.mongodb.net/<dbname>?retryWrites=true&w=majority")
+db2 = cluster2["annotations"]
+collection2 = db2["annotations"]
+
+
+
 import datetime
+from datetime import datetime
 import pycountry
 
 
@@ -608,13 +615,37 @@ def parse_json(data):
 
 def split_line(query):
     # split the text
-    result = query.split(",")
-    words = []
-    # for each word in the line:
-    for word in result:
-        # append the word
-        words.append(word)
-    return words
+    result = [word.strip() for word in query.split(',')]
+    # result = query.split(",")
+    # words = []
+    # # for each word in the line:
+    # for word in result:
+    #     # append the word
+    #     word.strip()
+    #     words.append(word)
+    # return words
+    return result
+# def split_startdate(start_date):
+#     # split the text
+#     result = start_date.replace("-", ", ")
+#     result = result.replace(" 0", " ")
+#     strt = ""
+#     # for each word in the line:
+#     for dat in result:
+#         # append the word
+#         strt = strt + dat
+#     return strt
+#
+# def split_enddate(end_date):
+#     # split the text
+#     result = end_date.replace("-",", ")
+#     result = result.replace(" 0", " ")
+#     edn = ""
+#     # for each word in the line:
+#     for dat in result:
+#         # append the word
+#         edn = edn + dat
+#     return edn
 
 # def split_space(queris):
 #     # split the text
@@ -635,11 +666,17 @@ def home(request):
         "total_articles": total_articles,
         "form": form,
     }
-    query = request.GET.get('abstract', '')
+    query = request.GET.get('abstract')
+    start_date = request.GET.get('start')
+    end_date = request.GET.get('end')
+    country = request.GET.get('country')
     print(query)
-    date = request.GET.get('publication_date', '')
-    date2 = request.GET.get('publication_date', '')
-    print(date)
+    print(country)
+    print(start_date)
+    print(type(start_date))
+    #date = request.GET.get('publication_date', '')
+    #date2 = request.GET.get('publication_date', '')
+    #print(date)
     if request.method == 'POST':
 
         pattern = r'(?i)\b' + query + r'\b'
@@ -665,6 +702,15 @@ def home(request):
 
         if query:
             queris = split_line(query)
+            dt_start = start_date.replace("-", ", ")
+            dt_start= dt_start.replace(" 0", " ")
+            #dt_start = split_startdate(start_date)
+            dt_end = end_date.replace("-", ", ")
+            dt_end = dt_end.replace(" 0", " ")
+            start_year, start_month, start_day = dt_start.split(", ",2)
+            end_year, end_month, end_day = dt_end.split(", ",2)
+            print(end_day, end_month, end_year)
+            #print(type(end_day))
             print(queris)
             articles = []
             counter = 0
@@ -672,54 +718,128 @@ def home(request):
             #invalidcharacters = set(string.punctuation)
             for que in queris:
                 quer = ""
-                tmp_quer = quer + que
-                quer = tmp_quer
-                syn_reg = r'(?i)\b' + quer + r'\b'
+                #tmp_quer = quer + que
+                #quer = tmp_quer
+                #quer = quer.strip()
+                pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b)\w)+\b'
+                quer2 = re.findall(pat, que)
+                print(quer2)
+                #tmp_quer = quer.join(quer2)
+                #quer = tmp_quer
+                #quer=str(quer)
+                #print(quer)
+                syn_reg= r'\b' + que + r'\b'
+                print(syn_reg)
+                #for qus in quer2:
+                #    if qus == 'AND' or qus == 'OR' or qus == 'BUT':
+                        #psor=r'\b' + qus + r'\b'
+                #        tm= syn_reg+ qus
+                #        syn_reg=tm
+                #    else:
+                #        psyn = r'(?i:' + qus + r')'
+                #        tmp = syn_reg + psyn
+                #        syn_reg=tmp
+
                 syn_regex = re.compile(syn_reg)
+                print(syn_regex)
                 counter+= 1
                 print(counter)
-                pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b)\w)+\b'
+                #pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b)\w)+\b'
                 #reg = re.compile(pat)
                 que = re.findall(pat, que)
                 print(que)
-                pp = r'(?i)'
+                pp = r''
                 for qu in que:
-                    pt = r'\b' + qu + r'\b\W+(?:\w+\W+){0,4}?'
-                    tmp= pp + pt
-                    pp= tmp
+                    if qu == 'AND' or qu == 'OR' or qu == 'BUT':
+                        po= r'\b' + qu + r'\b\W+(?:\w+\W+){0,4}?'
+                        tmp=  pp + po
+                        pp=tmp
+                    else:
+                        pt = r'\b(?i:' + qu + r')(| |ing|ed|d)\b\W+(?:\w+\W+){0,4}?'
+                        tmp= pp + pt
+                        pp= tmp
                     #pt = str(pattern)
                 print(pp)
                 regex = re.compile(pp)
                 print(regex)
-                articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
+                #c = country
+                #regg= r'\b' + c + r'\b'
+                #reggg=re.compile(regg)
+                #print(reggg)
+                #str_date= datetime.strptime(start_date, "%Y-%m-%d" )
+                print(start_year)
+                #str=start_date.replace("-",", ")
+                #str= str.replace(" 0", " ")
+                #str = str + ", 1, 30"
+                #print(str)
+                #endd=end_date.replace("-",", ")
+                #endd = endd.replace(" 0", " ")
+                #endd = endd + ", 1, 30"
+                #articl = collection.find({"$and": [{"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]}, {"authors": {"regex": country}}]})
+                articl = collection.find({"$and":
+                                              [{"$or":
+                                                    [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]},
+                                               {"publication_date": {"$gte": datetime(int(start_year), int(start_month), int(start_day), 1, 30), "$lte": datetime(int(end_year), int(end_month), int(end_day), 1, 30)}},
+                                               {"authors": {"$regex": country}}
+                                               ]
+                                          })
+                #articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
+                #articl=collection.find({"authors": country}),
                 sys_words = []
                 synonymous = sys_collection.find({"label": {"$regex": syn_regex }})
                 for s in synonymous:
                     for i in s["synonymous"]:
                         sys_words.append(i)
                 my_list = my_list+sys_words
-
+                #print(my_list)
                 tmp_syn = []
                 for syn in sys_words:
                     # if any(char in invalidcharacters for char in syn):
                     #     continue
                     # else:
-                    articl2 = collection.find({"$or": [{"abstract": {"$regex": syn}}, {"title": {"$regex": syn}}]})
+                    #pth= r''
+                    #for s in syn:
+                    #pth2= r'\b(?i:' + syn + r')(| |ing|ed|d)\b'
+                    #pth=pth+pth2
+                    #rege= re.compile(pth)
+                    print(syn)
+                    #pth3= r'(\w\w*)'
+                    #rege = re.compile(pth3)
+                    #print(rege)
+                    #regexx=re.match(rege, syn)
+                    #reg3= r'\b' + regexx
+                    #rr = r'\b^[a-zA-Z0-9~@#$^*()_+=[\]{}|\\,.?: -]*$\b'
+                    #rf=re.compile(rr)
+                    #rege = re.match(rr, syn)
+                    #fin= ""
+                    #fina = fin + syn
+                    #print(regexx)
+                    #print(rege)
+                    articl2 = collection.find({"$and":
+                                                   [{"$or": [{"abstract": {"$regex": syn}}, {"title": {"$regex": syn}}]},
+                                                    {"publication_date": {"$gte": datetime(int(start_year), int(start_month), int(start_day), 1, 30), "$lte": datetime(int(end_year), int(end_month), int(end_day), 1, 30)}},
+                                                    {"authors": {"$regex": country}}
+                                                    ]
+                                               })
                     for i in articl2:
                         tmp_syn.append(i)
                 #articl = collection.find({"$and": [{"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]}, {"publication_date": {date}}]})
                 if len(articles) == 0 and counter == 1:
+                    #tmp_arc=[]
                     for item in articl:
                         articles.append(item)
                     for it in tmp_syn:
-                        articles.append(it)
+                        if it in articles:
+                            continue
+                        else:
+                            articles.append(it)
                 else:
                     temp_arc=[]
                     for a in articl:
                         if a in articles:
                             temp_arc.append(a)
                     for ite in tmp_syn:
-                        if ite in articles:
+                        if ite in articles and ite not in temp_arc:
                             temp_arc.append(ite)
                     articles = temp_arc
 
@@ -744,7 +864,10 @@ def home(request):
                 "article_page_ob": article_page_ob,
                 "query": query,
                 "queris": queris,
-                "my_list": my_list
+                "my_list": my_list,
+                "start_date": start_date,
+                "end_date": end_date,
+                "country": country
             }
 
     return render(request, "articles.html", context)
