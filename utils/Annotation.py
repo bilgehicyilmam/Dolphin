@@ -17,11 +17,17 @@ class Annotation:
     ontology = None
     last_id = 1
 
+    # set ontologies for multiple uses
     def __init__(self):
         self.set_ontologies()
 
+    # this starts a process of creating annotations for given article
     def create_annotation(self, article_id, abstract, article):
-
+        """
+        :param article_id:
+        :param abstract: 
+        :returns annotated abstract
+        """
         self.article_id = article_id
         self.abstract = abstract
         if article_id != 0 and len(self.ontologies) > 0:
@@ -35,9 +41,11 @@ class Annotation:
         else:
             return self.abstract
 
+    # gets ontologies from the database and set as instance fields
     def set_ontologies(self):
         self.ontologies = self.get_ontologies()
 
+    # gets all ontologies from the database
     def get_ontologies(self):
         """ returns all ontologies from the database """
         try:
@@ -46,27 +54,31 @@ class Annotation:
         except:
             print('Database error!')
 
+    # starts an iteration for each element of ontologies
     def start_iteration(self):
-        """ start a loop for ontologies collection """
-        # get ontologies from database
+        # get ontologies from instance field
         ontologies = self.ontologies
         print('Ontologies count: ', len(ontologies))
         print(self.article_id, '\n')
         # start for loop for ontologies objects
         for ontology in ontologies:
             label = ontology.label
-
             abstract = self.abstract
+            
             # return an index number for label found
             found = abstract.find(label)
             if (found != -1):
                 self.ontology = ontology
                 abstract = annotator.find_keyword(abstract, label)
 
+    # annotate all occurences of a label
     def find_keyword(self, text, label):
-        """ annotate all occurences of a label """
+        """
+        :param text: annotate all occurences of a label 
+        :param label:
+        :returns 
+        """
         self.abstract = text
-        # print(text)
         pattern = rf'\b(?!>){label}\b(?!<)'
 
         for match in re.finditer(pattern, text, re.IGNORECASE):
@@ -76,7 +88,6 @@ class Annotation:
             # match start and end position
             s = match.start()
             e = match.end()
-            # print('String match "%s" at %d:%d' % (text[s:e], s, e))
 
             # get left side of the match
             start1 = s - num_character
@@ -91,27 +102,19 @@ class Annotation:
             prefix = text[start1:start2]
             suffix = text[end1:end2]
 
-            # debug
-            # print('prefix: ', prefix)
-            # print('exact: ', label)
-            # print('suffix: ', suffix)
-
-            # call annoation save
-            # print(self.create_output(label, prefix, suffix))
             self.create_output(label, prefix, suffix)
 
+    # returns an id with site name
     def create_stamp(self):
-        # returns an id with prefix
-
-        # prefix = 'covid19-'
-        # idstamp = str(uuid.uuid4())
         idstamp = self.last_id
         self.last_id += 1
         return '{}/{}'.format(self.annotations_slug, idstamp)
 
+    # gets the source for the annotation
     def get_source(self):
         return '{}/{}/{}'.format(self.site_name, self.slug, self.article_id)
 
+    # creates creator field for the JSON-LD
     def get_creator(self):
         return {
             "id": "https://github.com/HBilge/Dolphin/releases/tag/v0.1.0",
@@ -120,15 +123,19 @@ class Annotation:
             "homepage": "https://github.com/HBilge/Dolphin"
         }
 
+    # created a time for the created field of the json
     def get_created(self):
         now = datetime.now()
         now = now.strftime("%Y-%m-%dT%H:%M:%SZ")
         return now
 
-    def save_annotation(self, abstract_id, ontology_id):
-        pass
-
+    # this creates a comple annotatio noutput
     def create_output(self, label, prefix, suffix):
+        """
+        :param label:
+        :param prefix:
+        :param suffix:
+        """
         annotation = dict()
         idstamp = self.create_stamp()
 
@@ -144,13 +151,17 @@ class Annotation:
         footer = self.create_annotation_footer()
         annotation.update(footer)
 
-        # print(annotation)
-
+        # save annotatiın to the database
         Database.insert('annotations', annotation)
 
         return annotation
 
+    # creates an annotation header
     def create_annotation_header(self, idstamp):
+        """
+        :param idstamp: an IRI 
+        :returns an object including @context, id, type, motivation
+        """
         return {
             "@context": "http://www.w3.org/ns/anno.jsonld",
             "id": idstamp,
@@ -158,7 +169,14 @@ class Annotation:
             "motivation": "describing",
         }
 
+    # creates the annotation target
     def create_annotation_target(self, label, prefix, suffix):
+        """
+        :param label:
+        :param prefix:
+        :param suffix:
+        :returns
+        """
         return {
             "target": {
                 "source": self.get_source(),
@@ -171,7 +189,12 @@ class Annotation:
             }
         }
 
+    # creates the annotation body
     def create_annotation_body(self, label):
+        """
+        :param label:
+        :returns annotation body
+        """
         body = []
 
         rdfs_label = {'label': label}
