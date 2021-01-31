@@ -30,14 +30,14 @@
         </div>
         <p></p>
         <div>
-            <p>DOI Link: <a href="https://doi.org/{{ dooi|default_if_none:"" }}"> {{ dooi|default_if_none:"" }}</p> </a>
+            <p>DOI Link: <a href="https://doi.org/{{ dooi|default_if_none:"" }}"> {{ dooi|default_if_none:"" }}</a></p>
         </div>
         <p></p>
         <div style="font-size: 17px; color: #808080"><strong><small>
                     {% for data in auth %}
                     <span>
-                        {{ data.firstname|default_if_none:"" }} {{ data.lastname|default_if_none:"" }} {{
-                        data.initials|default_if_none:"" }} {{ data.affiliation|default_if_none:"" }},
+                        {{ data.firstname|default_if_none:"" }} {{ data.lastname|default_if_none:"" }}
+                        {{data.initials|default_if_none:"" }} {{ data.affiliation|default_if_none:"" }},
                     </span>
                     {% endfor %}
                 </small></strong></div>
