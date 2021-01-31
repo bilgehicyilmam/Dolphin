@@ -754,7 +754,7 @@ def home(request):
 # Child classes of search terms are collected
 
                 child_words = []
-                child = collection2.find_one({"target.selector.exact": {"$regex": syn_regex}})
+                child = collection2.find_one({"target.selector.exact": {"$regex": syn_regex }})
                 if child is not None:
                     cl = child["body"][1]["rdfs:Class"]
                     sch = collection2.find({"body.rdfs:subClassOf": cl})
@@ -773,22 +773,19 @@ def home(request):
 # Articles are collected based on the child classes of the query term
 
                         articl3 = collection.find({"$and":
-                                                       [{"$or": [{"abstract": {"$regex": chi}},
-                                                                 {"title": {"$regex": chi}}]},
+                                                        [{"$or": [{"abstract": {"$regex": chi}},
+                                                                    {"title": {"$regex": chi}}]},
                                                         {"publication_date": {
-                                                            "$gte": datetime(int(start_year),
-                                                                             int(start_month),
-                                                                             int(start_day), 1, 30),
+                                                            "$gte": datetime(int(start_year), int(start_month),
+                                                                                int(start_day), 1, 30),
                                                             "$lte": datetime(int(end_year), int(end_month),
-                                                                             int(end_day), 1, 30)}},
+                                                                                int(end_day), 1, 30)}},
                                                         {"authors": {"$regex": country}}
                                                         ]
-                                                   })
+                                                    })
 
                         for i in articl3:
                             tmp_child.append(i)
-
-
 
 # Final collection of articles are formed here. Check is made to avoid duplicate articles for both query term
 # and its synonyms and child classes.
@@ -807,7 +804,6 @@ def home(request):
                             continue
                         else:
                             articles.append(chil)
-
                 else:
                     temp_arc=[]
                     for a in articl:
@@ -820,9 +816,10 @@ def home(request):
                         if chill in articles and chill not in temp_arc:
                             temp_arc.append(chill)
                     articles = temp_arc
+
 # Date info is collected for date graphical visualization
 
-            dates = []
+            dates=[]
             theCountries = []
             for art in articles:
                 authors = art["authors"]
@@ -840,7 +837,9 @@ def home(request):
 
             sorted_countries = dict(sorted(country_labels.items(), key=lambda item: item[1]))
 
+
             date_labels = {i: dates.count(i) for i in dates}
+
 
             searched_total_articles = len(articles)
 
