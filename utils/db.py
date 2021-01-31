@@ -14,7 +14,5 @@ class Database(object):
   def insert(collection, data):
     Database.DATABASE[collection].insert_one(data)
 
-
-
 Database.initialize()
 

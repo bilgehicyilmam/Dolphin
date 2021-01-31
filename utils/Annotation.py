@@ -17,16 +17,16 @@ class Annotation:
     ontology = None
     last_id = 1
 
-    # set ontologies for multiple uses
+    # Set ontologies for multiple uses
     def __init__(self):
         self.set_ontologies()
 
-    # this starts a process of creating annotations for given article
+    # This starts a process of creating annotations for given article
     def create_annotation(self, article_id, abstract, article):
         """
-        :param article_id:
-        :param abstract: 
-        :returns annotated abstract
+        :param article_id: Pubmed id of the article
+        :param abstract: Article's abstract
+        :return: Returns annotated abstract
         """
         self.article_id = article_id
         self.abstract = abstract
@@ -41,25 +41,28 @@ class Annotation:
         else:
             return self.abstract
 
-    # gets ontologies from the database and set as instance fields
+    # Gets ontologies from the database and set as instance fields
     def set_ontologies(self):
+        """
+        :return: Returns null
+        """
         self.ontologies = self.get_ontologies()
 
-    # gets all ontologies from the database
+    # Gets all ontologies from the database
     def get_ontologies(self):
-        """ returns all ontologies from the database """
+        """ 
+        :return: Returns all ontologies from the database 
+        """
         try:
             all_entries = Ontology.objects.all()
             return all_entries
         except:
             print('Database error!')
 
-    # starts an iteration for each element of ontologies
+    # Starts an iteration for each element of ontologies
     def start_iteration(self):
         # get ontologies from instance field
         ontologies = self.ontologies
-        print('Ontologies count: ', len(ontologies))
-        print(self.article_id, '\n')
         # start for loop for ontologies objects
         for ontology in ontologies:
             label = ontology.label
@@ -71,12 +74,12 @@ class Annotation:
                 self.ontology = ontology
                 abstract = annotator.find_keyword(abstract, label)
 
-    # annotate all occurences of a label
+    # Annotate all occurences of a label
     def find_keyword(self, text, label):
         """
-        :param text: annotate all occurences of a label 
-        :param label:
-        :returns 
+        :param text: Article's abstract 
+        :param label: The property of rdfs:label of the annotation
+        :return: Returns null. It is a iterative process
         """
         self.abstract = text
         pattern = rf'\b(?!>){label}\b(?!<)'
@@ -104,18 +107,27 @@ class Annotation:
 
             self.create_output(label, prefix, suffix)
 
-    # returns an id with site name
+    # Creates an id including site name
     def create_stamp(self):
+        """
+        :return: Returns requiren string for creating annotation id.
+        """
         idstamp = self.last_id
         self.last_id += 1
         return '{}/{}'.format(self.annotations_slug, idstamp)
 
-    # gets the source for the annotation
+    # Gets the source for the annotation
     def get_source(self):
+        """
+        :return: Returns annotation source
+        """
         return '{}/{}/{}'.format(self.site_name, self.slug, self.article_id)
 
-    # creates creator field for the JSON-LD
+    # Creates creator field for the JSON-LD
     def get_creator(self):
+        """
+        :return: Returns the properties id, type, name, homepage of the annotation
+        """
         return {
             "id": "https://github.com/HBilge/Dolphin/releases/tag/v0.1.0",
             "type": "Software",
@@ -123,18 +135,22 @@ class Annotation:
             "homepage": "https://github.com/HBilge/Dolphin"
         }
 
-    # created a time for the created field of the json
+    # Created a time for the created field of the json
     def get_created(self):
+        """
+        :return: Returns current time to add the annotation
+        """
         now = datetime.now()
         now = now.strftime("%Y-%m-%dT%H:%M:%SZ")
         return now
 
-    # this creates a comple annotatio noutput
+    # This creates a comple annotatio noutput
     def create_output(self, label, prefix, suffix):
         """
-        :param label:
-        :param prefix:
-        :param suffix:
+        :param label: The rdfs:label property of the annotation
+        :param prefix: 100 characters before the label
+        :param suffix: 100 characters after the label
+        :return: Return the annotation created
         """
         annotation = dict()
         idstamp = self.create_stamp()
@@ -144,23 +160,22 @@ class Annotation:
 
         target = self.create_annotation_target(label, prefix, suffix)
         annotation.update(target)
-        # if self.ontologies.label:
         body = self.create_annotation_body(label)
         annotation.update(body)
 
         footer = self.create_annotation_footer()
         annotation.update(footer)
 
-        # save annotatiın to the database
+        # Save annotatiın to the database
         Database.insert('annotations', annotation)
 
         return annotation
 
-    # creates an annotation header
+    # Creates an annotation header
     def create_annotation_header(self, idstamp):
         """
-        :param idstamp: an IRI 
-        :returns an object including @context, id, type, motivation
+        :param idstamp: Annotation id in the IRI format 
+        :return: Returns an object including @context, id, type, motivation
         """
         return {
             "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -169,13 +184,13 @@ class Annotation:
             "motivation": "describing",
         }
 
-    # creates the annotation target
+    # Creates the annotation target
     def create_annotation_target(self, label, prefix, suffix):
         """
-        :param label:
-        :param prefix:
-        :param suffix:
-        :returns
+        :param label: The property rdfs:label of the annotation
+        :param prefix: 100 characters before the keyword
+        :param suffix: 100 characters after the keyword
+        :return: Returns annotations target property
         """
         return {
             "target": {
@@ -189,11 +204,11 @@ class Annotation:
             }
         }
 
-    # creates the annotation body
+    # Creates the annotation body
     def create_annotation_body(self, label):
         """
-        :param label:
-        :returns annotation body
+        :param label: This is the rdfs:label property of the annotation
+        :return: Returns annotation body
         """
         body = []
 
@@ -215,25 +230,21 @@ class Annotation:
             "body": body
         }
 
+    # Creates annotation's created and creator properties
     def create_annotation_footer(self):
+        """
+        :return: Returns an object with created and creator properties
+        """
         return {
             'created': self.get_created(),
             'creator':  self.get_creator()
         }
 
 
+# Start a batch process for the whole database
 annotator = Annotation()
-
-
-""" Example #1
-print(annotator.create_annotation(abstract_id, sample))
-"""
-
-""" Example #2 """
 all_articles = article.objects.all()[:90000]
 for article in all_articles:
-    # print(article.abstract)
     if article.abstract != None:
         annotator.create_annotation(
             article.pubmed_id, article.abstract, article)
-        # print(annotator.abstract)
