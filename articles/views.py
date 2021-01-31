@@ -751,6 +751,43 @@ def home(request):
                         for i in articl2:
                             tmp_syn.append(i)
 
+# Child classes of search terms are collected
+
+                child_words = []
+                child = collection2.find_one({"target.selector.exact": {"$regex": syn_regex}})
+                if child is not None:
+                    cl = child["body"][1]["rdfs:Class"]
+                    sch = collection2.find({"body.rdfs:subClassOf": cl})
+                    for i in sch:
+                        child_words.append(i["target"]["selector"]["exact"])
+                    child_words = list(set(child_words))
+                tmp_child = []
+                for chi in child_words:
+                    print(chi)
+                    if any(char in invalid_chars for char in chi):
+                        continue
+                    else:
+                        chi = r'(?i)\b' + chi + r'\b'
+                        chi = re.compile(chi)
+
+# Articles are collected based on the child classes of the query term
+
+                        articl3 = collection.find({"$and":
+                                                       [{"$or": [{"abstract": {"$regex": chi}},
+                                                                 {"title": {"$regex": chi}}]},
+                                                        {"publication_date": {
+                                                            "$gte": datetime(int(start_year),
+                                                                             int(start_month),
+                                                                             int(start_day), 1, 30),
+                                                            "$lte": datetime(int(end_year), int(end_month),
+                                                                             int(end_day), 1, 30)}},
+                                                        {"authors": {"$regex": country}}
+                                                        ]
+                                                   })
+
+                        for i in articl3:
+                            tmp_child.append(i)
+
 
 
 # Final collection of articles are formed here. Check is made to avoid duplicate articles for both query term
@@ -765,6 +802,11 @@ def home(request):
                             continue
                         else:
                             articles.append(it)
+                    for chil in tmp_child:
+                        if chil in articles:
+                            continue
+                        else:
+                            articles.append(chil)
 
                 else:
                     temp_arc=[]
@@ -774,7 +816,9 @@ def home(request):
                     for ite in tmp_syn:
                         if ite in articles and ite not in temp_arc:
                             temp_arc.append(ite)
-
+                    for chill in tmp_child:
+                        if chill in articles and chill not in temp_arc:
+                            temp_arc.append(chill)
                     articles = temp_arc
 
 
