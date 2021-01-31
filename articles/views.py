@@ -820,9 +820,27 @@ def home(request):
                         if chill in articles and chill not in temp_arc:
                             temp_arc.append(chill)
                     articles = temp_arc
+# Date info is collected for date graphical visualization
 
+            dates = []
+            theCountries = []
+            for art in articles:
+                authors = art["authors"]
+                for country in list(pycountry.countries):
+                    if country.name in authors:
+                        theCountries.append(country.name)
 
+                date = art["publication_date"].strftime("%Y-%m-%d")
 
+                dates.append(date)
+
+# Country info is collected for graphical visualization based on affiliation country of the authors
+
+            country_labels = {i: theCountries.count(i) for i in theCountries}
+
+            sorted_countries = dict(sorted(country_labels.items(), key=lambda item: item[1]))
+
+            date_labels = {i: dates.count(i) for i in dates}
 
             searched_total_articles = len(articles)
 
@@ -851,7 +869,10 @@ def home(request):
                 "start_date": start_date,
                 "end_date": end_date,
                 "country": country_new,
-
+                "country_labels": list(sorted_countries.keys()),
+                "country_counts": list(sorted_countries.values()),
+                "date_labels": list(date_labels.keys()),
+                "date_counts": list(date_labels.values())
             }
 
 
