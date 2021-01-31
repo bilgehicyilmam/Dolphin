@@ -4,22 +4,25 @@ const app = express();
 // Serves Express Yourself website
 app.use(express.static('public'));
 
+// Set a port number
 const port = process.env.PORT || 4001;
 
+// Permits localhost requests
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
-  });
+});
 
-app.get('/', function(req, res){
+// Redirects homepage to the /annotations homepage
+app.get('/', function (req, res) {
     res.redirect('/annotations');
- });
+});
 
 /**
  * Returns random 10 annotations
  * @param {number} id
  * @returns {Object}
- */ 
+ */
 app.get('/annotations', (req, res, next) => {
     let page = 0
     page = parseInt(req.query.page, 10)
@@ -31,15 +34,16 @@ app.get('/annotations', (req, res, next) => {
     });
 });
 
-
 /**
  * Search annotations that has the keyword 
  * @param {string} keyword
  * @returns {Object}
- */ 
+ */
 app.get('/annotations/search/:keyword', (req, res, next) => {
-
+    // get query param for keyword
     var query = { 'target.selector.exact': req.params.keyword };
+
+    // Fethces 10 annotations from the database
     collection.find(query).limit(10).toArray(function (err, result) {
         if (err) throw err;
         if (result.length > 0) {
@@ -51,40 +55,35 @@ app.get('/annotations/search/:keyword', (req, res, next) => {
     });
 });
 
-
 /**
- * Return an annotation object
+ * Returns an annotation object
  * @param {number} id
  * @returns {Object}
- */ 
+ */
 app.get('/annotations/:id', (req, res, next) => {
-
+    // Get an annotatition from the database
     collection.findOne({ id: { $regex: '/' + req.params.id } }, function (err, result) {
         if (err) throw err
         if (result) {
             res.send(result)
         }
         else {
-            res.send({ 'message': 'Not Found' }).status(204)
+            res.status(404).send({ 'message': 'Not Found' })
         }
     })
-
-
 });
 
 /**
  * Given article id, returns all annotations of the article
  * @param {number} id
  * @returns {Object}
- */ 
+ */
 app.get('/annotations/pmid/:id', (req, res, next) => {
-
+    // gets all annotaions of the article from the database
     collection.find({ 'target.source': { $regex: '/' + req.params.id } }).toArray(function (err, result) {
         if (err) throw err
         res.send(result)
     })
-
-
 });
 
 /**
@@ -93,7 +92,7 @@ app.get('/annotations/pmid/:id', (req, res, next) => {
  * @returns {Array}
  */
 app.get('/annotations/pmid/:id/label', (req, res, next) => {
-
+    // gets a summary annotation data for the article
     collection.find(
         { 'target.source': { $regex: '/' + req.params.id } },
         { projection: { _id: 0, id: 1, 'target.selector.exact': 1 } })
@@ -102,7 +101,6 @@ app.get('/annotations/pmid/:id/label', (req, res, next) => {
             res.send(result)
         })
 });
-
 
 /**
  * Given an article returns only targets
