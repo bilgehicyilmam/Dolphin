@@ -90,8 +90,6 @@ class Annotator:
     def find_abstracts(self, keyword):
         """  returns ids of abstracts found"""
         results = article.objects.filter(abstract__contains=keyword)
-        print(len(search_result))
-        print(search_result[0].abstract)
         abstract = search_result[0].abstract
 
     def create_stamp(self):
@@ -143,15 +141,11 @@ class Annotator:
         footer = self.create_annotation_footer()
         annotation.update(footer)
 
-        print(annotation)
-
         Database.insert('annotations', annotation)
 
         return annotation
 
     def create_output_alt(self, label, idstamp):
-        # print(self.abstract_id)
-        # print(self.abstract)
         has_body = True
         if has_body:
             return {
