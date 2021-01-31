@@ -1,6 +1,7 @@
 import itertools
 import json
-#import string
+from _ast import operator
+
 from bson import json_util
 from django.shortcuts import render
 from .models import *
@@ -613,52 +614,26 @@ def parse_json(data):
     return json.loads(json_util.dumps(data))
 
 
+def query_process(query):
+
+    new_query = []
+    stopwords = ['and', 'or', 'but', 'And', 'But', 'Or']
+    for q in query:
+        q = ' '.join(filter(lambda x: x not in stopwords, q.split()))
+        new_query.append(q)
+    return new_query
+
+# Function for splitting query terms with commas
+
 def split_line(query):
-    # split the text
     result = [word.strip() for word in query.split(',')]
-    # result = query.split(",")
-    # words = []
-    # # for each word in the line:
-    # for word in result:
-    #     # append the word
-    #     word.strip()
-    #     words.append(word)
-    # return words
     return result
-# def split_startdate(start_date):
-#     # split the text
-#     result = start_date.replace("-", ", ")
-#     result = result.replace(" 0", " ")
-#     strt = ""
-#     # for each word in the line:
-#     for dat in result:
-#         # append the word
-#         strt = strt + dat
-#     return strt
-#
-# def split_enddate(end_date):
-#     # split the text
-#     result = end_date.replace("-",", ")
-#     result = result.replace(" 0", " ")
-#     edn = ""
-#     # for each word in the line:
-#     for dat in result:
-#         # append the word
-#         edn = edn + dat
-#     return edn
 
-# def split_space(queris):
-#     # split the text
-#     result = queris.split(" ")
-#     words = []
-#     # for each word in the term:
-#     for word in result:
-#         # append the word
-#         words.append(word)
-#     return words
-
-
+# Basic search function
 def home(request):
+
+#Transferred variables with request; query, start_date, end_date, country
+
     all_articles = article.objects.all()
     form = ArticleSearch()
     total_articles = all_articles.count()
@@ -670,13 +645,10 @@ def home(request):
     start_date = request.GET.get('start')
     end_date = request.GET.get('end')
     country = request.GET.get('country')
-    print(query)
-    print(country)
-    print(start_date)
-    print(type(start_date))
-    #date = request.GET.get('publication_date', '')
-    #date2 = request.GET.get('publication_date', '')
-    #print(date)
+    global invalid_chars
+    invalid_chars = {',', '\\', ']', "'", '=', '<', '+', '_', '`', ')', '@', '|', '/', '&', '#', '%', '}', '{', '-', '>', '*', ':', '?', '[', ';', '~', '!', '$', '.', '(', '^', '"'}
+
+
     if request.method == 'POST':
 
         pattern = r'(?i)\b' + query + r'\b'
@@ -698,56 +670,38 @@ def home(request):
             "article_page_ob": article_page_ob,
             "query": query
         }
+
+# Recevived request method and processed thru from here
+
     elif request.method == 'GET':
+
+# Query string is processed
 
         if query:
             queris = split_line(query)
+            queris = list(filter(None, queris))
             dt_start = start_date.replace("-", ", ")
             dt_start= dt_start.replace(" 0", " ")
-            #dt_start = split_startdate(start_date)
             dt_end = end_date.replace("-", ", ")
             dt_end = dt_end.replace(" 0", " ")
             start_year, start_month, start_day = dt_start.split(", ",2)
             end_year, end_month, end_day = dt_end.split(", ",2)
-            print(end_day, end_month, end_year)
-            #print(type(end_day))
-            print(queris)
             articles = []
             counter = 0
             my_list=[]
-            #invalidcharacters = set(string.punctuation)
+            queris=query_process(queris)
+
+# Regex is applied to process query term
+
             for que in queris:
                 quer = ""
-                #tmp_quer = quer + que
-                #quer = tmp_quer
-                #quer = quer.strip()
-                pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b)\w)+\b'
+                pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b|\bAnd\b|\bBut\b|\bOr\b)\w)+\b'
                 quer2 = re.findall(pat, que)
-                print(quer2)
-                #tmp_quer = quer.join(quer2)
-                #quer = tmp_quer
-                #quer=str(quer)
-                #print(quer)
-                syn_reg= r'\b' + que + r'\b'
-                print(syn_reg)
-                #for qus in quer2:
-                #    if qus == 'AND' or qus == 'OR' or qus == 'BUT':
-                        #psor=r'\b' + qus + r'\b'
-                #        tm= syn_reg+ qus
-                #        syn_reg=tm
-                #    else:
-                #        psyn = r'(?i:' + qus + r')'
-                #        tmp = syn_reg + psyn
-                #        syn_reg=tmp
+                syn_reg= r'(?i)\b' + que + r'\b'
 
                 syn_regex = re.compile(syn_reg)
-                print(syn_regex)
                 counter+= 1
-                print(counter)
-                #pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b)\w)+\b'
-                #reg = re.compile(pat)
                 que = re.findall(pat, que)
-                print(que)
                 pp = r''
                 for qu in que:
                     if qu == 'AND' or qu == 'OR' or qu == 'BUT':
@@ -758,24 +712,10 @@ def home(request):
                         pt = r'\b(?i:' + qu + r')(| |ing|ed|d)\b\W+(?:\w+\W+){0,4}?'
                         tmp= pp + pt
                         pp= tmp
-                    #pt = str(pattern)
-                print(pp)
                 regex = re.compile(pp)
-                print(regex)
-                #c = country
-                #regg= r'\b' + c + r'\b'
-                #reggg=re.compile(regg)
-                #print(reggg)
-                #str_date= datetime.strptime(start_date, "%Y-%m-%d" )
-                print(start_year)
-                #str=start_date.replace("-",", ")
-                #str= str.replace(" 0", " ")
-                #str = str + ", 1, 30"
-                #print(str)
-                #endd=end_date.replace("-",", ")
-                #endd = endd.replace(" 0", " ")
-                #endd = endd + ", 1, 30"
-                #articl = collection.find({"$and": [{"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]}, {"authors": {"regex": country}}]})
+
+# Articles are collected based on the search term
+
                 articl = collection.find({"$and":
                                               [{"$or":
                                                     [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]},
@@ -783,47 +723,76 @@ def home(request):
                                                {"authors": {"$regex": country}}
                                                ]
                                           })
-                #articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
-                #articl=collection.find({"authors": country}),
                 sys_words = []
+
+# Synonmous words are found
+
                 synonymous = sys_collection.find({"label": {"$regex": syn_regex }})
                 for s in synonymous:
                     for i in s["synonymous"]:
                         sys_words.append(i)
                 my_list = my_list+sys_words
-                #print(my_list)
                 tmp_syn = []
                 for syn in sys_words:
-                    # if any(char in invalidcharacters for char in syn):
-                    #     continue
-                    # else:
-                    #pth= r''
-                    #for s in syn:
-                    #pth2= r'\b(?i:' + syn + r')(| |ing|ed|d)\b'
-                    #pth=pth+pth2
-                    #rege= re.compile(pth)
-                    print(syn)
-                    #pth3= r'(\w\w*)'
-                    #rege = re.compile(pth3)
-                    #print(rege)
-                    #regexx=re.match(rege, syn)
-                    #reg3= r'\b' + regexx
-                    #rr = r'\b^[a-zA-Z0-9~@#$^*()_+=[\]{}|\\,.?: -]*$\b'
-                    #rf=re.compile(rr)
-                    #rege = re.match(rr, syn)
-                    #fin= ""
-                    #fina = fin + syn
-                    #print(regexx)
-                    #print(rege)
-                    articl2 = collection.find({"$and":
-                                                   [{"$or": [{"abstract": {"$regex": syn}}, {"title": {"$regex": syn}}]},
-                                                    {"publication_date": {"$gte": datetime(int(start_year), int(start_month), int(start_day), 1, 30), "$lte": datetime(int(end_year), int(end_month), int(end_day), 1, 30)}},
-                                                    {"authors": {"$regex": country}}
-                                                    ]
-                                               })
-                    for i in articl2:
-                        tmp_syn.append(i)
-                #articl = collection.find({"$and": [{"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]}, {"publication_date": {date}}]})
+                    if any(char in invalid_chars for char in syn):
+                        continue
+                    else:
+                        syn = r'(?i)\b' + syn + r'\b'
+                        syn = re.compile(syn)
+
+# Articles are collected based on the synonymous words
+
+                        articl2 = collection.find({"$and":
+                                                    [{"$or": [{"abstract": {"$regex": syn}}, {"title": {"$regex": syn}}]},
+                                                        {"publication_date": {"$gte": datetime(int(start_year), int(start_month), int(start_day), 1, 30), "$lte": datetime(int(end_year), int(end_month), int(end_day), 1, 30)}},
+                                                        {"authors": {"$regex": country}}
+                                                        ]
+                                                })
+                        for i in articl2:
+                            tmp_syn.append(i)
+
+# Child classes of search terms are collected
+
+                child_words = []
+                child = collection2.find_one({"target.selector.exact": {"$regex": syn_regex}})
+                if child is not None:
+                    cl = child["body"][1]["rdfs:Class"]
+                    sch = collection2.find({"body.rdfs:subClassOf": cl})
+                    for i in sch:
+                        child_words.append(i["target"]["selector"]["exact"])
+                    child_words = list(set(child_words))
+                tmp_child = []
+                for chi in child_words:
+                    print(chi)
+                    if any(char in invalid_chars for char in chi):
+                        continue
+                    else:
+                        chi = r'(?i)\b' + chi + r'\b'
+                        chi = re.compile(chi)
+
+# Articles are collected based on the child classes of the query term
+
+                        articl3 = collection.find({"$and":
+                                                       [{"$or": [{"abstract": {"$regex": chi}},
+                                                                 {"title": {"$regex": chi}}]},
+                                                        {"publication_date": {
+                                                            "$gte": datetime(int(start_year),
+                                                                             int(start_month),
+                                                                             int(start_day), 1, 30),
+                                                            "$lte": datetime(int(end_year), int(end_month),
+                                                                             int(end_day), 1, 30)}},
+                                                        {"authors": {"$regex": country}}
+                                                        ]
+                                                   })
+
+                        for i in articl3:
+                            tmp_child.append(i)
+
+
+
+# Final collection of articles are formed here. Check is made to avoid duplicate articles for both query term
+# and its synonyms and child classes.
+
                 if len(articles) == 0 and counter == 1:
                     #tmp_arc=[]
                     for item in articl:
@@ -833,6 +802,12 @@ def home(request):
                             continue
                         else:
                             articles.append(it)
+                    for chil in tmp_child:
+                        if chil in articles:
+                            continue
+                        else:
+                            articles.append(chil)
+
                 else:
                     temp_arc=[]
                     for a in articl:
@@ -841,12 +816,39 @@ def home(request):
                     for ite in tmp_syn:
                         if ite in articles and ite not in temp_arc:
                             temp_arc.append(ite)
+                    for chill in tmp_child:
+                        if chill in articles and chill not in temp_arc:
+                            temp_arc.append(chill)
                     articles = temp_arc
+# Date info is collected for date graphical visualization
+
+            dates = []
+            theCountries = []
+            for art in articles:
+                authors = art["authors"]
+                for country in list(pycountry.countries):
+                    if country.name in authors:
+                        theCountries.append(country.name)
+
+                date = art["publication_date"].strftime("%Y-%m-%d")
+
+                dates.append(date)
+
+# Country info is collected for graphical visualization based on affiliation country of the authors
+
+            country_labels = {i: theCountries.count(i) for i in theCountries}
+
+            sorted_countries = dict(sorted(country_labels.items(), key=lambda item: item[1]))
+
+            date_labels = {i: dates.count(i) for i in dates}
 
             searched_total_articles = len(articles)
 
+# Pagination of the pages are handled here.
+
             paginated_articles = Paginator(articles, 10)
             page_number = request.GET.get('page', None)
+            country_new = request.GET.get('country', None)
             article_page_ob = paginated_articles.get_page(page_number)
             for item in paginated_articles.object_list:
                 authors = item['authors']
@@ -855,7 +857,6 @@ def home(request):
                 c = json.loads(keywords)
                 item['authors'] = b
                 item['keywords'] = c
-            #pprint (vars(paginated_articles))
             context = {
                 "total_articles": total_articles,
                 "searched_articles": searched_total_articles,
@@ -867,47 +868,39 @@ def home(request):
                 "my_list": my_list,
                 "start_date": start_date,
                 "end_date": end_date,
-                "country": country
+                "country": country_new,
+                "country_labels": list(sorted_countries.keys()),
+                "country_counts": list(sorted_countries.values()),
+                "date_labels": list(date_labels.keys()),
+                "date_counts": list(date_labels.values())
             }
+
 
     return render(request, "articles.html", context)
 
+# Article detail page is defined here
 
 def article_detail(request, pubmed_id):
+
+# Required parameters are defined and assigned
+
     all_articles = article.objects.all()
     form = ArticleSearch(request.POST or None)
     total_articles = all_articles.count()
-    #pubmed_id = str(pubmed_id)
-    # f= str(pubmed_id)
-    # e= len(f)
-    # pid= pubmed_id.to_bytes(e, "little")
-    # pickle.dumps(pid)
-    # d=pickle.loads(pid)
-    # pubmed_id=d
-    #pidd= str(pubmed_id)
     detail_article = article.objects.get(pubmed_id = pubmed_id)
-    print(detail_article)
-    #detail_article = collection.find_one({"pubmed_id": {pubmed_id}})
-    # for item in detail_article.object_list:
-    #     pid = item['pubmed_id']
-    #     d = pickle.loads(pid)
-    #     item['pubmed_id'] = d
-    #import pprint
-    #pprint.pprint(vars(detail_article))
     idd = detail_article.id
     tit = detail_article.title
     abst = detail_article.abstract
-    #pid= detail_article['pubmed_id']
     keyw = detail_article.keywords
     jour = detail_article.journal
-    pub_date = detail_article.publication_date
+    pub_date = detail_article.publication_date.date()
     auth = detail_article.authors
     conc= detail_article.conclusions
     res= detail_article.results
     copy = detail_article.copyrights
     dooi = detail_article.doi
+
     context = {
-        # "total_articles": total_articles,
          "form": form,
          "idd" : idd,
          "tit" : tit,
@@ -944,17 +937,27 @@ def article_detail(request, pubmed_id):
             "article_page_ob": article_page_ob,
             "query": query
         }
+
+# Get request is handled here.
+
     elif request.method == 'GET':
+
+# Regex is applied to query term to process query term
 
         if query:
             pattern = r'(?i)\b' + query + r'\b'
             regex = re.compile(pattern)
             articles = []
+
+# Articles are collected based on request
+
             articl = collection.find({"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]})
             for item in articl:
                 articles.append(item)
 
             searched_total_articles = articl.count()
+
+# Pagination is applied just in case
 
             paginated_articles = Paginator(articles, 10)
             page_number = request.GET.get('page', None)
