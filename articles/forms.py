@@ -6,7 +6,6 @@ from .models import article
 from django.contrib.admin.widgets import AdminDateWidget
 
 
-
 class ArticleSearch(forms.ModelForm):
     class Meta:
         model = article
@@ -17,8 +16,9 @@ class ArticleSearch(forms.ModelForm):
 
         fields = ['abstract']
         widgets = {
-            'abstract': TextInput(attrs={'size':'42','placeholder':"Surf on Covid-19 Articles", "class":"form-control", "style":"font-family:Times New Roman;width:98%"}),
-
+            'abstract': TextInput(
+                attrs={'size': '42', 'placeholder': "Surf on Covid-19 Articles", "class": "form-control",
+                       "style": "font-family:Times New Roman;width:98%"}),
 
         }
 
