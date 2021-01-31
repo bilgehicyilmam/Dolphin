@@ -27,7 +27,7 @@
 
             <div class="row justify-content-center" style="margin-top: 5%">
 
-                <div class="col-12 col-md-10 col-lg-8" style="display: flex">
+                <div class="col-md-4 col-lg-8" style="display: flex">
 
                     <form id="pg" novalidate method="get" action="">
 
@@ -35,9 +35,14 @@
 
                             <div class="input-group mb-3">
 
-                                <div>
+
+
+                                <div style="margin-bottom: 0% !important;">
                                     {{ form|crispy }}
                                 </div>
+
+
+
                                 <style>
                                     label {
                                         display: block;
@@ -50,32 +55,26 @@
                                         height: 30px;
                                     }
                                 </style>
-                                <div class="col text-center" style="margin-top: 4%; margin-bottom: 4%">
-                                    <button id="getData" class="btn btn-primary" type="submit">Search</button>
-                                    <a href="http://127.0.0.1:8000/dimsearch">
-                                        <div class="btn btn-primary">Dimensional Search</div>
-                                    </a>
-                                </div>
+
                             </div>
-                            <div class="text-center" style="display:flex">
+                            <div class="text-center" style="display:flex; text-align: center; margin-top: 0%">
                                 <div class="text-center">
-                                    <label for="start">From:</label>
-                                    <input type="date" id="start" name="start"
-                                           value="1900-01-01"
-                                           min="1900-01-01" max="2021-12-31">
+
+                                    <input style="width: 117%; margin-right: 2%" class="form-control" type="date" id="start" name="start"
+                                           value="1950-01-01"
+                                           min="1950-01-01" max="2021-12-31">
                                 </div>
-                                <div style="width: 20px;"></div>
+
                                 <div class="text-center">
-                                    <label for="end">To:</label>
-                                    <input type="date" id="end" name="end"
+                                    <input style="width: 117%; margin-left: 21%" class="form-control" type="date" id="end" name="end"
                                            value="2021-12-31"
-                                           min="1900-01-01" max="2021-12-31">
+                                           min="1950-01-01" max="2021-12-31">
                                 </div>
 
                             </div>
                             <div>
-                                    <select name="country">
-                                        <option value="" selected>All</option>
+                                    <select class="form-control" style="width: 111%; margin-top: 5%" id="country" name="country">
+                                        <option value="" selected>Pick A Country</option>
                                         <option value="Afghanistan">Afghanistan</option>
                                         <option value="Albania">Albania</option>
                                         <option value="Algeria">Algeria</option>
@@ -105,7 +104,7 @@
                                         <option value="Bosnia and Herzegowina">Bosnia and Herzegowina</option>
                                         <option value="Botswana">Botswana</option>
                                         <option value="Bouvet Island">Bouvet Island</option>
-                                        <option value="Brazil">Brazil</option>
+                                        <option value="Brazil|Brasil">Brazil</option>
                                         <option value="British Indian Ocean Territory">British Indian Ocean Territory
                                         </option>
                                         <option value="Brunei Darussalam">Brunei Darussalam</option>
@@ -190,10 +189,10 @@
                                         <option value="Kazakhstan">Kazakhstan</option>
                                         <option value="Kenya">Kenya</option>
                                         <option value="Kiribati">Kiribati</option>
-                                        <option value="Democratic People's Republic of Korea">Korea, Democratic People's
-                                            Republic of
+                                        <option value="Democratic People's Republic of Korea|South Korea">Korea, Democratic People's
+                                            Republic of Korea
                                         </option>
-                                        <option value="Korea">Korea, Republic of</option>
+                                        <option value="Korea|North Korea">Korea, Republic of Korea</option>
                                         <option value="Kuwait">Kuwait</option>
                                         <option value="Kyrgyzstan">Kyrgyzstan</option>
                                         <option value="Lao">Lao People's Democratic Republic</option>
@@ -276,7 +275,7 @@
                                         <option value="South Africa">South Africa</option>
                                         <option value="South Georgia">South Georgia and the South Sandwich Islands
                                         </option>
-                                        <option value="Span">Spain</option>
+                                        <option value="Spain">Spain</option>
                                         <option value="SriLanka">Sri Lanka</option>
                                         <option value="St. Helena">St. Helena</option>
                                         <option value="St. Pierre and Miguelon">St. Pierre and Miquelon</option>
@@ -302,9 +301,9 @@
                                         <option value="Tuvalu">Tuvalu</option>
                                         <option value="Uganda">Uganda</option>
                                         <option value="Ukraine">Ukraine</option>
-                                        <option value="United Arab Emirates">United Arab Emirates</option>
-                                        <option value="United Kingdom">United Kingdom</option>
-                                        <option value="USA">United States</option>
+                                        <option value="United Arab Emirates|UAE">United Arab Emirates</option>
+                                        <option value="United Kingdom|UK">United Kingdom</option>
+                                        <option value="United States|USA">United States</option>
                                         <option value="United States Minor Outlying Islands">United States Minor
                                             Outlying Islands
                                         </option>
@@ -324,6 +323,12 @@
                                     </select>
                                 </div>
                         </div>
+                        <div class="col text-center" style="margin-top: 4%; margin-bottom: 4%">
+                                    <button id="getData" class="btn" style="background-color: #6495ED; color: white" type="submit">Search</button>
+                                    <a href="http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/dimsearch">
+                                        <div class="btn" style="background-color: #6495ED; color: white">Dimensional Search</div>
+                                    </a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -335,18 +340,23 @@
         </div>
 
 
-
         {% if article_page_ob %}
 
-            <h5 class="myHeader" style="text-align: center">Number of articles found for {{ query }}
-                is {{ searched_articles }}</h5>
+            <h5 class="myHeader" style="text-align: center">Number of articles found for <b>{{ query }}</b>
+                is <b>{{ searched_articles }}</b></h5>
+
+            <p></p>
+            <p></p>
+
+            <canvas id="bar-chart" width="800" height="450"></canvas>
+            <canvas id="date-chart" width="800" height="450"></canvas>
 
 
             <hr/>
             {% for instance in article_page_ob %}
                 <div>
                     <div><strong><small>
-                        <a href="http://127.0.0.1:8000/articles_detail/{{ instance.pubmed_id }}">
+                        <a href="http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/articles_detail/{{ instance.pubmed_id }}">
                             <h5>{{ instance.pubmed_id }}</h5></a></small></strong>
                     </div>
                     <div><h5>{{ instance.title|default_if_none:"" }}</h5></div>
@@ -364,6 +374,14 @@
 
                 <hr/>
             {% endfor %}
+
+            <script>
+                                    var queryString = window.location.search;
+                                    var urlParams = new URLSearchParams(queryString);
+                                    var coun = document.getElementById("country")
+                                    var c = urlParams.get('country')
+            </script>
+
 
             <div class="pagination" style="margin-bottom: 5%">
                 <div class="container text-center">
@@ -386,12 +404,213 @@
         {% endif %}
     </div>
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
     <script type="text/javascript">
 
         const search = document.getElementById("getData");
         search.onclick = function () {
             document.getElementById("spinner").style.display = "block"
         };
+
+        $(document).ready(
+        function() {
+
+            var chrt = new Chart(document.getElementById("bar-chart"), {
+                type: 'bar',
+                data: {
+                    labels: {{ country_labels|safe }},
+                    datasets: [
+                        {
+                            label: "Articles",
+                            backgroundColor: [
+                                                "#63b598", "#ce7d78", "#ea9e70", "#a48a9e", "#c6e1e8", "#648177" ,"#0d5ac1" ,
+                                                "#f205e6" ,"#1c0365" ,"#14a9ad" ,"#4ca2f9" ,"#a4e43f" ,"#d298e2" ,"#6119d0",
+                                                "#d2737d" ,"#c0a43c" ,"#f2510e" ,"#651be6" ,"#79806e" ,"#61da5e" ,"#cd2f00" ,
+                                                "#9348af" ,"#01ac53" ,"#c5a4fb" ,"#996635","#b11573" ,"#4bb473" ,"#75d89e" ,
+                                                "#2f3f94" ,"#2f7b99" ,"#da967d" ,"#34891f" ,"#b0d87b" ,"#ca4751" ,"#7e50a8" ,
+                                                "#c4d647" ,"#e0eeb8" ,"#11dec1" ,"#289812" ,"#566ca0" ,"#ffdbe1" ,"#2f1179" ,
+                                                "#935b6d" ,"#916988" ,"#513d98" ,"#aead3a", "#9e6d71", "#4b5bdc", "#0cd36d",
+                                                "#250662", "#cb5bea", "#228916", "#ac3e1b", "#df514a", "#539397", "#880977",
+                                                "#f697c1", "#ba96ce", "#679c9d", "#c6c42c", "#5d2c52", "#48b41b", "#e1cf3b",
+                                                "#5be4f0", "#57c4d8", "#a4d17a", "#225b8", "#be608b", "#96b00c", "#088baf",
+                                                "#f158bf", "#e145ba", "#ee91e3", "#05d371", "#5426e0", "#4834d0", "#802234",
+                                                "#6749e8", "#0971f0", "#8fb413", "#b2b4f0", "#c3c89d", "#c9a941", "#41d158",
+                                                "#fb21a3", "#51aed9", "#5bb32d", "#807fb", "#21538e", "#89d534", "#d36647",
+                                                "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
+                                                "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
+                                                "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#21538e", "#89d534", "#d36647",
+                                                "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
+                                                "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
+                                                "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#9cb64a", "#996c48", "#9ab9b7",
+                                                "#06e052", "#e3a481", "#0eb621", "#fc458e", "#b2db15", "#aa226d", "#792ed8",
+                                                "#73872a", "#520d3a", "#cefcb8", "#a5b3d9", "#7d1d85", "#c4fd57", "#f1ae16",
+                                                "#8fe22a", "#ef6e3c", "#243eeb", "#1dc18", "#dd93fd", "#3f8473", "#e7dbce",
+                                                "#421f79", "#7a3d93", "#635f6d", "#93f2d7", "#9b5c2a", "#15b9ee", "#0f5997",
+                                                "#409188", "#911e20", "#1350ce", "#10e5b1", "#fff4d7", "#cb2582", "#ce00be",
+                                                "#32d5d6", "#17232", "#608572", "#c79bc2", "#00f87c", "#77772a", "#6995ba",
+                                                "#fc6b57", "#f07815", "#8fd883", "#060e27", "#96e591", "#21d52e", "#d00043",
+                                                "#b47162", "#1ec227", "#4f0f6f", "#1d1d58", "#947002", "#bde052", "#e08c56",
+                                                "#28fcfd", "#bb09b", "#36486a", "#d02e29", "#1ae6db", "#3e464c", "#a84a8f",
+                                                "#911e7e", "#3f16d9", "#0f525f", "#ac7c0a", "#b4c086", "#c9d730", "#30cc49",
+                                                "#3d6751", "#fb4c03", "#640fc1", "#62c03e", "#d3493a", "#88aa0b", "#406df9",
+                                                "#615af0", "#4be47", "#2a3434", "#4a543f", "#79bca0", "#a8b8d4", "#00efd4",
+                                                "#7ad236", "#7260d8", "#1deaa7", "#06f43a", "#823c59", "#e3d94c", "#dc1c06",
+                                                "#f53b2a", "#b46238", "#2dfff6", "#a82b89", "#1a8011", "#436a9f", "#1a806a",
+                                                "#4cf09d", "#c188a2", "#67eb4b", "#b308d3", "#fc7e41", "#af3101", "#ff065",
+                                                "#71b1f4", "#a2f8a5", "#e23dd0", "#d3486d", "#00f7f9", "#474893", "#3cec35",
+                                                "#1c65cb", "#5d1d0c", "#2d7d2a", "#ff3420", "#5cdd87", "#a259a4", "#e4ac44",
+                                                "#1bede6", "#8798a4", "#d7790f", "#b2c24f", "#de73c2", "#d70a9c", "#25b67",
+                                                "#88e9b8", "#c2b0e2", "#86e98f", "#ae90e2", "#1a806b", "#436a9e", "#0ec0ff",
+                                                "#f812b3", "#b17fc9", "#8d6c2f", "#d3277a", "#2ca1ae", "#9685eb", "#8a96c6",
+                                                "#dba2e6", "#76fc1b", "#608fa4", "#20f6ba", "#07d7f6", "#dce77a", "#77ecca"],
+                            data: {{ country_counts|safe }}
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    title: {
+                        display: true,
+                        text: 'Number of Articles based on the Country Affiliation of the Authors'
+                    }
+                }
+            });
+
+            document.getElementById("bar-chart").onclick = function(evt) {
+                var activePoints = chrt.getElementsAtEvent(evt);
+                var chartData = activePoints[0]['_chart'].config.data;
+                var idx = activePoints[0]['_index'];
+
+                var label = chartData.labels[idx];
+                var qs = window.location.href;
+                var params = new URLSearchParams(window.location.search);
+                params.set('country', label);
+                p = params.toString();
+
+
+                var url = "http://127.0.0.1:8000/?" + p
+                console.log(url);
+                window.location.href= url;
+            }
+          }
+        );
+
+
+
+        $(document).ready(
+        function() {
+
+            var chrt2 = new Chart(document.getElementById("date-chart"), {
+                type: 'line',
+                data: {
+                    labels: {{ date_labels|safe }},
+                    datasets: [
+                        {
+                            label: "Articles",
+                            backgroundColor: [
+                                            "#63b598", "#ce7d78", "#ea9e70", "#a48a9e", "#c6e1e8", "#648177" ,"#0d5ac1" ,
+                                            "#f205e6" ,"#1c0365" ,"#14a9ad" ,"#4ca2f9" ,"#a4e43f" ,"#d298e2" ,"#6119d0",
+                                            "#d2737d" ,"#c0a43c" ,"#f2510e" ,"#651be6" ,"#79806e" ,"#61da5e" ,"#cd2f00" ,
+                                            "#9348af" ,"#01ac53" ,"#c5a4fb" ,"#996635","#b11573" ,"#4bb473" ,"#75d89e" ,
+                                            "#2f3f94" ,"#2f7b99" ,"#da967d" ,"#34891f" ,"#b0d87b" ,"#ca4751" ,"#7e50a8" ,
+                                            "#c4d647" ,"#e0eeb8" ,"#11dec1" ,"#289812" ,"#566ca0" ,"#ffdbe1" ,"#2f1179" ,
+                                            "#935b6d" ,"#916988" ,"#513d98" ,"#aead3a", "#9e6d71", "#4b5bdc", "#0cd36d",
+                                            "#250662", "#cb5bea", "#228916", "#ac3e1b", "#df514a", "#539397", "#880977",
+                                            "#f697c1", "#ba96ce", "#679c9d", "#c6c42c", "#5d2c52", "#48b41b", "#e1cf3b",
+                                            "#5be4f0", "#57c4d8", "#a4d17a", "#225b8", "#be608b", "#96b00c", "#088baf",
+                                            "#f158bf", "#e145ba", "#ee91e3", "#05d371", "#5426e0", "#4834d0", "#802234",
+                                            "#6749e8", "#0971f0", "#8fb413", "#b2b4f0", "#c3c89d", "#c9a941", "#41d158",
+                                            "#fb21a3", "#51aed9", "#5bb32d", "#807fb", "#21538e", "#89d534", "#d36647",
+                                            "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
+                                            "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
+                                            "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#21538e", "#89d534", "#d36647",
+                                            "#7fb411", "#0023b8", "#3b8c2a", "#986b53", "#f50422", "#983f7a", "#ea24a3",
+                                            "#79352c", "#521250", "#c79ed2", "#d6dd92", "#e33e52", "#b2be57", "#fa06ec",
+                                            "#1bb699", "#6b2e5f", "#64820f", "#1c271", "#9cb64a", "#996c48", "#9ab9b7",
+                                            "#06e052", "#e3a481", "#0eb621", "#fc458e", "#b2db15", "#aa226d", "#792ed8",
+                                            "#73872a", "#520d3a", "#cefcb8", "#a5b3d9", "#7d1d85", "#c4fd57", "#f1ae16",
+                                            "#8fe22a", "#ef6e3c", "#243eeb", "#1dc18", "#dd93fd", "#3f8473", "#e7dbce",
+                                            "#421f79", "#7a3d93", "#635f6d", "#93f2d7", "#9b5c2a", "#15b9ee", "#0f5997",
+                                            "#409188", "#911e20", "#1350ce", "#10e5b1", "#fff4d7", "#cb2582", "#ce00be",
+                                            "#32d5d6", "#17232", "#608572", "#c79bc2", "#00f87c", "#77772a", "#6995ba",
+                                            "#fc6b57", "#f07815", "#8fd883", "#060e27", "#96e591", "#21d52e", "#d00043",
+                                            "#b47162", "#1ec227", "#4f0f6f", "#1d1d58", "#947002", "#bde052", "#e08c56",
+                                            "#28fcfd", "#bb09b", "#36486a", "#d02e29", "#1ae6db", "#3e464c", "#a84a8f",
+                                            "#911e7e", "#3f16d9", "#0f525f", "#ac7c0a", "#b4c086", "#c9d730", "#30cc49",
+                                            "#3d6751", "#fb4c03", "#640fc1", "#62c03e", "#d3493a", "#88aa0b", "#406df9",
+                                            "#615af0", "#4be47", "#2a3434", "#4a543f", "#79bca0", "#a8b8d4", "#00efd4",
+                                            "#7ad236", "#7260d8", "#1deaa7", "#06f43a", "#823c59", "#e3d94c", "#dc1c06",
+                                            "#f53b2a", "#b46238", "#2dfff6", "#a82b89", "#1a8011", "#436a9f", "#1a806a",
+                                            "#4cf09d", "#c188a2", "#67eb4b", "#b308d3", "#fc7e41", "#af3101", "#ff065",
+                                            "#71b1f4", "#a2f8a5", "#e23dd0", "#d3486d", "#00f7f9", "#474893", "#3cec35",
+                                            "#1c65cb", "#5d1d0c", "#2d7d2a", "#ff3420", "#5cdd87", "#a259a4", "#e4ac44",
+                                            "#1bede6", "#8798a4", "#d7790f", "#b2c24f", "#de73c2", "#d70a9c", "#25b67",
+                                            "#88e9b8", "#c2b0e2", "#86e98f", "#ae90e2", "#1a806b", "#436a9e", "#0ec0ff",
+                                            "#f812b3", "#b17fc9", "#8d6c2f", "#d3277a", "#2ca1ae", "#9685eb", "#8a96c6",
+                                            "#dba2e6", "#76fc1b", "#608fa4", "#20f6ba", "#07d7f6", "#dce77a", "#77ecca"],
+                            data: {{ date_counts|safe }}
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    title: {
+                        display: true,
+                        text: 'Number of Articles based on the Month-Year-Day'
+                    }
+                }
+            });
+            document.getElementById("date-chart").onclick = function(evt) {
+                var activePoints = chrt2.getElementsAtEvent(evt);
+                var chartData = activePoints[0]['_chart'].config.data;
+                var idx = activePoints[0]['_index'];
+
+                var label = chartData.labels[idx];
+                var qs = window.location.href;
+                var params = new URLSearchParams(window.location.search);
+                params.set('start', label);
+                params.set('end', label);
+                p = params.toString();
+
+                var url = "http://127.0.0.1:8000/?" + p
+                console.log(url);
+                window.location.href= url;
+            }
+
+          }
+        );
+
     </script>
+
+    <script>
+                                    var form= document.getElementById("id_abstract")
+                                    var queryString = window.location.search;
+                                    var urlParams = new URLSearchParams(queryString);
+                                    var abs = urlParams.get('abstract')
+                                    if (abs != undefined){
+                                        form.value=abs
+                                    }
+
+                                    var start_date= document.getElementById("start")
+                                    var end_date= document.getElementById("end")
+                                    var st = urlParams.get('start')
+                                    var en = urlParams.get('end')
+                                    if (st){
+                                        start_date.value = st
+                                        end_date.value = en
+                                    }
+
+                                    var coun = document.getElementById("country")
+                                    var c = urlParams.get('country')
+                                    if (c != undefined){
+                                        coun.value=c
+                                    }
+
+
+
+                                </script>
 
 {% endblock %}
