@@ -79,7 +79,7 @@
     </div>
 
     <style>
-         .tooltip2 {
+        .tooltip2 {
             position: relative;
             display: inline-block;
             border-bottom: 1px dotted black;
@@ -120,6 +120,7 @@
             visibility: visible;
             opacity: 1;
         }
+
         .popup {
             color: red;
         }
@@ -128,13 +129,13 @@
         function changeAll() {
             // Practical example
             const url = window.location.pathname;
-            const pubmedID = url.substring(url.lastIndexOf('/')+1);
+            const pubmedID = url.substring(url.lastIndexOf('/') + 1);
 
-            if(pubmedID == undefined) {
+            if (pubmedID == undefined) {
                 return
             }
             const new_url = 'http://anntt.herokuapp.com/annotations/pmid/' + pubmedID
-            
+
             fetch(new_url)
                 .then(response => response.json())
                 .then(data => {
@@ -149,19 +150,19 @@
                             let allText = exact
                             console.log(exact)
                             // let allText = prefix + exact + suffix
-                           
+
                             try {
                                 const newText = `<div class="tooltip2">${exact}<span class="tooltiptext">${data[i].body[1]['rdfs:Class']}<br />${data[i].body[3]['obo:IAO_0000115']}</span>
                                      </div>`
                                 replaceText(allText, newText)
-                                
+
                             } catch (error) {
-                                
+
                             }
-                                
-                        // if (typeof data[i].body[3]['obo:IAO_0000115'] != "undefined")    {
-                                
-                        //     }
+
+                            // if (typeof data[i].body[3]['obo:IAO_0000115'] != "undefined")    {
+
+                            //     }
 
 
                         }
@@ -172,7 +173,8 @@
 
         function replaceText(text, newText) {
             console.log("called replaceText")
-            document.body.innerHTML = document.body.innerHTML.replace(text, newText);
+            var regex = new RegExp("\\b"+text+"\\b","g"); // same as inv.replace(/\b1x\b/g, "")
+            document.body.innerHTML = document.body.innerHTML.replace(regex, newText);
         }
 
         changeAll()
