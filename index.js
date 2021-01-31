@@ -82,7 +82,12 @@ app.get('/annotations/pmid/:id', (req, res, next) => {
     // gets all annotaions of the article from the database
     collection.find({ 'target.source': { $regex: '/' + req.params.id } }).toArray(function (err, result) {
         if (err) throw err
-        res.send(result)
+        if (result.length > 0) {
+            res.send(result)
+        } else {
+            res.status(404).send({ 'message': 'Not Found' })
+        }
+
     })
 });
 
@@ -98,7 +103,11 @@ app.get('/annotations/pmid/:id/label', (req, res, next) => {
         { projection: { _id: 0, id: 1, 'target.selector.exact': 1 } })
         .toArray(function (err, result) {
             if (err) throw err
-            res.send(result)
+            if (result.length > 0) {
+                res.send(result)
+            } else {
+                res.status(404).send({ 'message': 'Not Found' })
+            }
         })
 });
 
@@ -113,7 +122,11 @@ app.get('/annotations/pmid/:id/target', (req, res, next) => {
         { projection: { _id: 0, id: 1, 'target': 1 } })
         .toArray(function (err, result) {
             if (err) throw err
-            res.send(result)
+            if (result.length > 0) {
+                res.send(result)
+            } else {
+                res.status(404).send({ 'message': 'Not Found' })
+            }git
         })
 });
 
