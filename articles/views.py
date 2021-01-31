@@ -629,6 +629,175 @@ def split_line(query):
     result = [word.strip() for word in query.split(',')]
     return result
 
+#Count function for dimensional search
+
+def count(request):
+        context = {}
+        context["start_date"] = request.session.get("start_date")
+        context["end_date"] = request.session.get("end_date")
+        context["country"] = request.session.get("country")
+        context["start_year"] = request.session.get("start_year")
+        context["start_month"] = request.session.get("start_month")
+        context["start_day"] = request.session.get("start_day")
+        context["end_year"] = request.session.get("end_year")
+        context["end_month"] = request.session.get("end_month")
+        context["end_day"] = request.session.get("end_day")
+        for i in range(50):
+            context["q_" + str(i)] = request.session.get("q_" + str(i))
+            lists = context["q_" + str(i)]
+            start_date = context["start_date"]
+            end_date = context["end_date"]
+            country = context["country"]
+            start_year = context["start_year"]
+            start_month = context["start_month"]
+            start_day = context["start_day"]
+            end_year = context["end_year"]
+            end_month = context["end_month"]
+            end_day = context["end_day"]
+            articles = []
+            counter = 0
+            my_list = []
+            for que in lists:
+
+                pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b|\bAnd\b|\bBut\b|\bOr\b)\w)+\b'
+                quer2 = re.findall(pat, que)
+                print(quer2)
+
+                syn_reg = r'(?i)\b' + que + r'\b'
+                print(syn_reg)
+
+
+                syn_regex = re.compile(syn_reg)
+                print(syn_regex)
+                counter += 1
+                print(counter)
+
+                que = re.findall(pat, que)
+                print(que)
+                pp = r''
+                for qu in que:
+                    if qu == 'AND' or qu == 'OR' or qu == 'BUT':
+                        po = r'\b' + qu + r'\b\W+(?:\w+\W+){0,4}?'
+                        tmp = pp + po
+                        pp = tmp
+                    else:
+                        pt = r'\b(?i:' + qu + r')(| |ing|ed|d)\b\W+(?:\w+\W+){0,4}?'
+                        tmp = pp + pt
+                        pp = tmp
+
+                print(pp)
+                regex = re.compile(pp)
+                print(regex)
+
+                print(start_year)
+
+                articl = collection.find({"$and":
+                                              [{"$or":
+                                                    [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]},
+                                               {"publication_date": {
+                                                   "$gte": datetime(int(start_year), int(start_month), int(start_day),
+                                                                    1, 30),
+                                                   "$lte": datetime(int(end_year), int(end_month), int(end_day), 1,
+                                                                    30)}},
+                                               {"authors": {"$regex": country}}
+                                               ]
+                                          })
+
+                sys_words = []
+                synonymous = sys_collection.find({"label": {"$regex": syn_regex}})
+                for s in synonymous:
+                    for i in s["synonymous"]:
+                        sys_words.append(i)
+                my_list = my_list + sys_words
+
+                tmp_syn = []
+                for syn in sys_words:
+
+                    syn = r'(?i)\b' + syn + r'\b'
+                    syn = re.compile(syn)
+
+                    print(syn)
+
+                    articl2 = collection.find({"$and":
+                                                   [{"$or": [{"abstract": {"$regex": syn}},
+                                                             {"title": {"$regex": syn}}]},
+                                                    {"publication_date": {
+                                                        "$gte": datetime(int(start_year), int(start_month),
+                                                                         int(start_day), 1, 30),
+                                                        "$lte": datetime(int(end_year), int(end_month), int(end_day), 1,
+                                                                         30)}},
+                                                    {"authors": {"$regex": country}}
+                                                    ]
+                                               })
+                    for i in articl2:
+                        tmp_syn.append(i)
+
+                child_words = []
+                child = collection2.find_one({"target.selector.exact": {"$regex": syn_regex}})
+                # synonymous = collection2.find({"label": {"$regex": syn_regex}})
+                if child is not None:
+                    cl = child["body"][1]["rdfs:Class"]
+                    sch = collection2.find({"body.rdfs:subClassOf": cl})
+                    for i in sch:
+                        child_words.append(i["target"]["selector"]["exact"])
+                    child_words = list(set(child_words))
+                tmp_child = []
+                for chi in child_words:
+                    print(chi)
+                    chi = r'(?i)\b' + chi + r'\b'
+                    chi = re.compile(chi)
+                    articl3 = collection.find({"$and":
+                                                   [{"$or": [{"abstract": {"$regex": chi}},
+                                                             {"title": {"$regex": chi}}]},
+                                                    {"publication_date": {
+                                                        "$gte": datetime(int(start_year), int(start_month),
+                                                                         int(start_day), 1, 30),
+                                                        "$lte": datetime(int(end_year), int(end_month),
+                                                                         int(end_day), 1, 30)}},
+                                                    {"authors": {"$regex": country}}
+                                                    ]
+                                               })
+
+                    for i in articl3:
+                        tmp_child.append(i)
+
+                    # for s in synonymous:
+                    #    for i in s["synonymous"]:
+                    #        sys_words.append(i)
+                # articl = collection.find({"$and": [{"$or": [{"abstract": {"$regex": regex}}, {"title": {"$regex": regex}}]}, {"publication_date": {date}}]})
+                if len(articles) == 0 and counter == 1:
+                    # tmp_arc=[]
+                    for item in articl:
+                        articles.append(item)
+                    for it in tmp_syn:
+                        if it in articles:
+                            continue
+                        else:
+                            articles.append(it)
+                    for chil in tmp_child:
+                        if chil in articles:
+                            continue
+                        else:
+                            articles.append(chil)
+                else:
+                    temp_arc = []
+                    for a in articl:
+                        if a in articles:
+                            temp_arc.append(a)
+                    for ite in tmp_syn:
+                        if ite in articles and ite not in temp_arc:
+                            temp_arc.append(ite)
+                    for chill in tmp_child:
+                        if chill in articles and chill not in temp_arc:
+                            temp_arc.append(chill)
+                    articles = temp_arc
+
+            searched_total_articles = len(articles)
+            context["count_" + str(i)] = searched_total_articles
+
+            request.session["count_" + str(i)] = context["count_" + str(i)]
+        return render(request, {'context': context})
+
 # Basic search function
 def home(request):
 
