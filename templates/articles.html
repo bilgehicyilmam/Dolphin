@@ -27,7 +27,7 @@
 
             <div class="row justify-content-center" style="margin-top: 5%">
 
-                <div class="col-12 col-md-10 col-lg-8" style="display: flex">
+                <div class="col-md-4 col-lg-8" style="display: flex">
 
                     <form id="pg" novalidate method="get" action="">
 
@@ -35,9 +35,14 @@
 
                             <div class="input-group mb-3">
 
-                                <div>
+
+
+                                <div style="margin-bottom: 0% !important;">
                                     {{ form|crispy }}
                                 </div>
+
+
+
                                 <style>
                                     label {
                                         display: block;
@@ -50,32 +55,26 @@
                                         height: 30px;
                                     }
                                 </style>
-                                <div class="col text-center" style="margin-top: 4%; margin-bottom: 4%">
-                                    <button id="getData" class="btn btn-primary" type="submit">Search</button>
-                                    <a href="http://127.0.0.1:8000/dimsearch">
-                                        <div class="btn btn-primary">Dimensional Search</div>
-                                    </a>
-                                </div>
+
                             </div>
-                            <div class="text-center" style="display:flex">
+                            <div class="text-center" style="display:flex; text-align: center; margin-top: 0%">
                                 <div class="text-center">
-                                    <label for="start">From:</label>
-                                    <input type="date" id="start" name="start"
-                                           value="1900-01-01"
-                                           min="1900-01-01" max="2021-12-31">
+
+                                    <input style="width: 117%; margin-right: 2%" class="form-control" type="date" id="start" name="start"
+                                           value="1950-01-01"
+                                           min="1950-01-01" max="2021-12-31">
                                 </div>
-                                <div style="width: 20px;"></div>
+
                                 <div class="text-center">
-                                    <label for="end">To:</label>
-                                    <input type="date" id="end" name="end"
+                                    <input style="width: 117%; margin-left: 21%" class="form-control" type="date" id="end" name="end"
                                            value="2021-12-31"
-                                           min="1900-01-01" max="2021-12-31">
+                                           min="1950-01-01" max="2021-12-31">
                                 </div>
 
                             </div>
                             <div>
-                                    <select name="country">
-                                        <option value="" selected>All</option>
+                                    <select class="form-control" style="width: 111%; margin-top: 5%" id="country" name="country">
+                                        <option value="" selected>Pick A Country</option>
                                         <option value="Afghanistan">Afghanistan</option>
                                         <option value="Albania">Albania</option>
                                         <option value="Algeria">Algeria</option>
@@ -105,7 +104,7 @@
                                         <option value="Bosnia and Herzegowina">Bosnia and Herzegowina</option>
                                         <option value="Botswana">Botswana</option>
                                         <option value="Bouvet Island">Bouvet Island</option>
-                                        <option value="Brazil">Brazil</option>
+                                        <option value="Brazil|Brasil">Brazil</option>
                                         <option value="British Indian Ocean Territory">British Indian Ocean Territory
                                         </option>
                                         <option value="Brunei Darussalam">Brunei Darussalam</option>
@@ -190,10 +189,10 @@
                                         <option value="Kazakhstan">Kazakhstan</option>
                                         <option value="Kenya">Kenya</option>
                                         <option value="Kiribati">Kiribati</option>
-                                        <option value="Democratic People's Republic of Korea">Korea, Democratic People's
-                                            Republic of
+                                        <option value="Democratic People's Republic of Korea|South Korea">Korea, Democratic People's
+                                            Republic of Korea
                                         </option>
-                                        <option value="Korea">Korea, Republic of</option>
+                                        <option value="Korea|North Korea">Korea, Republic of Korea</option>
                                         <option value="Kuwait">Kuwait</option>
                                         <option value="Kyrgyzstan">Kyrgyzstan</option>
                                         <option value="Lao">Lao People's Democratic Republic</option>
@@ -276,7 +275,7 @@
                                         <option value="South Africa">South Africa</option>
                                         <option value="South Georgia">South Georgia and the South Sandwich Islands
                                         </option>
-                                        <option value="Span">Spain</option>
+                                        <option value="Spain">Spain</option>
                                         <option value="SriLanka">Sri Lanka</option>
                                         <option value="St. Helena">St. Helena</option>
                                         <option value="St. Pierre and Miguelon">St. Pierre and Miquelon</option>
@@ -302,9 +301,9 @@
                                         <option value="Tuvalu">Tuvalu</option>
                                         <option value="Uganda">Uganda</option>
                                         <option value="Ukraine">Ukraine</option>
-                                        <option value="United Arab Emirates">United Arab Emirates</option>
-                                        <option value="United Kingdom">United Kingdom</option>
-                                        <option value="USA">United States</option>
+                                        <option value="United Arab Emirates|UAE">United Arab Emirates</option>
+                                        <option value="United Kingdom|UK">United Kingdom</option>
+                                        <option value="United States|USA">United States</option>
                                         <option value="United States Minor Outlying Islands">United States Minor
                                             Outlying Islands
                                         </option>
@@ -324,6 +323,12 @@
                                     </select>
                                 </div>
                         </div>
+                        <div class="col text-center" style="margin-top: 4%; margin-bottom: 4%">
+                                    <button id="getData" class="btn" style="background-color: #6495ED; color: white" type="submit">Search</button>
+                                    <a href="http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/dimsearch">
+                                        <div class="btn" style="background-color: #6495ED; color: white">Dimensional Search</div>
+                                    </a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -335,18 +340,23 @@
         </div>
 
 
-
         {% if article_page_ob %}
 
-            <h5 class="myHeader" style="text-align: center">Number of articles found for {{ query }}
-                is {{ searched_articles }}</h5>
+            <h5 class="myHeader" style="text-align: center">Number of articles found for <b>{{ query }}</b>
+                is <b>{{ searched_articles }}</b></h5>
+
+            <p></p>
+            <p></p>
+
+            <canvas id="bar-chart" width="800" height="450"></canvas>
+            <canvas id="date-chart" width="800" height="450"></canvas>
 
 
             <hr/>
             {% for instance in article_page_ob %}
                 <div>
                     <div><strong><small>
-                        <a href="http://127.0.0.1:8000/articles_detail/{{ instance.pubmed_id }}">
+                        <a href="http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/articles_detail/{{ instance.pubmed_id }}">
                             <h5>{{ instance.pubmed_id }}</h5></a></small></strong>
                     </div>
                     <div><h5>{{ instance.title|default_if_none:"" }}</h5></div>
@@ -364,6 +374,14 @@
 
                 <hr/>
             {% endfor %}
+
+            <script>
+                                    var queryString = window.location.search;
+                                    var urlParams = new URLSearchParams(queryString);
+                                    var coun = document.getElementById("country")
+                                    var c = urlParams.get('country')
+            </script>
+
 
             <div class="pagination" style="margin-bottom: 5%">
                 <div class="container text-center">
@@ -386,12 +404,13 @@
         {% endif %}
     </div>
 
-    <script type="text/javascript">
+
 
         const search = document.getElementById("getData");
         search.onclick = function () {
             document.getElementById("spinner").style.display = "block"
         };
-    </script>
+
+
 
 {% endblock %}
