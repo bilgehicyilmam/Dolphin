@@ -10,7 +10,7 @@ from db import Database
 class Annotation:
     article_id = "0"
     site_name = 'http://localhost:3000'
-    slug = 'articles'
+    slug = 'article_detail'
     annotations_slug = 'http://localhost:4001/annotations'
     abstract = ''
     ontologies = []

@@ -3,15 +3,6 @@ from ontologies.models import Ontology
 import xml.etree.ElementTree as ET
 import uuid
 
-new_person = Ontology(
-    class_id="class",
-    parent_id="parent",
-    label='Britney',
-    definition='test definition',
-    synonymous=["dummy", 3, 4])
-
-# new_person.save()
-
 class Bioontology:
 
     def __init__(self, owl_file, rdf_file):
