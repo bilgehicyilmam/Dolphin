@@ -22,7 +22,7 @@ DATABASES = {
         'ENGINE': 'djongo',
         "CLIENT": {
             "name": "dolphin",
-            "host": "mongodb+srv://dbuserdolphin:dbpassworddolphin@cluster0.h6bhx.mongodb.net/dolphin?retryWrites=true&w=majority",
+            "host": "mongodb+srv://dbuserdolphin:dbpassworddolphin@cluster0.h6bhx.mongodb.net/dolphin?retryWrites=true&w=majority&tls=true&tlsAllowInvalidCertificates=true",
             "username": "dbuserdolphin",
             "password": "dbpassworddolphin",
             "authMechanism": "SCRAM-SHA-1",
@@ -30,7 +30,7 @@ DATABASES = {
     },
     'annotations': {
         "name": "dolphin",
-            "host": "mongodb+srv://new_user_587:nXxoVnTlNcva3Mro@cluster0.hngug.mongodb.net/annotations?retryWrites=true&w=majority",
+            "host": "mongodb+srv://new_user_587:nXxoVnTlNcva3Mro@cluster0.hngug.mongodb.net/annotations?retryWrites=true&w=majority&tls=true&tlsAllowInvalidCertificates=true",
             "username": "new_user_587",
             "password": "nXxoVnTlNcva3Mro",
             "authMechanism": "SCRAM-SHA-1",
@@ -46,7 +46,7 @@ SECRET_KEY = 'el3v911_hs0e@*0z8op$gn+39ti!db31lkuyg$99lvhdxh(4l*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     'articles',
     'ontologies',
     'crispy_forms',
+    'storages',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -136,17 +138,45 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
+#
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Configure Django App for Heroku.
 
 #django_heroku.settings(locals())
 
-# All settings common to all environments
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static') 
+# PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+
+
+AWS_ACCESS_KEY_ID = 'AKIAV2CCWSUXHDR6E3PZ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'dolphin'
+
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+
+STATIC_URL = "https://dolphin.s3.eu-central-1.amazonaws.com/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+ ]
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+GRAPH_MODELS = {
+    'all_applications':True,
+    'group_models':True,
+}
+
+os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
+
