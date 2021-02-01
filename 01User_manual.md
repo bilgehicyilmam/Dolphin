@@ -1,11 +1,12 @@
-USER’S MANUAL
+# USER’S MANUAL
 
-Overview
+### Overview
 The User Manual provides End Users with a detailed operational description of the Dolphin COVID-19 Publication Search System and its associated tools, 
 such as the search procedures and manipulation of data on search results.
 
-1	GENERAL
-1.1	Introduction and Purpose
+### 1	GENERAL
+#### 1.1	Introduction and Purpose
+
 Scientific documents embody knowledge across time, disciplines, and regions. Authors refer to the same concepts with alternative terminology and have different
 styles of writing. It is important to be able to extract information from repositories of documents to aggregate and search information from various perspectives. 
 This project concerns extracting information from scientific documents in Medical Domain. These documents will be processed to identify domain specific concepts 
@@ -15,13 +16,12 @@ annotated by associating them with predefined terms in ontologies. Also, multi w
 into consideration together annotations that are not relevant to the search “left amygdala” can be seen. This application will harvest information from PubMed 
 specifically on COVID-19 topic and automatically annotate the content with predefined terms. The annotations will relate the content of articles to ontological concepts.
 
-The Dolphin Web Application can be reached via:
-
+* The Dolphin Web Application can be reached via:  
 http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/
 
-2	USER MANUAL OVERVIEW
+### 2	USER MANUAL OVERVIEW
 
-2.1	Basic Search
+#### 2.1	Basic Search
 Home screen of the application is where the user can also apply the basic search. There is a search text field where the user can be able to input her/his query term 
 and search for the articles on PubMed on COVID-19 domain. There is also dimensional search option provided under search text field which will be detailed in the 
 next step (2.2). Search terms shall either be applied as one single term like: “Brain cancer” or multiple search terms are also welcomed with the comma rule: “Brain 
@@ -38,7 +38,7 @@ A shortened version of the searched article’s abstract and keywords alongside 
 Navigation to the details of the desired article based on the searched criteria can be applied through the link on the searched article’s PubMed id. To call back the 
 basic search screen “Home” option on the top left of the navigation bar can be clicked.
 
-2.2	Dimensional Search
+#### 2.2	Dimensional Search
 If the user wants to apply dimensional search on her/his results, s/he can navigate there from the basic search screen by clicking “Dimensional Search” option under 
 the search text field. When dimensional search screen showed up, the search text field can be observed as it was in basic search but also there are “+” and “-” signs 
 under the “main query” search term which enables user’s to add and remove dimensions to her/his search. What are these dimensions? Basically they provide the user to add 
@@ -73,7 +73,7 @@ possible for the dimensional search. Number of articles displayed on the results
 and “men” are found together with their synonyms and sub-classes). User can be able to click on the article numbers found for the combinations to navigate to the 
 articles of the desired combination. User can also check for the synonyms and sub-classes found for the dimensional query made on the left bottom of the screen.
 
-2.3	Article Detail Page
+#### 2.3	Article Detail Page
 
 When the user clicks on the PubMed id of the searched results, it navigates to the details page of the selected article where if available the PubMed id, title, 
 abstract, keywords, conclusions, authors, publication date, DOI Link (where article can be found if open to access), results, journals and copyrights info of the 
