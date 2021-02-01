@@ -43,52 +43,5 @@
 [8. Annotation Resources](https://github.com/HBilge/Dolphin/wiki/Annotation-Resouces)
 
 
-### :memo: Meeting Notes
-* [Meeting #19](https://github.com/HBilge/Dolphin/wiki/Meeting-%2319)
-* [Meeting #18](https://github.com/HBilge/Dolphin/wiki/Meeting-%2318)
-* [Meeting #17](https://github.com/HBilge/Dolphin/wiki/Meeting-%2317)
-* [Meeting #16](https://github.com/HBilge/Dolphin/wiki/Meeting-%2316)
-* [Meeting #15](https://github.com/HBilge/Dolphin/wiki/Meeting-%2315)
-* [Meeting #14](https://github.com/HBilge/Dolphin/wiki/Meeting-%2314)
-* [Meeting #13](https://github.com/HBilge/Dolphin/wiki/Meeting-%2313)
-* [Meeting #12](https://github.com/HBilge/Dolphin/wiki/Meeting-%2312)
-* [Meeting #11](https://github.com/HBilge/Dolphin/wiki/Meeting-%2311)
-* [Meeting #10](https://github.com/HBilge/Dolphin/wiki/Meeting-%2310)
-* [Meeting #9](https://github.com/HBilge/Dolphin/wiki/Meeting-%239)
-* [Meeting #8](https://github.com/HBilge/Dolphin/wiki/Meeting-%238)
-* [Meeting #7](https://github.com/HBilge/Dolphin/wiki/Meeting-%237)
-* [Meeting #6](https://github.com/HBilge/Dolphin/wiki/Meeting-%236)
-* [Meeting #5](https://github.com/HBilge/Dolphin/wiki/Meeting-%235)
-* [Meeting #4](https://github.com/HBilge/Group1/wiki/Meeting-%234)
-* [Meeting #3](https://github.com/HBilge/Group1/wiki/Meeting-%233)
-* [Meeting #2](https://github.com/HBilge/Group1/wiki/Meeting-%232)
-* [Meeting #1](https://github.com/HBilge/Group1/wiki/Meeting-%231)
-
-
-
-### :muscle: Weekly Effort
-
-* [Week #14](https://github.com/HBilge/Dolphin/wiki/Week-%2314)
-* [Week #13](https://github.com/HBilge/Dolphin/wiki/Week-%2313)
-* [Week #12](https://github.com/HBilge/Dolphin/wiki/Week-%2312)
-* [Week #11](https://github.com/HBilge/Dolphin/wiki/Week-%2311)
-* [Week #10](https://github.com/HBilge/Dolphin/wiki/Week-%2310)
-* [Week #9](https://github.com/HBilge/Dolphin/wiki/Week-%239)
-* [Week #8](https://github.com/HBilge/Dolphin/wiki/Week-%238)
-* [Week #7](https://github.com/HBilge/Dolphin/wiki/Week-%237)
-* [Week #6](https://github.com/HBilge/Dolphin/wiki/Week-%236)
-* [Week #5](https://github.com/HBilge/Dolphin/wiki/Week-%235)
-* [Week #4](https://github.com/HBilge/Dolphin/wiki/Week-%234)
-* [Week #3](https://github.com/HBilge/Dolphin/wiki/Week-%233)
-* [Week #2](https://github.com/HBilge/Dolphin/wiki/Week-%232)
-* [Week #1](https://github.com/HBilge/Dolphin/wiki/Week-%231)
-
-### :pen: Declaration of Authentic Work
-
-* [Declaration of Authentic Work](https://github.com/HBilge/Dolphin/wiki/Declaration-of-Authentic-Work)
-
-
-
-
 
 ![Artboard 3 dolphin](https://user-images.githubusercontent.com/25805267/102322318-eb91b480-3f8f-11eb-9f58-3e3fcda59412.png)
