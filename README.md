@@ -1,4 +1,7 @@
-# Group Dolphin
+# Dolphin
+
+![class_diagram_annotation-Page-2](https://user-images.githubusercontent.com/25805267/106479428-61f46280-64bb-11eb-97ad-c105cdf80b22.png)
+
 
 ### :scroll: Documentation
 [1. Project Description](https://github.com/HBilge/Dolphin/wiki/Project-Description)
