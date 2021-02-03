@@ -63,11 +63,21 @@ Then if the user wants to add dimension on these 2 domains, s/he simply clicks �
 “lung cancer, liver cancer” on the main query and the “women, men” on the first dimension, the results will show the combination of dimensions on the main queries such as:
 
 -	Lung cancer (each main query itself)
--	Liver cancer (each main query itself)
--	Lung cancer - women (each main query with the possibilities on dimension)
--	Liver cancer - women (each main query with the possibilities on dimension)
--	Lung cancer - men (each main query with the possibilities on dimension)
--	Liver cancer - men (each main query with the possibilities on dimension)
+-	Lung cancer - woman (each main query with the possibilities on dimension)
+-	Lung cancer - man (each main query with the possibilities on dimension)
+-	Lung cancer - children (each main query with the possibilities on dimension)
+-	Lung cancer - breath (each main query with the possibilities on dimension)
+-	Lung cancer - cough (each main query with the possibilities on dimension)
+-	Lung cancer - fever (each main query with the possibilities on dimension)
+-	Lung cancer - woman - breath (each main query with the possibilities on dimension)
+-	Lung cancer - woman - cough (each main query with the possibilities on dimension)
+-	Lung cancer - woman - fever (each main query with the possibilities on dimension)
+-	Lung cancer - man - breath (each main query with the possibilities on dimension)
+-	Lung cancer - man - cough (each main query with the possibilities on dimension)
+-	Lung cancer - man - fever (each main query with the possibilities on dimension)
+-	Lung cancer - children - breath (each main query with the possibilities on dimension)
+-	Lung cancer - children - cough (each main query with the possibilities on dimension)
+-	Lung cancer - children - fever (each main query with the possibilities on dimension)
 
 Also the number of articles found for each combination will be displayed on the screen. This page is simply called “summary page” of your search combinations 
 where you can have insight of your search. The search here to retrieve the count of the combinations is done with the same logic as in basic search, it searches 
@@ -84,6 +94,8 @@ articles of the desired combination. User can also check for the synonyms and su
 ![image](https://user-images.githubusercontent.com/61224886/106474553-14c1c200-64b6-11eb-9533-4839ea439a7c.png)
 
 ![image](https://user-images.githubusercontent.com/61224886/106474649-30c56380-64b6-11eb-9af3-3ee006a6680e.png)
+
+The user can navigate to the related articles by clicking on the numbers on the summary table. Under the search box field, graph based on countries (by authors) and the graph based on the dates can be found. Under the graphs, articles can be found. The user can navigate to these articles by clicking on their pubmed id's as well. 
 
 ![image](https://user-images.githubusercontent.com/61224886/106474947-78e48600-64b6-11eb-8792-c26c75d03230.png)
 
