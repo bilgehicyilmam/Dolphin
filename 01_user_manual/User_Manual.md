@@ -4,7 +4,7 @@
 The User Manual provides End Users with a detailed operational description of the Dolphin COVID-19 Publication Search System and its associated tools, 
 such as the search procedures and manipulation of data on search results.
 
-### 1	GENERAL
+### 1.	GENERAL
 #### 1.1	Introduction and Purpose
 
 Scientific documents embody knowledge across time, disciplines, and regions. Authors refer to the same concepts with alternative terminology and have different
@@ -16,8 +16,7 @@ annotated by associating them with predefined terms in ontologies. Also, multi w
 into consideration together annotations that are not relevant to the search “left amygdala” can be seen. This application will harvest information from PubMed 
 specifically on COVID-19 topic and automatically annotate the content with predefined terms. The annotations will relate the content of articles to ontological concepts.
 
-* The Dolphin Web Application can be reached via:  
-http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/
+* The Dolphin Web Application can be reached via:  http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/
 
 ### 2	USER MANUAL OVERVIEW
 
@@ -46,7 +45,7 @@ basic search screen “Dolphin” option on the top left of the navigation bar c
 #### 2.2	Dimensional Search
 
 If the user wants to apply dimensional search on her/his results, s/he can navigate there from the basic search screen by clicking “Dimensional Search” option under 
-the search text field. When dimensional search screen showed up, the search text field can be observed as it was in basic search but also there are “+” and “-” signs 
+the search text field. When dimensional search screen showed up, the search text field can be observed as it was in basic search but also there are “Add Dimension” and “Remove Dimension” buttons
 under the “main query” search term which enables user’s to add and remove dimensions to her/his search. What are these dimensions? Basically they provide the user to add 
 new dimensions on her/his main query. When the dimensions are applied and search is made, the result screen displays the combinations of the searched terms entered on both 
 the main query and the dimensions. Main query is where the user should enter her/his most interested area of concept to search for and with the help of the dimensions the
@@ -58,15 +57,10 @@ combinations and the article numbers found for these combinations, thus it provi
 article found) in a single search if the user is not sure what to search for exactly to retrieve the right articles or interested in statistical data based on different 
 queries searched. 
 
-Here is a pseudo example to dimensional search; the user can enter multiple search terms both on the main query field (up to 3 terms) and on the dimensions. 
+Here is a pseudo example to dimensional search; the user can enter multiple search terms on the main query field **(up to 3 terms)**. On the dimensions, searh terms **(up to 5 terms)** can be entered. On the other hand, the system can calculate the combinations of searh terms **(up to 6 dimensions)**. (It takes at least 30 -40 minutes to calculate the results.)
 If the user enters “lung cancer, liver cancer” on the main query field this means that the user is interested on 2 main domains separately; lung cancer and liver cancer. 
-Then if the user wants to add dimension on these 2 domains, s/he simply clicks “+” sign to add dimension and enters “women, men”. When the user searches for 
+Then if the user wants to add dimension on these 2 domains, s/he simply clicks “Add Dimension” button to add dimension and enters “women, men”. When the user searches for 
 “lung cancer, liver cancer” on the main query and the “women, men” on the first dimension, the results will show the combination of dimensions on the main queries such as:
-
-![image](https://user-images.githubusercontent.com/61224886/106474218-bbf22980-64b5-11eb-8714-ba383e6863a1.png)
-
-
-
 
 -	Lung cancer (each main query itself)
 -	Liver cancer (each main query itself)
@@ -82,6 +76,8 @@ of articles found for the combinations. The combination results are displayed af
 possible for the dimensional search. Number of articles displayed on the results is found with the and rule (for ex: the total number articles where “lung cancer” 
 and “men” are found together with their synonyms and sub-classes). User can be able to click on the article numbers found for the combinations to navigate to the 
 articles of the desired combination. User can also check for the synonyms and sub-classes found for the dimensional query made on the left bottom of the screen.
+
+![image](https://user-images.githubusercontent.com/61224886/106474218-bbf22980-64b5-11eb-8714-ba383e6863a1.png)
 
 ![image](https://user-images.githubusercontent.com/61224886/106474456-ffe52e80-64b5-11eb-8cbe-6ca25bc60d54.png)
 
