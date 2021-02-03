@@ -4,9 +4,9 @@ Overview
 The System Manual provides System Personnel with a detailed operational description of the Dolphin COVID-19 Publication Search System and its associated environments, 
 such as the search procedures and its technical insights.
 
-1	SYSTEM MANUAL OVERVIEW
+1.	SYSTEM MANUAL OVERVIEW
 
-1.1	System Overview
+1.1.	System Overview
 
  ![class_diagram_annotation-Page-2](https://user-images.githubusercontent.com/25805267/106479428-61f46280-64bb-11eb-97ad-c105cdf80b22.png)
 
@@ -21,7 +21,7 @@ http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/
 
 
 
-1.2	Application Installation 
+1.2.	Application Installation 
 
 The required packages can be downloaded by default with the project download from GitHub but in case of a problem packages and their versions to install the 
 application are listed below:
@@ -90,7 +90,7 @@ pip install –no-dependencies djongo==1.3.3
 
 
 
-1.3	Data Process
+1.3.	Data Process
 Stopwords are the words that should be omitted from the query to retrieve better results.
 Stopwords parameter is set to: “and”, “or”, “but”. If needed it can be edited on views.py
 
@@ -98,7 +98,7 @@ Window size is the number of words that is permitted in between the 2 words of t
 “lung and liver cancer” can also be retrieved for since “and” and “liver” is summed up to 2 words and 2 is in between of 0 and 4. (Recall that “and” in this sentence 
 will be omitted hence the number of words in between the words searched for is 1) Window Size can be updated on regex defined in views.py {0,4}
 
-1.4	System Resources
+1.4.	System Resources
 
 Minimum system Resources required for the application server is demonstrated below:
 
@@ -109,7 +109,7 @@ Version: 10.0.17763 Build 17763
 
 Processor: Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz, 2400 Mhz, 1 Core(s), 
 
-1 Logical Processor(s)
+1. Logical Processor(s)
 
 BIOS Version/Date: Xen 4.2.amazon, 8/24/2006
 
