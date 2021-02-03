@@ -3,7 +3,8 @@
 body{
     background-color: whitesmoke;
     font-family: "Times New Roman", Times, serif;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+
 
 }
 
@@ -23,7 +24,7 @@ body{
 
 
 .cls{
-    max-width: 275px;
+    max-width: 410px;
     width: 150%;
 }
 
@@ -33,15 +34,16 @@ form{
 
 
 .buttons{
-    font-weight: bold;
-    font-size: large;
+
+    margin-left: 1.5%;
     height:38px;
-    width:38px;
+    width: 20%;
 }
 
 table {
   border-collapse: collapse;
   width: 50%;
+    border: 1px darkgray;
 }
 
 td, th {
@@ -51,7 +53,7 @@ td, th {
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: whitesmoke;
 }
 
 .my_table{
@@ -77,4 +79,68 @@ tr:nth-child(even) {
     z-index: 9999;
     align-items: center;
     justify-content: center;
+}
+
+
+* {box-sizing: border-box;}
+
+
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  left: 28px;
+  width: 280px;
+}
+
+
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+    margin-bottom: 1%;
+    width: 410px;
+    max-height: 600px;
+
+
+  left: 26px;
+    overflow-y: auto ;
+  z-index: 9;
+}
+
+
+.form-container {
+  width: 410px;
+  padding: 10px;
+  background-color: white;
+}
+
+
+
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 40%;
+    height: 2%;
+    margin-top: 7%;
+    margin-left: 30%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+.form-container .cancel {
+  background-color: #555;
+
+}
+
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
 }
