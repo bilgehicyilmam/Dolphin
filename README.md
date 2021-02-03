@@ -47,4 +47,3 @@
 
 
 
-![Artboard 3 dolphin](https://user-images.githubusercontent.com/25805267/102322318-eb91b480-3f8f-11eb-9f58-3e3fcda59412.png)
