@@ -2277,6 +2277,8 @@ def home(request):
                         sys_words.append(i)
                 my_list = my_list+sys_words
                 tmp_syn = []
+                print(my_list)
+
                 for syn in sys_words:
                     if any(char in invalid_chars for char in syn):
                         continue
@@ -2296,7 +2298,7 @@ def home(request):
                             tmp_syn.append(i)
 
 # Child classes of search terms are collected
-
+                #print("synonym", tmp_syn)
                 child_words = []
                 child = collection2.find_one({"target.selector.exact": {"$regex": syn_regex }})
                 if child is not None:
@@ -2306,6 +2308,7 @@ def home(request):
                         child_words.append(i["target"]["selector"]["exact"])
                     child_words = list(set(child_words))
                 tmp_child = []
+
                 for chi in child_words:
                     print(chi)
                     if any(char in invalid_chars for char in chi):
@@ -2333,20 +2336,31 @@ def home(request):
 
 # Final collection of articles are formed here. Check is made to avoid duplicate articles for both query term
 # and its synonyms and child classes.
-
+                #print("children", tmp_child)
                 if len(articles) == 0 and counter == 1:
                     #tmp_arc=[]
                     for item in articl:
+                        item["section"] = "query"
                         articles.append(item)
                     for it in tmp_syn:
+                        it["section"] = "query"
                         if it in articles:
                             continue
                         else:
+                            it["section"] = "synonym"
                             articles.append(it)
+                    #[articles.append(el1) for el1 in tmp_syn for el2 in articles if el1['pubmed_id'] != el2['pubmed_id']]
+
                     for chil in tmp_child:
+
+                        chil["section"] = "query"
+                        if chil in articles:
+                            continue
+                        chil["section"] = "synonym"
                         if chil in articles:
                             continue
                         else:
+                            chil["section"] = "child"
                             articles.append(chil)
                 else:
                     temp_arc=[]

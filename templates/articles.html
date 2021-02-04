@@ -325,7 +325,7 @@
                         </div>
                         <div class="col text-center" style="margin-top: 4%; margin-bottom: 4%">
                                     <button id="getData" class="btn" style="background-color: #6495ED; color: white" type="submit">Search</button>
-                                    <a href="http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/dimsearch">
+                                    <a href="http://127.0.0.1:8000/dimsearch">
                                         <div class="btn" style="background-color: #6495ED; color: white">Dimensional Search</div>
                                     </a>
                         </div>
@@ -355,15 +355,19 @@
             <hr/>
             {% for instance in article_page_ob %}
                 <div>
-                    <div><strong><small>
-                        <a href="http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/articles_detail/{{ instance.pubmed_id }}">
+                     <div style=" text-align: center; margin-bottom:1%; border: 3px solid lightgrey; width: 84px; height: 30px; background-color: whitesmoke;">{{ instance.section }}</div>
+
+                    <div style="margin-bottom: 1%"><strong><small>
+                        <a href="http://127.0.0.1:8000/articles_detail/{{ instance.pubmed_id }}">
                             <h5>{{ instance.pubmed_id }}</h5></a></small></strong>
+
                     </div>
-                    <div><h5>{{ instance.title|default_if_none:"" }}</h5></div>
-                    <p>
-                    <p>
+
+                    <div style="margin-bottom: 1%"><h5>{{ instance.title|default_if_none:"" }}</h5></div>
+
+
                         <div>
-                    <p></p>{{ instance.abstract|default_if_none:""|truncatechars:330 }}</div>
+                    {{ instance.abstract|default_if_none:""|truncatechars:330 }}</div>
                 <div><strong><small>
                     {% for data in instance.keywords %}
                         <span>
@@ -491,7 +495,7 @@
                 p = params.toString();
 
 
-                var url = "http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/?" + p
+                var url = "http://127.0.0.1:8000/?" + p
                 console.log(url);
                 window.location.href= url;
             }
@@ -575,7 +579,7 @@
                 params.set('end', label);
                 p = params.toString();
 
-                var url = "http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/?" + p
+                var url = "http://127.0.0.1:8000/?" + p
                 console.log(url);
                 window.location.href= url;
             }
