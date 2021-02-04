@@ -31,15 +31,15 @@
                                 <div class="text-center"  style="width: 21%">
                                     <label for="start" style="margin-bottom: 0%"></label>
                                     <input  class="form-control" type="date" id="start" name="start"
-                                           value="1900-01-01"
-                                           min="1900-01-01" max="2021-12-31">
+                                           value="1950-01-01"
+                                           min="1950-01-01" max="2021-12-31">
                                 </div>
                                 <div style="width: 18px;"></div>
                                 <div class="text-center" style="width: 21%">
                                     <label for="end" style="margin-bottom: 0%"></label>
                                     <input class="form-control" type="date" id="end" name="end"
                                            value="2021-12-31"
-                                           min="1900-01-01" max="2021-12-31">
+                                           min="1950-01-01" max="2021-12-31">
                                 </div>
 
                             </div>
@@ -558,7 +558,7 @@
                      <tr>
                          <th style="background-color: lightgrey">Queries</th>
                      </tr>
-                        <td id="qt0">{% for i in context.queries_0 %}{{ i }} {% endfor %}</td>
+                        <td id="qt0">{% for i in context.queries_0 %}{{ i }}, {% endfor %}</td>
                  </table>
               </div>
          {% endif %}
@@ -570,10 +570,10 @@
                          <th style="background-color: lightgrey">Queries</th>
                      </tr>
                       <tr>
-                          <td id="qt0">{% for i in context.queries_0 %}{{ i }} {% endfor %}</td>
+                          <td id="qt0">{% for i in context.queries_0 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt1">{% for i in context.queries_1 %}{{ i }} {% endfor %}</td>
+                          <td id="qt1">{% for i in context.queries_1 %}{{ i }}, {% endfor %}</td>
                       </tr>
                  </table>
               </div>
@@ -586,13 +586,13 @@
                          <th style="background-color: lightgrey">Queries</th>
                      </tr>
                       <tr>
-                          <td id="qt0">{% for i in context.queries_0 %}{{ i }} {% endfor %}</td>
+                          <td id="qt0">{% for i in context.queries_0 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt1">{% for i in context.queries_1 %}{{ i }} {% endfor %}</td>
+                          <td id="qt1">{% for i in context.queries_1 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt2">{% for i in context.queries_2 %}{{ i }} {% endfor %}</td>
+                          <td id="qt2">{% for i in context.queries_2 %}{{ i }}, {% endfor %}</td>
                       </tr>
                  </table>
               </div>
@@ -605,16 +605,16 @@
                          <th style="background-color: lightgrey">Queries</th>
                      </tr>
                       <tr>
-                          <td id="qt0">{% for i in context.queries_0 %}{{ i }} {% endfor %}</td>
+                          <td id="qt0">{% for i in context.queries_0 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt1">{% for i in context.queries_1 %}{{ i }} {% endfor %}</td>
+                          <td id="qt1">{% for i in context.queries_1 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt2">{% for i in context.queries_2 %}{{ i }} {% endfor %}</td>
+                          <td id="qt2">{% for i in context.queries_2 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt3">{% for i in context.queries_3 %}{{ i }} {% endfor %}</td>
+                          <td id="qt3">{% for i in context.queries_3 %}{{ i }}, {% endfor %}</td>
                       </tr>
                  </table>
               </div>
@@ -626,19 +626,19 @@
                          <th style="background-color: lightgrey">Queries</th>
                      </tr>
                       <tr>
-                          <td id="qt0">{% for i in context.queries_0 %}{{ i }} {% endfor %}</td>
+                          <td id="qt0">{% for i in context.queries_0 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt1">{% for i in context.queries_1 %}{{ i }} {% endfor %}</td>
+                          <td id="qt1">{% for i in context.queries_1 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt2">{% for i in context.queries_2 %}{{ i }} {% endfor %}</td>
+                          <td id="qt2">{% for i in context.queries_2 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt3">{% for i in context.queries_3 %}{{ i }} {% endfor %}</td>
+                          <td id="qt3">{% for i in context.queries_3 %}{{ i }}, {% endfor %}</td>
                       </tr>
                       <tr>
-                          <td id="qt3">{% for i in context.queries_4 %}{{ i }} {% endfor %}</td>
+                          <td id="qt4">{% for i in context.queries_4 %}{{ i }}, {% endfor %}</td>
                       </tr>
                  </table>
               </div>
@@ -2509,18 +2509,38 @@
 })
 
 
-
-
     const synonym = document.getElementById("synonym")
-    console.log("hello")
+
     if (q0){
-        console.log(q0);
-        console.log("hello")
+
         synonym.style.display = "block"
 
     }
 
+    const qt0 = document.getElementById("qt0");
+    if(qt0){
+      qt0.innerHTML = qt0.innerHTML.replace(/,(?=[^,]*$)/, '');
+    }
 
+    const qt1 = document.getElementById("qt1");
+    if(qt1){
+      qt1.innerHTML = qt1.innerHTML.replace(/,(?=[^,]*$)/, '');
+    }
+
+    const qt2 = document.getElementById("qt2");
+    if(qt2){
+      qt2.innerHTML = qt2.innerHTML.replace(/,(?=[^,]*$)/, '');
+    }
+
+    const qt3 = document.getElementById("qt3");
+    if(qt3){
+      qt3.innerHTML = qt3.innerHTML.replace(/,(?=[^,]*$)/, '');
+    }
+
+    const qt4 = document.getElementById("qt4");
+    if(qt4){
+      qt4.innerHTML = qt4.innerHTML.replace(/,(?=[^,]*$)/, '');
+    }
 
 
 

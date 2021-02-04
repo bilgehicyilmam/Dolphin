@@ -2178,13 +2178,12 @@ def home(request):
 
 #Transferred variables with request; query, start_date, end_date, country
 
+    context = {}
     all_articles = article.objects.all()
     form = ArticleSearch()
     total_articles = all_articles.count()
-    context = {
-        "total_articles": total_articles,
-        "form": form,
-    }
+    context["total_articles"] = total_articles
+    context["form"] = form
     query = request.GET.get('abstract')
     start_date = request.GET.get('start')
     end_date = request.GET.get('end')
@@ -2277,6 +2276,9 @@ def home(request):
                         sys_words.append(i)
                 my_list = my_list+sys_words
 
+                context["syn_word_" + str(sys_index)] = que
+                context["synonym_" + str(sys_index)] = sys_words
+
                 tmp_syn = []
                 print(my_list)
 
@@ -2308,7 +2310,12 @@ def home(request):
                     for i in sch:
                         child_words.append(i["target"]["selector"]["exact"])
                     child_words = list(set(child_words))
+
+                context["child_word_" + str(sys_index)] = que
+
+                context["children_" + str(sys_index)] = child_words
                 tmp_child = []
+                sys_index += 1
 
                 for chi in child_words:
                     print(chi)
@@ -2424,23 +2431,41 @@ def home(request):
                 c = json.loads(keywords)
                 item['authors'] = b
                 item['keywords'] = c
-            context = {
-                "total_articles": total_articles,
-                "searched_articles": searched_total_articles,
-                "articles": articles,
-                "form": form,
-                "article_page_ob": article_page_ob,
-                "query": query,
-                "queris": queris,
-                "my_list": my_list,
-                "start_date": start_date,
-                "end_date": end_date,
-                "country": country_new,
-                "country_labels": list(sorted_countries.keys()),
-                "country_counts": list(sorted_countries.values()),
-                "date_labels": list(date_labels.keys()),
-                "date_counts": list(date_labels.values())
-            }
+
+            context["total_articles"] = total_articles
+            context["searched_articles"] = searched_total_articles
+            context["articles"] = articles
+            context["form"] = form
+            context["article_page_ob"] = article_page_ob
+            context["query"] = query
+            context["queris"] = queris
+            context["my_list"] = my_list
+            context["start_date"] = start_date
+            context["end_date"] = end_date
+            context["country"] = country_new
+            context["country_labels"] = list(sorted_countries.keys())
+            context["country_counts"] = list(sorted_countries.values())
+            context["date_labels"] = list(date_labels.keys())
+            context["date_counts"] = list(date_labels.values())
+            #
+            # context = {
+            #     "total_articles": total_articles,
+            #     "searched_articles": searched_total_articles,
+            #     "articles": articles,
+            #     "form": form,
+            #     "article_page_ob": article_page_ob,
+            #     "query": query,
+            #     "queris": queris,
+            #     "my_list": my_list,
+            #     "start_date": start_date,
+            #     "end_date": end_date,
+            #     "country": country_new,
+            #     "country_labels": list(sorted_countries.keys()),
+            #     "country_counts": list(sorted_countries.values()),
+            #     "date_labels": list(date_labels.keys()),
+            #     "date_counts": list(date_labels.values())
+            # }
+            #
 
 
     return render(request, "articles.html", context)
