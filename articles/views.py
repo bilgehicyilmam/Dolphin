@@ -2236,7 +2236,7 @@ def home(request):
             queris=query_process(queris)
 
 # Regex is applied to process query term
-
+            sys_index = 0
             for que in queris:
                 quer = ""
                 pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b|\bAnd\b|\bBut\b|\bOr\b)\w)+\b'
@@ -2276,6 +2276,7 @@ def home(request):
                     for i in s["synonymous"]:
                         sys_words.append(i)
                 my_list = my_list+sys_words
+
                 tmp_syn = []
                 print(my_list)
 
@@ -2345,6 +2346,9 @@ def home(request):
                     for it in tmp_syn:
                         it["section"] = "query"
                         if it in articles:
+                            articles[articles.index(it)]["section"] = "query, synonym"
+                            #it["section"] = "query, synonym"
+                            #print(articles.index(it))
                             continue
                         else:
                             it["section"] = "synonym"
@@ -2355,9 +2359,15 @@ def home(request):
 
                         chil["section"] = "query"
                         if chil in articles:
+                            articles[articles.index(chil)]["section"] = "query, child"
                             continue
                         chil["section"] = "synonym"
                         if chil in articles:
+                            articles[articles.index(chil)]["section"] = "synonym, child"
+                            continue
+                        chil["section"] = "query, synonym"
+                        if chil in articles:
+                            articles[articles.index(chil)]["section"] = "query, synonym, child"
                             continue
                         else:
                             chil["section"] = "child"

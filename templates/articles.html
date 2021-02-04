@@ -355,7 +355,7 @@
             <hr/>
             {% for instance in article_page_ob %}
                 <div>
-                     <div style=" text-align: center; margin-bottom:1%; border: 3px solid lightgrey; width: 84px; height: 30px; background-color: whitesmoke;">{{ instance.section }}</div>
+                     <p style=" margin-bottom:1%; font-style: italic;"><b>{{ instance.section }}</b></p>
 
                     <div style="margin-bottom: 1%"><strong><small>
                         <a href="http://127.0.0.1:8000/articles_detail/{{ instance.pubmed_id }}">
@@ -366,7 +366,7 @@
                     <div style="margin-bottom: 1%"><h5>{{ instance.title|default_if_none:"" }}</h5></div>
 
 
-                        <div>
+
                     {{ instance.abstract|default_if_none:""|truncatechars:330 }}</div>
                 <div><strong><small>
                     {% for data in instance.keywords %}
