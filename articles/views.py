@@ -367,6 +367,9 @@ def dimensional_search(request):
                 query_list.append(b)
                 searched_total_articles = total_articles_count(request, query_list)
                 context["total_count_" + str(index)] = searched_total_articles
+                print(context["q_" + str(index)])
+                print(context["total_count_" + str(index)])
+                print(searched_total_articles)
                 index += 1
 
         if len(queries_2) >= 1:
@@ -2219,7 +2222,7 @@ def home(request):
     elif request.method == 'GET':
 
 # Query string is processed
-
+        sys_index = 0
         if query:
             queris = split_line(query)
             queris = list(filter(None, queris))
@@ -2235,7 +2238,7 @@ def home(request):
             queris=query_process(queris)
 
 # Regex is applied to process query term
-            sys_index = 0
+
             for que in queris:
                 quer = ""
                 pat = r'\b(?:(?!\band\b|\bor\b|\bbut\b|\bAnd\b|\bBut\b|\bOr\b)\w)+\b'
@@ -2280,8 +2283,6 @@ def home(request):
                 context["synonym_" + str(sys_index)] = sys_words
 
                 tmp_syn = []
-                print(my_list)
-
                 for syn in sys_words:
                     if any(char in invalid_chars for char in syn):
                         continue
@@ -2301,7 +2302,7 @@ def home(request):
                             tmp_syn.append(i)
 
 # Child classes of search terms are collected
-                #print("synonym", tmp_syn)
+
                 child_words = []
                 child = collection2.find_one({"target.selector.exact": {"$regex": syn_regex }})
                 if child is not None:
@@ -2312,11 +2313,10 @@ def home(request):
                     child_words = list(set(child_words))
 
                 context["child_word_" + str(sys_index)] = que
-
                 context["children_" + str(sys_index)] = child_words
-                tmp_child = []
                 sys_index += 1
 
+                tmp_child = []
                 for chi in child_words:
                     print(chi)
                     if any(char in invalid_chars for char in chi):
@@ -2344,7 +2344,7 @@ def home(request):
 
 # Final collection of articles are formed here. Check is made to avoid duplicate articles for both query term
 # and its synonyms and child classes.
-                #print("children", tmp_child)
+
                 if len(articles) == 0 and counter == 1:
                     #tmp_arc=[]
                     for item in articl:
@@ -2354,16 +2354,11 @@ def home(request):
                         it["section"] = "query"
                         if it in articles:
                             articles[articles.index(it)]["section"] = "query, synonym"
-                            #it["section"] = "query, synonym"
-                            #print(articles.index(it))
                             continue
                         else:
                             it["section"] = "synonym"
                             articles.append(it)
-                    #[articles.append(el1) for el1 in tmp_syn for el2 in articles if el1['pubmed_id'] != el2['pubmed_id']]
-
                     for chil in tmp_child:
-
                         chil["section"] = "query"
                         if chil in articles:
                             articles[articles.index(chil)]["section"] = "query, child"
@@ -2382,14 +2377,92 @@ def home(request):
                 else:
                     temp_arc=[]
                     for a in articl:
+                        a["section"] = "query"
                         if a in articles:
                             temp_arc.append(a)
+                            continue
+                        a["section"] = "synonym"
+                        if a in articles:
+                            temp_arc.append(a)
+                            continue
+                        a["section"] = "child"
+                        if a in articles:
+                            temp_arc.append(a)
+                            continue
+                        a["section"] = "query, synonym"
+                        if a in articles:
+                            temp_arc.append(a)
+                            continue
+                        a["section"] = "query, child"
+                        if a in articles:
+                            temp_arc.append(a)
+                            continue
+                        a["section"] = "synonym, child"
+                        if a in articles:
+                            temp_arc.append(a)
+                            continue
+                        a["section"] = "query, synonym, child"
+                        if a in articles:
+                            temp_arc.append(a)
+                            continue
                     for ite in tmp_syn:
+                        ite["section"] = "query"
                         if ite in articles and ite not in temp_arc:
                             temp_arc.append(ite)
+                            continue
+                        ite["section"] = "synonym"
+                        if ite in articles and ite not in temp_arc:
+                            temp_arc.append(ite)
+                            continue
+                        ite["section"] = "child"
+                        if ite in articles and ite not in temp_arc:
+                            temp_arc.append(ite)
+                            continue
+                        ite["section"] = "query, synonym"
+                        if ite in articles and ite not in temp_arc:
+                            temp_arc.append(ite)
+                            continue
+                        ite["section"] = "query, child"
+                        if ite in articles and ite not in temp_arc:
+                            temp_arc.append(ite)
+                            continue
+                        ite["section"] = "synonym, child"
+                        if ite in articles and ite not in temp_arc:
+                            temp_arc.append(ite)
+                            continue
+                        ite["section"] = "query, synonym, child"
+                        if ite in articles and ite not in temp_arc:
+                            temp_arc.append(ite)
+                            continue
                     for chill in tmp_child:
+                        chill["section"] = "query"
                         if chill in articles and chill not in temp_arc:
                             temp_arc.append(chill)
+                            continue
+                        chill["section"] = "synonym"
+                        if chill in articles and chill not in temp_arc:
+                            temp_arc.append(chill)
+                            continue
+                        chill["section"] = "child"
+                        if chill in articles and chill not in temp_arc:
+                            temp_arc.append(chill)
+                            continue
+                        chill["section"] = "query, synonym"
+                        if chill in articles and chill not in temp_arc:
+                            temp_arc.append(chill)
+                            continue
+                        chill["section"] = "query, child"
+                        if chill in articles and chill not in temp_arc:
+                            temp_arc.append(chill)
+                            continue
+                        chill["section"] = "synonym, child"
+                        if chill in articles and chill not in temp_arc:
+                            temp_arc.append(chill)
+                            continue
+                        chill["section"] = "query, synonym, child"
+                        if chill in articles and chill not in temp_arc:
+                            temp_arc.append(chill)
+                            continue
                     articles = temp_arc
 
 # Date info is collected for date graphical visualization
@@ -2447,28 +2520,12 @@ def home(request):
             context["country_counts"] = list(sorted_countries.values())
             context["date_labels"] = list(date_labels.keys())
             context["date_counts"] = list(date_labels.values())
-            #
-            # context = {
-            #     "total_articles": total_articles,
-            #     "searched_articles": searched_total_articles,
-            #     "articles": articles,
-            #     "form": form,
-            #     "article_page_ob": article_page_ob,
-            #     "query": query,
-            #     "queris": queris,
-            #     "my_list": my_list,
-            #     "start_date": start_date,
-            #     "end_date": end_date,
-            #     "country": country_new,
-            #     "country_labels": list(sorted_countries.keys()),
-            #     "country_counts": list(sorted_countries.values()),
-            #     "date_labels": list(date_labels.keys()),
-            #     "date_counts": list(date_labels.values())
-            # }
-            #
 
 
     return render(request, "articles.html", context)
+
+
+
 
 # Article detail page is defined here
 
