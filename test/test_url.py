@@ -14,6 +14,10 @@ class TestUrls(SimpleTestCase):
         url = reverse("dimensional_search")
         self.assertEquals(resolve(url).func, dimensional_search)
 
+    def test_article_detail_url(self):
+        url = reverse("articles_detail", args=["32840758"])
+        self.assertEquals(resolve(url).func, article_detail)
+
 
 
 # python manage.py test test.test_url
