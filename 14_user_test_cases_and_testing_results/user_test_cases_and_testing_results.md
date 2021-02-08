@@ -18,7 +18,7 @@
 
 * lung, breath
 
-**Expected Result:** A page displaying the total 111 articles that includes lung AND breath together.
+**Expected Result:** A page displaying the total 111 articles that includes lung AND breath together. Synonym form popup should be displayed as well that includes the synonyms and children of query terms.
 
 **Actual Result:** As expected
 
@@ -44,7 +44,7 @@
 * lung, breath
 * 2020-04-01 / 2020-11-30
 
-**Expected Result:** A page displaying the total 97 articles that includes lung AND breath together between the dates of 2020-04-01 and 2020-11-30.
+**Expected Result:** A page displaying the total 97 articles that includes lung AND breath together between the dates of 2020-04-01 and 2020-11-30. Synonym form popup should be displayed as well that includes the synonyms and children of query terms.
 
 **Actual Result:** As expected
 
@@ -70,7 +70,7 @@
 * lung, breath
 * Italy
 
-**Expected Result:** A page displaying the total 8 articles that includes lung AND breath together in Italy.
+**Expected Result:** A page displaying the total 8 articles that includes lung AND breath together in Italy. Synonym form popup should be displayed as well that includes the synonyms and children of query terms.
 
 **Actual Result:** As expected
 
@@ -100,7 +100,40 @@
 * woman, man
 * breath, cough
 
-**Expected Result:** A page displaying the summary table that shows the total counts of articles for the combinations of query terms.
+**Expected Result:** A page displaying the summary table that shows the total counts of articles for the combinations of query terms. Synonym form popup should be displayed as well that includes the synonyms and children of query terms.
+
+* lung: 3390
+* lung, woman: 49
+* lung, man: 58
+* lung, breath: 111
+* lung, cough: 240
+* lung, woman, breath: 4
+* lung, man, cough: 17
+* lung, man, breath: 8
+* lung, woman, cough: 13
+
+**Actual Result:** As expected
+
+**Result:** Pass
+
+## Search with Graphs
+
+**Title:**  Navigation to related articles with graphs.
+
+**Description:** The user should be able to click on the graph that shows the counts of articles and navigate to the related search results. 
+
+**Precondition:** Search result is displayed.
+
+**Test Steps:**
+
+1. Click on some part of a country graph. For example, Italy that includes the total 474 articles. (prefererably)
+2. Click on some part of a date graph. For example, 2019-June that includes the total 6 articles. (prefererably)
+
+**Test Data:**
+
+* lung
+
+**Expected Result:** Navigation to the page displaying the total 474 articles **OR** Navigation to the page displaying the total 6 articles.
 
 **Actual Result:** As expected
 
