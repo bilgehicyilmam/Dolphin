@@ -64,12 +64,12 @@ Then if the user wants to add dimension on these 2 domains, s/he simply clicks �
 
 - lung	(each main query itself)
 - lung, woman	(each main query with the possibilities on dimension)
-- lung, man	58 (each main query with the possibilities on dimension)
-- lung, breath	111 (each main query with the possibilities on dimension)
-- lung, cough	240 (each main query with the possibilities on dimension)
-- lung, woman, breath	4 (each main query with the possibilities on dimension)
-- lung, man, cough	17 (each main query with the possibilities on dimension)
-- lung, man, breath	8 (each main query with the possibilities on dimension)
+- lung, man (each main query with the possibilities on dimension)
+- lung, breath (each main query with the possibilities on dimension)
+- lung, cough (each main query with the possibilities on dimension)
+- lung, woman, breath	(each main query with the possibilities on dimension)
+- lung, man, cough (each main query with the possibilities on dimension)
+- lung, man, breath	(each main query with the possibilities on dimension)
 - lung, woman, cough (each main query with the possibilities on dimension)
 
 Also the number of articles found for each combination will be displayed on the screen. This page is simply called “summary page” of your search combinations 
