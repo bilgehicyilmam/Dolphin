@@ -62,22 +62,15 @@ If the user enters “lung cancer, liver cancer” on the main query field this 
 Then if the user wants to add dimension on these 2 domains, s/he simply clicks “Add Dimension” button to add dimension and enters “women, men”. When the user searches for 
 “lung cancer, liver cancer” on the main query and the “women, men” on the first dimension, the results will show the combination of dimensions on the main queries such as:
 
--	Lung cancer (each main query itself)
--	Lung cancer - woman (each main query with the possibilities on dimension)
--	Lung cancer - man (each main query with the possibilities on dimension)
--	Lung cancer - children (each main query with the possibilities on dimension)
--	Lung cancer - breath (each main query with the possibilities on dimension)
--	Lung cancer - cough (each main query with the possibilities on dimension)
--	Lung cancer - fever (each main query with the possibilities on dimension)
--	Lung cancer - woman - breath (each main query with the possibilities on dimension)
--	Lung cancer - woman - cough (each main query with the possibilities on dimension)
--	Lung cancer - woman - fever (each main query with the possibilities on dimension)
--	Lung cancer - man - breath (each main query with the possibilities on dimension)
--	Lung cancer - man - cough (each main query with the possibilities on dimension)
--	Lung cancer - man - fever (each main query with the possibilities on dimension)
--	Lung cancer - children - breath (each main query with the possibilities on dimension)
--	Lung cancer - children - cough (each main query with the possibilities on dimension)
--	Lung cancer - children - fever (each main query with the possibilities on dimension)
+- lung	(each main query itself)
+- lung, woman	(each main query with the possibilities on dimension)
+- lung, man	58 (each main query with the possibilities on dimension)
+- lung, breath	111 (each main query with the possibilities on dimension)
+- lung, cough	240 (each main query with the possibilities on dimension)
+- lung, woman, breath	4 (each main query with the possibilities on dimension)
+- lung, man, cough	17 (each main query with the possibilities on dimension)
+- lung, man, breath	8 (each main query with the possibilities on dimension)
+- lung, woman, cough (each main query with the possibilities on dimension)
 
 Also the number of articles found for each combination will be displayed on the screen. This page is simply called “summary page” of your search combinations 
 where you can have insight of your search. The search here to retrieve the count of the combinations is done with the same logic as in basic search, it searches 
@@ -89,19 +82,18 @@ articles of the desired combination. User can also check for the synonyms and su
 
 ![image](https://user-images.githubusercontent.com/61224886/106474218-bbf22980-64b5-11eb-8714-ba383e6863a1.png)
 
-![image](https://user-images.githubusercontent.com/61224886/106474456-ffe52e80-64b5-11eb-8cbe-6ca25bc60d54.png)
-
-![image](https://user-images.githubusercontent.com/61224886/106474553-14c1c200-64b6-11eb-9533-4839ea439a7c.png)
-
-![image](https://user-images.githubusercontent.com/61224886/106474649-30c56380-64b6-11eb-9af3-3ee006a6680e.png)
+![image](https://user-images.githubusercontent.com/61224886/107400262-b4183200-6b12-11eb-8a7d-411472a6a26a.png)
+![image](https://user-images.githubusercontent.com/61224886/107400306-bed2c700-6b12-11eb-91a6-1d1cbb889db9.png)
+![image](https://user-images.githubusercontent.com/61224886/107400564-f772a080-6b12-11eb-92f7-e4353c8cc39b.png)
+![image](https://user-images.githubusercontent.com/61224886/107400593-ffcadb80-6b12-11eb-9ed6-df8574dc2478.png)
 
 The user can navigate to the related articles by clicking on the numbers on the summary table. Under the search box field, graph based on countries (by authors) and the graph based on the dates can be found. Under the graphs, articles can be found. The user can navigate to these articles by clicking on their pubmed id's as well. 
 
-![image](https://user-images.githubusercontent.com/61224886/106474947-78e48600-64b6-11eb-8792-c26c75d03230.png)
 
-![image](https://user-images.githubusercontent.com/61224886/106475130-a7626100-64b6-11eb-8250-731378065240.png)
+![image](https://user-images.githubusercontent.com/61224886/107400951-694aea00-6b13-11eb-8492-3490bd17b0ad.png)
 
-![image](https://user-images.githubusercontent.com/61224886/106475199-bd702180-64b6-11eb-9f6f-c203cc592bf8.png)
+![image](https://user-images.githubusercontent.com/61224886/107401095-97c8c500-6b13-11eb-8001-e9466f3115a7.png)
+![image](https://user-images.githubusercontent.com/61224886/107401171-ab742b80-6b13-11eb-8868-2a935f7202ac.png)
 
 
 
