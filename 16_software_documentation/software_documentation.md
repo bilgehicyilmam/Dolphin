@@ -339,30 +339,32 @@
 				append query term and related count to combination results in order 
 				
 			for each element in main query list (query_0) and second dimension list (query_2) and fourth dimension list (query_4):
-				get the element from the the main query list, get the element from the second dimension list and get the element 
-				from the fourth dimension list and give these elements as parameters to count function by calling count function 
+				get the element from the the main query list, get the element from the second dimension list and get the 
+				element from the fourth dimension list and give these elements as parameters to count function by calling 
+				count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order 
 				
 			for each element in main query list (query_0) and third dimension list (query_3) and fourth dimension list (query_4):
-				get the element from the the main query list, get the element from the third dimension list and get the element 
-				from the fourth dimension list and give these elements as parameters to count function by calling count function 
+				get the element from the the main query list, get the element from the third dimension list and get the 
+				element from the fourth dimension list and give these elements as parameters to count function by calling 
+				count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order 
 				
-			for each element in main query list (query_0) and first dimension list (query_1) and third dimension list (query_3) and 
-			fourth dimension list (query_4):
-				get the element from the the main query list, get the element from the first dimension list, get the element from
-				the third dimension list and get the element from the fourth dimension list and give these elements as parameters to 
-				count function by calling count function 
+			for each element in main query list (query_0) and first dimension list (query_1) and third dimension list (query_3) 
+			and fourth dimension list (query_4):
+				get the element from the the main query list, get the element from the first dimension list, get the 
+				element from the third dimension list and get the element from the fourth dimension list and give these 
+				elements as parameters to count function by calling count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order 
 				
 			for each element in main query list (query_0) and second dimension list (query_2) and third dimension list (query_3) 
 			and fourth dimension list (query_4):
-				get the element from the the main query list, get the element from the second dimension list, get the element 
-				from the third dimension list and get the element from the fourth dimension list and give these elements as 
-				parameters to count function by calling count function 
+				get the element from the the main query list, get the element from the second dimension list, get the 
+				element from the third dimension list and get the element from the fourth dimension list and give these 
+				elements as parameters to count function by calling count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order 
 		
@@ -370,9 +372,9 @@
 			
 			for each element in main query list (query_0) and first dimension list (query_1) and second dimension list (query_2)
 			and third dimension list (query_3):
-				get the element from the the main query list, get the element from the first dimension list, get the element
-				from the second dimension list and get the element from the third dimension list and give these elements as 
-				parameters to count function by calling count function 
+				get the element from the the main query list, get the element from the first dimension list, get 
+				the element from the second dimension list and get the element from the third dimension list and give 
+				these elements as parameters to count function by calling count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order 
 		
@@ -407,8 +409,8 @@
 			for each element in main query list (query_0) and first dimension list (query_1) and second dimension list (query_2) 
 			and third dimension list (query_3):
 				get the element from the the main query list, get the element from the first dimension list, get the element 
-				from the second dimension list and get the element from the third dimension list and give these elements as parameters
-				to count function by calling count function 
+				from the second dimension list and get the element from the third dimension list and give these elements 
+				as parameters to count function by calling count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order 
 				
@@ -428,9 +430,10 @@
 				
 				for each element in main query list (query_0) and first dimension list (query_1) and second dimension list 
 				(query_2) and third dimension list (query_3) and fourth dimension list (query_4):
-				get the element from the the main query list, get the element from the first dimension list, get the element 
-				from the second dimension list, get the element from the third dimension list and get the element from the 
-				fourth dimension list and give these elements as parameters to count function by calling count function 
+				get the element from the the main query list, get the element from the first dimension list, get the 
+				element from the second dimension list, get the element from the third dimension list and get the 
+				element from the fourth dimension list and give these elements as parameters to count function by 
+				calling count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order 
 				
@@ -489,13 +492,15 @@
 			
 			for each element in main query list (query_0) and first dimension list (query_1) and third dimension list (query_3):
 				get the element from the the main query list, get the element from the first dimension list and get the
-				element from the third dimension list and give these elements as parameters to count function by calling count function 
+				element from the third dimension list and give these elements as parameters to count function by calling 
+				count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order 
 				
 			for each element in main query list (query_0) and second dimension list (query_2) and third dimension list (query_3):
 				get the element from the the main query list, get the element from the second dimension list and get the
-				element from the third dimension list and give these elements as parameters to count function by calling count function 
+				element from the third dimension list and give these elements as parameters to count function by calling 
+				count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order
 			
