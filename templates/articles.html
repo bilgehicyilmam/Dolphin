@@ -60,13 +60,13 @@
                             <div class="text-center" style="display:flex; text-align: center; margin-top: 0%">
                                 <div class="text-center">
 
-                                    <input style="width: 117%; margin-right: 2%" class="form-control" type="date" id="start" name="start"
+                                    <input style="width: 125%; margin-right: 3%" class="form-control" type="date" id="start" name="start"
                                            value="1950-01-01"
                                            min="1950-01-01" max="2021-12-31">
                                 </div>
 
                                 <div class="text-center">
-                                    <input style="width: 117%; margin-left: 21%" class="form-control" type="date" id="end" name="end"
+                                    <input style="width: 125%; margin-left: 30%" class="form-control" type="date" id="end" name="end"
                                            value="2021-12-31"
                                            min="1950-01-01" max="2021-12-31">
                                 </div>
@@ -345,13 +345,13 @@
                     <div class="form-popup" style="width: 320px !important;" id="myForm">
                         <form action="http://127.0.0.1:8000/" style="width: 320px !important;" class="form-container">
                             <h3 style="text-align: center; margin-top:5%; margin-bottom:0%">Synonyms</h3></hr>
-                  <div>
+                  <div >
                     <tr>
                     {% if syn_word_0 != None %}
                         {% if synonym_0|length == 0 %}
-                            <hr><b>{% for i in syn_word_0 %}{{ i }}: {% endfor %}</b>No synonym found</hr><br>
+                            <hr><b>{% for i in syn_word_0 %}{{ i }} {% endfor %}</b>No synonym found</hr><br>
                         {% elif synonym_0|length != 0 %}
-                            <td><div><hr><b>{% for i in syn_word_0 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><hr><b>{% for i in syn_word_0 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div id="syn_0">{% for i in synonym_0 %}{{ i }}<br>{% endfor %}</div></td>
                         {% endif %}
                     {% endif %}
@@ -360,9 +360,9 @@
                      <tr>
                      {% if syn_word_1 != None %}
                              {% if synonym_1|length == 0 %}
-                                <b>{% for i in syn_word_1 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                                <b>{% for i in syn_word_1 %}{{ i }} {% endfor %}</b>No synonym found<br>
                              {% elif synonym_1|length != 0 %}
-                                <td><div><b>{% for i in syn_word_1 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in syn_word_1 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in synonym_1 %}{{ i }}<br>{% endfor %}</div></td>
                             {% endif %}
                      {% endif %}
@@ -371,9 +371,9 @@
                      <tr>
                       {% if syn_word_2 != None %}
                              {% if synonym_2|length == 0 %}
-                                <b>{% for i in syn_word_2 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                                <b>{% for i in syn_word_2 %}{{ i }} {% endfor %}</b>No synonym found<br>
                              {% elif synonym_2|length != 0 %}
-                                <td><div><b>{% for i in syn_word_2 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in syn_word_2 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in synonym_2 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                      {% endif %}
@@ -381,9 +381,9 @@
                      <tr>
                       {% if syn_word_3 != None %}
                              {% if synonym_3|length == 0 %}
-                                <b>{% for i in syn_word_3 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                                <b>{% for i in syn_word_3 %}{{ i }} {% endfor %}</b>No synonym found<br>
                              {% elif synonym_3|length != 0 %}
-                                <td><div><b>{% for i in syn_word_3 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in syn_word_3 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in synonym_3 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                      {% endif %}
@@ -391,9 +391,9 @@
                      <tr>
                      {% if syn_word_4 != None %}
                          {% if synonym_4|length == 0 %}
-                            <b>{% for i in syn_word_4 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                            <b>{% for i in syn_word_4 %}{{ i }} {% endfor %}</b>No synonym found<br>
                          {% elif synonym_4|length != 0 %}
-                            <td><div><b>{% for i in syn_word_4 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><b>{% for i in syn_word_4 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div>{% for i in synonym_4 %}{{ i }}<br>{% endfor %}</div></td>
                          {% endif %}
                      {% endif %}
@@ -401,9 +401,9 @@
                      <tr>
                      {% if syn_word_5 != None %}
                          {% if synonym_5|length == 0 %}
-                            <b>{% for i in syn_word_5 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                            <b>{% for i in syn_word_5 %}{{ i }} {% endfor %}</b>No synonym found<br>
                          {% elif synonym_5|length != 0 %}
-                            <td><div><b>{% for i in syn_word_5 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><b>{% for i in syn_word_5 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div>{% for i in synonym_5 %}{{ i }}<br>{% endfor %}</div></td>
                          {% endif %}
                       {% endif %}
@@ -411,9 +411,9 @@
                      <tr>
                       {% if syn_word_6 != None %}
                              {% if synonym_6|length == 0 %}
-                                <b>{% for i in syn_word_6 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                                <b>{% for i in syn_word_6 %}{{ i }} {% endfor %}</b>No synonym found<br>
                              {% elif synonym_6|length != 0 %}
-                                <td><div><b>{% for i in syn_word_6 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in syn_word_6 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in synonym_6 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                        {% endif %}
@@ -421,9 +421,9 @@
                      <tr>
                       {% if syn_word_7 != None %}
                          {% if synonym_7|length == 0 %}
-                            <b>{% for i in syn_word_7 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                            <b>{% for i in syn_word_7 %}{{ i }} {% endfor %}</b>No synonym found<br>
                          {% elif synonym_7|length != 0 %}
-                            <td><div><b>{% for i in syn_word_7 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><b>{% for i in syn_word_7 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div>{% for i in synonym_7 %}{{ i }}<br>{% endfor %}</div></td>
                          {% endif %}
                      {% endif %}
@@ -431,9 +431,9 @@
                      <tr>
                       {% if syn_word_8 != None %}
                          {% if synonym_8|length == 0 %}
-                            <b>{% for i in syn_word_8 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                            <b>{% for i in syn_word_8 %}{{ i }} {% endfor %}</b>No synonym found<br>
                          {% elif synonym_8|length != 0 %}
-                            <td><div><b>{% for i in syn_word_8 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><b>{% for i in syn_word_8 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div>{% for i in synonym_8 %}{{ i }}<br>{% endfor %}</div></td>
                         {% endif %}
                      {% endif %}
@@ -441,9 +441,9 @@
                      <tr>
                      {% if syn_word_9 != None %}
                              {% if synonym_9|length == 0 %}
-                                <b>{% for i in syn_word_9 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                                <b>{% for i in syn_word_9 %}{{ i }} {% endfor %}</b>No synonym found<br>
                              {% elif synonym_9|length != 0 %}
-                                <td><div><b>{% for i in syn_word_9 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in syn_word_9 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in synonym_9 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                       {% endif %}
@@ -451,9 +451,9 @@
                     <tr>
                      {% if syn_word_10 != None %}
                              {% if synonym_10|length == 0 %}
-                                <b>{% for i in syn_word_10 %}{{ i }}: {% endfor %}</b>No synonym found<br>
+                                <b>{% for i in syn_word_10 %}{{ i }} {% endfor %}</b>No synonym found<br>
                              {% elif synonym_10|length != 0 %}
-                                <td><div><b>{% for i in syn_word_10 %}{{ i }}: {% endfor %}</b></div></td><br>
+                                <td><div><b>{% for i in syn_word_10 %}{{ i }} {% endfor %}</b></div></td><br>
                                 <td><div>{% for i in synonym_10 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                      {% endif %}
@@ -465,9 +465,9 @@
 
                     {% if child_word_0 != None %}
                         {% if children_0|length == 0 %}
-                            <hr><b>{% for i in child_word_0 %}{{ i }}: {% endfor %}</b>No child found</hr><br>
+                            <hr><b>{% for i in child_word_0 %}{{ i }} {% endfor %}</b>No child found</hr><br>
                         {% elif children_0|length != 0 %}
-                            <td><div><hr><b>{% for i in child_word_0 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><hr><b>{% for i in child_word_0 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div id="syn_0">{% for i in children_0 %}{{ i }}<br>{% endfor %}</div></td>
                         {% endif %}
                     {% endif %}
@@ -476,9 +476,9 @@
                      <tr>
                      {% if child_word_1 != None %}
                              {% if children_1|length == 0 %}
-                                <b>{% for i in child_word_1 %}{{ i }}: {% endfor %}</b>No child found<br>
+                                <b>{% for i in child_word_1 %}{{ i }} {% endfor %}</b>No child found<br>
                              {% elif children_1|length != 0 %}
-                                <td><div><b>{% for i in child_word_1 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in child_word_1 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in children_1 %}{{ i }}<br>{% endfor %}</div></td>
                             {% endif %}
                      {% endif %}
@@ -487,9 +487,9 @@
                      <tr>
                       {% if child_word_2 != None %}
                              {% if children_2|length == 0 %}
-                                <b>{% for i in child_word_2 %}{{ i }}: {% endfor %}</b>No child found<br>
+                                <b>{% for i in child_word_2 %}{{ i }} {% endfor %}</b>No child found<br>
                              {% elif children_2|length != 0 %}
-                                <td><div><b>{% for i in child_word_2 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in child_word_2 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in children_2 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                      {% endif %}
@@ -497,9 +497,9 @@
                      <tr>
                       {% if child_word_3 != None %}
                              {% if children_3|length == 0 %}
-                                <b>{% for i in child_word_3 %}{{ i }}: {% endfor %}</b>No child found <br>
+                                <b>{% for i in child_word_3 %}{{ i }} {% endfor %}</b>No child found <br>
                              {% elif children_3|length != 0 %}
-                                <td><div><b>{% for i in child_word_3 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in child_word_3 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in children_3 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                      {% endif %}
@@ -507,9 +507,9 @@
                      <tr>
                      {% if child_word_4 != None %}
                          {% if children_4|length == 0 %}
-                            <b>{% for i in child_word_4 %}{{ i }}: {% endfor %}</b>No child found<br>
+                            <b>{% for i in child_word_4 %}{{ i }} {% endfor %}</b>No child found<br>
                          {% elif children_4|length != 0 %}
-                            <td><div><b>{% for i in child_word_4 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><b>{% for i in child_word_4 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div>{% for i in children_4 %}{{ i }}<br>{% endfor %}</div></td>
                          {% endif %}
                      {% endif %}
@@ -517,9 +517,9 @@
                      <tr>
                      {% if child_word_5 != None %}
                          {% if children_5|length == 0 %}
-                            <b>{% for i in child_word_5 %}{{ i }}: {% endfor %}</b>No child found<br>
+                            <b>{% for i in child_word_5 %}{{ i }} {% endfor %}</b>No child found<br>
                          {% elif children_5|length != 0 %}
-                            <td><div><b>{% for i in child_word_5 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><b>{% for i in child_word_5 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div>{% for i in children_5 %}{{ i }}<br>{% endfor %}</div></td>
                          {% endif %}
                       {% endif %}
@@ -527,9 +527,9 @@
                      <tr>
                       {% if child_word_6 != None %}
                              {% if children_6|length == 0 %}
-                                <b>{% for i in child_word_6 %}{{ i }}: {% endfor %}</b>No child found<br>
+                                <b>{% for i in child_word_6 %}{{ i }} {% endfor %}</b>No child found<br>
                              {% elif children_6|length != 0 %}
-                                <td><div><b>{% for i in child_word_6 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in child_word_6 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in children_6 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                        {% endif %}
@@ -537,9 +537,9 @@
                      <tr>
                       {% if child_word_7 != None %}
                          {% if children_7|length == 0 %}
-                            <b>{% for i in child_word_7 %}{{ i }}: {% endfor %}</b> No child found<br>
+                            <b>{% for i in child_word_7 %}{{ i }} {% endfor %}</b> No child found<br>
                          {% elif children_7|length != 0 %}
-                            <td><div><b>{% for i in child_word_7 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><b>{% for i in child_word_7 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div>{% for i in children_7 %}{{ i }}<br>{% endfor %}</div></td>
                          {% endif %}
                      {% endif %}
@@ -547,9 +547,9 @@
                      <tr>
                       {% if child_word_8 != None %}
                          {% if children_8|length == 0 %}
-                            <b>{% for i in child_word_8 %}{{ i }}: {% endfor %}</b>No child found<br>
+                            <b>{% for i in child_word_8 %}{{ i }} {% endfor %}</b>No child found<br>
                          {% elif children_8|length != 0 %}
-                            <td><div><b>{% for i in child_word_8 %}{{ i }}: {% endfor %}</b></div></td>
+                            <td><div><b>{% for i in child_word_8 %}{{ i }} {% endfor %}</b></div></td>
                             <td><div>{% for i in children_8 %}{{ i }}<br>{% endfor %}</div></td>
                         {% endif %}
                      {% endif %}
@@ -557,9 +557,9 @@
                      <tr>
                      {% if child_word_9 != None %}
                              {% if children_9|length == 0 %}
-                                <b>{% for i in child_word_9 %}{{ i }}: {% endfor %}</b>No child found<br>
+                                <b>{% for i in child_word_9 %}{{ i }} {% endfor %}</b>No child found<br>
                              {% elif children_9|length != 0 %}
-                                <td><div><b>{% for i in child_word_9 %}{{ i }}: {% endfor %}</b></div></td>
+                                <td><div><b>{% for i in child_word_9 %}{{ i }} {% endfor %}</b></div></td>
                                 <td><div>{% for i in children_9 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                       {% endif %}
@@ -567,9 +567,9 @@
                     <tr>
                      {% if child_word_10 != None %}
                              {% if children_10|length == 0 %}
-                                <b>{% for i in child_word_10 %}{{ i }}: {% endfor %}</b>No child found<br>
+                                <b>{% for i in child_word_10 %}{{ i }} {% endfor %}</b>No child found<br>
                              {% elif children_10|length != 0 %}
-                                <td><div><b>{% for i in child_word_10 %}{{ i }}: {% endfor %}</b></div></td><br>
+                                <td><div><b>{% for i in child_word_10 %}{{ i }} {% endfor %}</b></div></td><br>
                                 <td><div>{% for i in children_10 %}{{ i }}<br>{% endfor %}</div></td>
                              {% endif %}
                      {% endif %}
@@ -752,7 +752,7 @@
         function() {
 
             var chrt2 = new Chart(document.getElementById("date-chart"), {
-                type: 'doughnut',
+                type: 'bar',
                 data: {
                     labels: {{ date_labels|safe }},
                     datasets: [
@@ -814,13 +814,34 @@
             document.getElementById("date-chart").onclick = function(evt) {
                 var activePoints = chrt2.getElementsAtEvent(evt);
                 var chartData = activePoints[0]['_chart'].config.data;
+
                 var idx = activePoints[0]['_index'];
 
                 var label = chartData.labels[idx];
+
+                if (label.charAt(5)+label.charAt(6) === "01" || label.charAt(5)+label.charAt(6) === "03" ||
+                    label.charAt(5)+label.charAt(6) === "05" || label.charAt(5)+label.charAt(6) === "07" ||
+                    label.charAt(5)+label.charAt(6) ==="08" || label.charAt(5)+label.charAt(6) === "10" ||
+                    label.charAt(5)+label.charAt(6) === "12"){
+                    var start_label = label + "-01"
+                    var end_label = label + "-31"
+                }
+                if (label.charAt(5)+label.charAt(6) === "04" || label.charAt(5)+label.charAt(6) === "06" ||
+                    label.charAt(5)+label.charAt(6) === "09" || label.charAt(5)+label.charAt(6) === "11"){
+                    start_label = label + "-01"
+                    end_label = label + "-30"
+                }
+                if (label.charAt(5)+label.charAt(6) === "02"){
+                    start_label = label + "-01"
+                    end_label = label + "-29"
+                }
+
+                console.log(start_label)
+                console.log(end_label)
                 var qs = window.location.href;
                 var params = new URLSearchParams(window.location.search);
-                params.set('start', label);
-                params.set('end', label);
+                params.set('start', start_label);
+                params.set('end', end_label);
                 p = params.toString();
 
                 var url = "http://127.0.0.1:8000/?" + p

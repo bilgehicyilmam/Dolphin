@@ -69,7 +69,6 @@ def synonymous(query):
 
     synonymous_words = []
     synonym_reg = r'(?i)\b' + query + r'\b'
-    print(synonym_reg)
     synonym_regex = re.compile(synonym_reg)
     synonymous = sys_collection.find({"label": {"$regex": synonym_regex}})
     for s in synonymous:
@@ -82,7 +81,6 @@ def parent_child(query):
 
     child_words = []
     synonym_reg = r'(?i)\b' + query + r'\b'
-    print(synonym_reg)
     synonym_regex = re.compile(synonym_reg)
     child = collection2.find_one({"target.selector.exact": {"$regex": synonym_regex}})
     if child is not None:
@@ -367,9 +365,6 @@ def dimensional_search(request):
                 query_list.append(b)
                 searched_total_articles = total_articles_count(request, query_list)
                 context["total_count_" + str(index)] = searched_total_articles
-                print(context["q_" + str(index)])
-                print(context["total_count_" + str(index)])
-                print(searched_total_articles)
                 index += 1
 
         if len(queries_2) >= 1:
@@ -2318,7 +2313,7 @@ def home(request):
 
                 tmp_child = []
                 for chi in child_words:
-                    print(chi)
+
                     if any(char in invalid_chars for char in chi):
                         continue
                     else:
@@ -2475,7 +2470,8 @@ def home(request):
                     if country.name in authors:
                         theCountries.append(country.name)
 
-                date = art["publication_date"].strftime("%Y-%m-%d")
+                #date = art["publication_date"].strftime("%Y-%m-%d")
+                date = art["publication_date"].strftime("%Y-%m")
 
                 dates.append(date)
 
@@ -2523,7 +2519,6 @@ def home(request):
 
 
     return render(request, "articles.html", context)
-
 
 
 
