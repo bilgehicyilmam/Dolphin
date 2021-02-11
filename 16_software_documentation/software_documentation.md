@@ -512,13 +512,26 @@ def synonyms():
 
 	synonyms = [empty list to hold all synonym words]
 	the query = add word boundary to the query
-	request the synonym (object) of the query from the database
+	request the synonym (object) of the query from the database (ontologies_ontology collection)
 	for each synonym word of the query:
 		append to an empty list of synonyms 
 		return synonyms list
 ```
 			
-				
+```
+def parent_child():
+
+	child_words = [empty list to hold all child words]
+	the query = add word boundary to the query
+	request rdfs class of the query from the database (ontologies_ontology collection)
+	if the result is not None:
+		request subclass of the rdfs class
+		for each subclass of the result:
+			append to an empty list of child_words
+		get the unique values from the child words list
+	return child_words list
+	
+```
 		
 				
 				
