@@ -503,7 +503,20 @@
 				count function 
 				get the result of count function which is the total number of articles
 				append query term and related count to combination results in order
-			
+				
+				
+# 2. Helper Functions
+
+```
+def synonyms():
+
+	synonyms = [empty list to hold all synonym words]
+	the query = add word boundary to the query
+	request the synonym (object) of the query from the database
+	for each synonym word of the query:
+		append to an empty list of synonyms 
+		return synonyms list
+```
 			
 				
 		
