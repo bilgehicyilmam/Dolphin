@@ -1,5 +1,9 @@
 const express = require('express');
+var cors = require('cors');
 const app = express();
+
+// CORS
+app.use(cors());
 
 // Serves Express Yourself website
 app.use(express.static('public'));
