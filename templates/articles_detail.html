@@ -79,11 +79,10 @@
     </div>
 
     <style>
-         .tooltip2 {
+        .tooltip2 {
             position: relative;
             display: inline-block;
-            border-bottom: 1px dotted black;
-            font-weight: 700;
+            border-bottom: 1px solid #c2c2c2;
         }
 
         .tooltip2 .tooltiptext {
@@ -120,61 +119,64 @@
             visibility: visible;
             opacity: 1;
         }
+
         .popup {
             color: red;
         }
     </style>
     <script>
+        /**
+         * Convert a template string into HTML DOM nodes
+         * @return {Node}       The template HTML
+         */
         function changeAll() {
             // Practical example
             const url = window.location.pathname;
-            const pubmedID = url.substring(url.lastIndexOf('/')+1);
+            const pubmedID = url.substring(url.lastIndexOf('/') + 1);
 
-            if(pubmedID == undefined) {
+            if (pubmedID == undefined) {
                 return
             }
             const new_url = 'http://anntt.herokuapp.com/annotations/pmid/' + pubmedID
-
             fetch(new_url)
                 .then(response => response.json())
                 .then(data => {
                     if (typeof data === 'object') {
                         console.log(typeof data)
                         console.log(data)
+                        let rawText = document.getElementById('article').innerHTML
+                        console.log(rawText);
+                        // var newText = JSON.stringify(rawText)
+                        newText = rawText
+                        console.log(newText);
+
                         for (i = 0; i < data.length; i++) {
-                            console.log(typeof annotation)
                             let exact = data[i].target.selector.exact
                             let prefix = data[i].target.selector.prefix
                             let suffix = data[i].target.selector.suffix
                             let allText = exact
-                            console.log(exact)
-                            // let allText = prefix + exact + suffix
 
+                            var prefixLastFive = prefix.substr(prefix.length - 5); // => "Tabs1"
+                            var suffixFirstFive = suffix.substr(0, 5); // => "Tabs1"
+                            // last five character of prefix
+                            console.log("prefix: " + prefixLastFive);
+                            // label
+                            console.log("exact: " + exact)
+                            // first five characters of suffix
+                            console.log("suffix: " + suffixFirstFive);
                             try {
-                                const newText = `<div class="tooltip2">${exact}<span class="tooltiptext">${data[i].body[1]['rdfs:Class']}<br />${data[i].body[3]['obo:IAO_0000115']}</span>
-                                     </div>`
-                                replaceText(allText, newText)
-
+                                let newExact = JSON.stringify(`<strong><span class="tooltip2">${exact}<span class="tooltiptext">${data[i].body[1]['rdfs:Class']}<br /><br />${data[i].body[3]['obo:IAO_0000115']}</span></span></strong>`)
+                                newExact = JSON.parse(newExact)
+                                console.log(newExact);
+                                newText = newText.replace(prefixLastFive + exact + suffixFirstFive, prefixLastFive + newExact + suffixFirstFive)
                             } catch (error) {
-
                             }
-
-                        // if (typeof data[i].body[3]['obo:IAO_0000115'] != "undefined")    {
-
-                        //     }
-
-
                         }
-                        // let exact = data[0].target.selector.exact
+                        console.log(newText);
+                        document.getElementById('article').innerHTML = newText
                     }
                 })
         }
-
-        function replaceText(text, newText) {
-            console.log("called replaceText")
-            document.body.innerHTML = document.body.innerHTML.replace(text, newText);
-        }
-
         changeAll()
     </script>
     {% endblock %}
