@@ -4,7 +4,7 @@
 The User Manual provides End Users with a detailed operational description of the Dolphin COVID-19 Publication Search System and its associated tools, 
 such as the search procedures and manipulation of data on search results.
 
-### 1	GENERAL
+### 1.	GENERAL
 #### 1.1	Introduction and Purpose
 
 Scientific documents embody knowledge across time, disciplines, and regions. Authors refer to the same concepts with alternative terminology and have different
@@ -16,8 +16,7 @@ annotated by associating them with predefined terms in ontologies. Also, multi w
 into consideration together annotations that are not relevant to the search “left amygdala” can be seen. This application will harvest information from PubMed 
 specifically on COVID-19 topic and automatically annotate the content with predefined terms. The annotations will relate the content of articles to ontological concepts.
 
-* The Dolphin Web Application can be reached via:  
-http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/
+* The Dolphin Web Application can be reached via:  http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/
 
 ### 2	USER MANUAL OVERVIEW
 
@@ -46,7 +45,7 @@ basic search screen “Dolphin” option on the top left of the navigation bar c
 #### 2.2	Dimensional Search
 
 If the user wants to apply dimensional search on her/his results, s/he can navigate there from the basic search screen by clicking “Dimensional Search” option under 
-the search text field. When dimensional search screen showed up, the search text field can be observed as it was in basic search but also there are “+” and “-” signs 
+the search text field. When dimensional search screen showed up, the search text field can be observed as it was in basic search but also there are “Add Dimension” and “Remove Dimension” buttons
 under the “main query” search term which enables user’s to add and remove dimensions to her/his search. What are these dimensions? Basically they provide the user to add 
 new dimensions on her/his main query. When the dimensions are applied and search is made, the result screen displays the combinations of the searched terms entered on both 
 the main query and the dimensions. Main query is where the user should enter her/his most interested area of concept to search for and with the help of the dimensions the
@@ -58,22 +57,20 @@ combinations and the article numbers found for these combinations, thus it provi
 article found) in a single search if the user is not sure what to search for exactly to retrieve the right articles or interested in statistical data based on different 
 queries searched. 
 
-Here is a pseudo example to dimensional search; the user can enter multiple search terms both on the main query field (up to 3 terms) and on the dimensions. 
+Here is a pseudo example to dimensional search; the user can enter multiple search terms on the main query field **(up to 3 terms)**. On the dimensions, searh terms **(up to 5 terms)** can be entered. On the other hand, the system can calculate the combinations of searh terms **(up to 6 dimensions)**. (It takes at least 30 -40 minutes to calculate the results.)
 If the user enters “lung cancer, liver cancer” on the main query field this means that the user is interested on 2 main domains separately; lung cancer and liver cancer. 
-Then if the user wants to add dimension on these 2 domains, s/he simply clicks “+” sign to add dimension and enters “women, men”. When the user searches for 
+Then if the user wants to add dimension on these 2 domains, s/he simply clicks “Add Dimension” button to add dimension and enters “women, men”. When the user searches for 
 “lung cancer, liver cancer” on the main query and the “women, men” on the first dimension, the results will show the combination of dimensions on the main queries such as:
 
-![image](https://user-images.githubusercontent.com/61224886/106474218-bbf22980-64b5-11eb-8714-ba383e6863a1.png)
-
-
-
-
--	Lung cancer (each main query itself)
--	Liver cancer (each main query itself)
--	Lung cancer - women (each main query with the possibilities on dimension)
--	Liver cancer - women (each main query with the possibilities on dimension)
--	Lung cancer - men (each main query with the possibilities on dimension)
--	Liver cancer - men (each main query with the possibilities on dimension)
+- lung	(each main query itself)
+- lung, woman	(each main query with the possibilities on dimension)
+- lung, man (each main query with the possibilities on dimension)
+- lung, breath (each main query with the possibilities on dimension)
+- lung, cough (each main query with the possibilities on dimension)
+- lung, woman, breath	(each main query with the possibilities on dimension)
+- lung, man, cough (each main query with the possibilities on dimension)
+- lung, man, breath	(each main query with the possibilities on dimension)
+- lung, woman, cough (each main query with the possibilities on dimension)
 
 Also the number of articles found for each combination will be displayed on the screen. This page is simply called “summary page” of your search combinations 
 where you can have insight of your search. The search here to retrieve the count of the combinations is done with the same logic as in basic search, it searches 
@@ -83,17 +80,20 @@ possible for the dimensional search. Number of articles displayed on the results
 and “men” are found together with their synonyms and sub-classes). User can be able to click on the article numbers found for the combinations to navigate to the 
 articles of the desired combination. User can also check for the synonyms and sub-classes found for the dimensional query made on the left bottom of the screen.
 
-![image](https://user-images.githubusercontent.com/61224886/106474456-ffe52e80-64b5-11eb-8cbe-6ca25bc60d54.png)
+![image](https://user-images.githubusercontent.com/61224886/106474218-bbf22980-64b5-11eb-8714-ba383e6863a1.png)
 
-![image](https://user-images.githubusercontent.com/61224886/106474553-14c1c200-64b6-11eb-9533-4839ea439a7c.png)
+![image](https://user-images.githubusercontent.com/61224886/107400262-b4183200-6b12-11eb-8a7d-411472a6a26a.png)
+![image](https://user-images.githubusercontent.com/61224886/107400306-bed2c700-6b12-11eb-91a6-1d1cbb889db9.png)
+![image](https://user-images.githubusercontent.com/61224886/107400564-f772a080-6b12-11eb-92f7-e4353c8cc39b.png)
+![image](https://user-images.githubusercontent.com/61224886/107400593-ffcadb80-6b12-11eb-9ed6-df8574dc2478.png)
 
-![image](https://user-images.githubusercontent.com/61224886/106474649-30c56380-64b6-11eb-9af3-3ee006a6680e.png)
+The user can navigate to the related articles by clicking on the numbers on the summary table. Under the search box field, graph based on countries (by authors) and the graph based on the dates can be found. Under the graphs, articles can be found. The user can navigate to these articles by clicking on their pubmed id's as well. 
 
-![image](https://user-images.githubusercontent.com/61224886/106474947-78e48600-64b6-11eb-8792-c26c75d03230.png)
 
-![image](https://user-images.githubusercontent.com/61224886/106475130-a7626100-64b6-11eb-8250-731378065240.png)
+![image](https://user-images.githubusercontent.com/61224886/107400951-694aea00-6b13-11eb-8492-3490bd17b0ad.png)
 
-![image](https://user-images.githubusercontent.com/61224886/106475199-bd702180-64b6-11eb-9f6f-c203cc592bf8.png)
+![image](https://user-images.githubusercontent.com/61224886/107401095-97c8c500-6b13-11eb-8001-e9466f3115a7.png)
+![image](https://user-images.githubusercontent.com/61224886/107401171-ab742b80-6b13-11eb-8868-2a935f7202ac.png)
 
 
 
