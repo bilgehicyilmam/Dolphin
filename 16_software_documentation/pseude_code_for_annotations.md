@@ -2,6 +2,7 @@
 
 ## annotation popup
 
+```
 html = abstractDataFromDb
 annotations_of_article = fetch(api_url, pubmed_id_of_article)
 prefix = annotations_of_article.prefix
@@ -15,9 +16,11 @@ forEach annotations_of_article
     html = html.replace(prefix + label + suffix, prefix + newLabel + suffix)
 
 return html
+```
 
 ## creating annotation
 
+```
 ontologies = Ontologies.all()
 articles = Articles.all()
 
@@ -25,3 +28,4 @@ forEach article in articles
     forEach ontology in ontologies
         if (find(abstract, label))
             save_annotation_to_db(id, source, target, body, creator)
+```
