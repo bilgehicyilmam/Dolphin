@@ -16,7 +16,7 @@ annotated by associating them with predefined terms in ontologies. Also, multi w
 into consideration together annotations that are not relevant to the search “left amygdala” can be seen. This application will harvest information from PubMed 
 specifically on COVID-19 topic and automatically annotate the content with predefined terms. The annotations will relate the content of articles to ontological concepts.
 
-* The Dolphin Web Application can be reached via:  http://ec2-3-122-230-119.eu-central-1.compute.amazonaws.com/
+* The Dolphin Web Application can be reached via:  http://ec2-18-185-96-42.eu-central-1.compute.amazonaws.com/
 
 ### 2	USER MANUAL OVERVIEW
 
@@ -57,10 +57,8 @@ combinations and the article numbers found for these combinations, thus it provi
 article found) in a single search if the user is not sure what to search for exactly to retrieve the right articles or interested in statistical data based on different 
 queries searched. 
 
-Here is a pseudo example to dimensional search; the user can enter multiple search terms on the main query field **(up to 3 terms)**. On the dimensions, searh terms **(up to 5 terms)** can be entered. On the other hand, the system can calculate the combinations of searh terms **(up to 6 dimensions)**. (It takes at least 30 -40 minutes to calculate the results.)
-If the user enters “lung cancer, liver cancer” on the main query field this means that the user is interested on 2 main domains separately; lung cancer and liver cancer. 
-Then if the user wants to add dimension on these 2 domains, s/he simply clicks “Add Dimension” button to add dimension and enters “women, men”. When the user searches for 
-“lung cancer, liver cancer” on the main query and the “women, men” on the first dimension, the results will show the combination of dimensions on the main queries such as:
+Here is a pseudo example to dimensional search; the user can enter multiple search terms on the main query field **(up to 3 terms)**. On the dimensions, searh terms **(up to 5 terms)** can be entered. On the other hand, the system can calculate the combinations of searh terms **(up to 5 dimensions)**. (It takes at least 30 -40 minutes to calculate the results.)
+If the user enters “lung” on the main query field and wants to add dimension, s/he simply clicks “Add Dimension” button to add dimension and enters “women, men” in second dimension and add "breath, cough" in third dimension. When the user searches for these terms the results will show the combination of dimensions on the main queries such as:
 
 - lung	(each main query itself)
 - lung, woman	(each main query with the possibilities on dimension)
