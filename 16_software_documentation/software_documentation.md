@@ -532,7 +532,99 @@ def parent_child():
 	return child_words list
 	
 ```
+
+# 3. Basic Search
+```
+total articles count = get the count of total articles
+query = get the request which is the query term for search that is searched in abstract and title if the article
+start_date = get the start date of the query entered by the user
+end_date = get the end date of the query entered by the user
+country = get the country of the query entered by the user
+invalid characters = (to be able to ignore these synonym words in search)
+
+if there is a get request:
+	synonym index = 0
+	queris = split the query term by comma
+	queris = remove the blank terms from the list
+	replace all "," with "-" and all blanks with "0"
+	
+	counter = 0
+	articles = [empty list]
+	
+	remove all "and, or" words from the query
+	
+		for each item in the query list:
 		
+			remove "and, or" and make word boundary
+			
+			check the following words if it is 4 word far away from the first word 
+			check if includes "ed, ing" to be able to retrieve the actual word
+			
+			send request to MongoDB to search in abstract, title along with publication date 
+			and country information
+
+			synonym words = [empty list]
+			
+			find the synonym words with the help of synonym function and add it to empty list 
+			synonym words
+			
+			temporary_synonym_list = [empty list]
+			
+			for each item in synonym words list:
+			
+				if there is any invalid characters return to for loop again
+				otherwise make word boundary for the synonym word
+				
+				send request to MongoDB for that synonym word to search in abstract,
+				title along with publication date and country information 
+				append all the articles into the temporary_synonym_list
+				
+			child words = [empty list]
+			
+			find the child words with the help of parent_child function and add it to empty list 
+			child words
+			
+			temporary_children_list = [empty list]
+			
+			for each item in child words list:
+			
+				if there is any invalid characters return to for loop again
+				otherwise make word boundary for the child word
+				
+				send request to MongoDB for that child word to search in abstract,
+				title along with publication date and country information 
+				append all the articles into the temporary_children_list
+				 
+			if length of articles list is equal to zero:
+				
+				add the result of MongoDB into the articles list
+				
+				for each item in temporary_synonym_list:
+					if the item exist in articles list do not append to articles list
+					otherwise add the article to articles list
+					
+				for each item in temporary_children_list:
+					if the item exist in articles list do not append to articles list
+					otherwise add the article to articles list
+					
+			temporay articles list = [empty list]
+					
+			if length of articles list is not equal to zero:
+			
+				get the result of MongoDB and check if the articles exist in articles list already
+				
+				if exist append to temporay articles list
+				
+				for each item in temporary_synonym_list:
+					if the item exist in articles list append to temporay articles list
+					
+				for each item in temporary_children_list:
+					if the item exist in articles list append to temporay articles list
+					
+			articles = temporay articles list
+					
+	return articles
+```	
 				
 				
 				
